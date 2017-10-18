@@ -30,7 +30,7 @@
         {
             this.prenom = new MetroFramework.Controls.MetroTextBox();
             this.nom = new MetroFramework.Controls.MetroTextBox();
-            this.metroDateTime1 = new MetroFramework.Controls.MetroDateTime();
+            this.dateDeNaiss = new MetroFramework.Controls.MetroDateTime();
             this.email = new MetroFramework.Controls.MetroTextBox();
             this.sexeHomme = new MetroFramework.Controls.MetroRadioButton();
             this.sexeFemme = new MetroFramework.Controls.MetroRadioButton();
@@ -108,14 +108,14 @@
             this.nom.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.nom.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // metroDateTime1
+            // dateDeNaiss
             // 
-            this.metroDateTime1.Location = new System.Drawing.Point(182, 111);
-            this.metroDateTime1.MinimumSize = new System.Drawing.Size(0, 29);
-            this.metroDateTime1.Name = "metroDateTime1";
-            this.metroDateTime1.Size = new System.Drawing.Size(184, 29);
-            this.metroDateTime1.TabIndex = 2;
-            this.metroDateTime1.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dateDeNaiss.Location = new System.Drawing.Point(182, 111);
+            this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dateDeNaiss.Name = "dateDeNaiss";
+            this.dateDeNaiss.Size = new System.Drawing.Size(184, 29);
+            this.dateDeNaiss.TabIndex = 2;
+            this.dateDeNaiss.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // email
             // 
@@ -282,7 +282,7 @@
             // 
             this.saisieGroupbox.Controls.Add(this.nom);
             this.saisieGroupbox.Controls.Add(this.prenom);
-            this.saisieGroupbox.Controls.Add(this.metroDateTime1);
+            this.saisieGroupbox.Controls.Add(this.dateDeNaiss);
             this.saisieGroupbox.Controls.Add(this.label6);
             this.saisieGroupbox.Controls.Add(this.email);
             this.saisieGroupbox.Controls.Add(this.label5);
@@ -336,7 +336,7 @@
 
         private MetroFramework.Controls.MetroTextBox prenom;
         private MetroFramework.Controls.MetroTextBox nom;
-        private MetroFramework.Controls.MetroDateTime metroDateTime1;
+        private MetroFramework.Controls.MetroDateTime dateDeNaiss;
         private MetroFramework.Controls.MetroTextBox email;
         private MetroFramework.Controls.MetroRadioButton sexeHomme;
         private MetroFramework.Controls.MetroRadioButton sexeFemme;

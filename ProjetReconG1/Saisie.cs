@@ -43,7 +43,7 @@ namespace ProjetReconFormulaire
             else
             {
                 //suite du Formulaire
-                this.PersistUser(new User("Léo", "ESPEU", 20, new DateTime(2017, 11, 16), "btssioleo.espeu@gmail.com", "homme", "étudiant"));
+                this.PersistUser(new User(prenom.Text, nom.Text, 20, DateTime.Parse(dateDeNaiss.Text), email.Text, "homme", "étudiant"));
             }
 
         }
