@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using projetOxford;
 
 namespace ProjetReconFormulaire
 {
@@ -41,6 +43,7 @@ namespace ProjetReconFormulaire
             else
             {
                 //suite du Formulaire
+                this.PersistUser(new User("Léo", "ESPEU", 20, new DateTime(2017, 11, 16), "btssioleo.espeu@gmail.com", "homme", "étudiant"));
             }
 
         }
@@ -56,6 +59,32 @@ namespace ProjetReconFormulaire
 
         private void erreur_Click(object sender, EventArgs e)
         {
+        }
+
+        private void PersistUser(User user)
+        {
+            try
+            {
+                string conStr = @"server=localhost;user=root;database=user;port=3306;password=''";
+                MySqlConnection conn = new MySqlConnection(conStr);
+                conn.Open();
+                string requete = "insert into user values(@nom,@prenom,@age,@date,@mail,@sexe,@statut)";
+                MySqlCommand CmdEmploye = new MySqlCommand(requete, conn);
+                CmdEmploye.Parameters.AddWithValue("@nom", user.Nom);
+                CmdEmploye.Parameters.AddWithValue("@prenom", user.Prenom);
+                CmdEmploye.Parameters.AddWithValue("@age", user.Age);
+                CmdEmploye.Parameters.AddWithValue("@date", user.DateDeNaissance);
+                CmdEmploye.Parameters.AddWithValue("@mail", user.Email);
+                CmdEmploye.Parameters.AddWithValue("@sexe", user.Sexe);
+                CmdEmploye.Parameters.AddWithValue("@statut", user.Statut);
+                CmdEmploye.ExecuteNonQuery();
+                conn.Close();
+                MessageBox.Show("Enregistré");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
