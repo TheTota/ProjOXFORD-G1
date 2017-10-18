@@ -32,18 +32,34 @@ namespace ProjetReconFormulaire
         private void valide_Click(object sender, EventArgs e)
         {
 
+
             if (string.IsNullOrWhiteSpace(nom.Text) && string.IsNullOrWhiteSpace(prenom.Text) && string.IsNullOrWhiteSpace(email.Text) && string.IsNullOrWhiteSpace(statut.Text))
             {
 
-
+                
                 erreur.Visible = true;
 
 
             }
+            if (sexeFemme.Checked==false && sexeHomme.Checked==false)
+            {
+                erreur.Visible = true;
+            }
             else
             {
+                string sexe="";
+               
+
+                if (sexeFemme.Checked == true)
+                {
+                    sexe = "femme";
+                }
+                if (sexeHomme.Checked == true)
+                {
+                    sexe = "homme";
+                }
                 //suite du Formulaire
-                this.PersistUser(new User(prenom.Text, nom.Text, 20, DateTime.Parse(dateDeNaiss.Text), email.Text, "homme", "étudiant"));
+                this.PersistUser(new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text));
             }
 
         }
@@ -65,21 +81,26 @@ namespace ProjetReconFormulaire
         {
             try
             {
-                string conStr = @"server=localhost;user=root;database=user;port=3306;password=''";
+                Random code = new Random();
+                int gen = code.Next(1000, 9999);
+
+                string conStr = @"server=localhost;user=root;database=oxford;port=3306;password=''";
                 MySqlConnection conn = new MySqlConnection(conStr);
                 conn.Open();
-                string requete = "insert into user values(@nom,@prenom,@age,@date,@mail,@sexe,@statut)";
+                string requete = "insert into user values(@id,@prenom,@nom,@dateDeNaiss,@email,@sexe,@statut,@code)";
                 MySqlCommand CmdEmploye = new MySqlCommand(requete, conn);
-                CmdEmploye.Parameters.AddWithValue("@nom", user.Nom);
-                CmdEmploye.Parameters.AddWithValue("@prenom", user.Prenom);
-                CmdEmploye.Parameters.AddWithValue("@age", user.Age);
-                CmdEmploye.Parameters.AddWithValue("@date", user.DateDeNaissance);
-                CmdEmploye.Parameters.AddWithValue("@mail", user.Email);
+                CmdEmploye.Parameters.AddWithValue("@id", 0);
+                CmdEmploye.Parameters.AddWithValue("@prenom", user.Nom);
+                CmdEmploye.Parameters.AddWithValue("@nom", user.Prenom);
+                CmdEmploye.Parameters.AddWithValue("@dateDeNaiss", user.DateDeNaissance);
+                CmdEmploye.Parameters.AddWithValue("@email", user.Email);
                 CmdEmploye.Parameters.AddWithValue("@sexe", user.Sexe);
                 CmdEmploye.Parameters.AddWithValue("@statut", user.Statut);
+                CmdEmploye.Parameters.AddWithValue("@code", gen);
+                
                 CmdEmploye.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Enregistré");
+                MessageBox.Show("Vous avez été enregistré avec succès \n Votre Code d'accès secret est : " + gen);
             }
             catch (Exception ex)
             {
