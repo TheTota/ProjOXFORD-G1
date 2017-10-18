@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ProjetReconG1
+namespace ProjetReconFormulaire
 {
-    public partial class Form1 : Form
+    public partial class prisePhoto : MetroFramework.Forms.MetroForm
     {
-        public Form1()
+        public prisePhoto()
         {
             InitializeComponent();
         }
