@@ -10,9 +10,14 @@ using System.Windows.Forms;
 
 namespace ProjetReconFormulaire
 {
-    public partial class prisePhoto : MetroFramework.Forms.MetroForm
+    /// <summary>
+    /// Formulaire de test.
+    /// Le vrai formulaire permettra de prendre une photo à partir d'une caméra
+    /// connectée à l'ordinateur.
+    /// </summary>
+    public partial class PrisePhoto : MetroFramework.Forms.MetroForm
     {
-        public prisePhoto()
+        public PrisePhoto()
         {
             InitializeComponent();
         }

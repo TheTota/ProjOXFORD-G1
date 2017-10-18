@@ -16,7 +16,7 @@ namespace ProjetReconFormulaire
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new dateNaiss());
+            Application.Run(new Saisie());
         }
     }
 }

@@ -57,11 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="prisePhoto.cs">
+    <Compile Include="PrisePhoto.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="prisePhoto.Designer.cs">
-      <DependentUpon>prisePhoto.cs</DependentUpon>
+    <Compile Include="PrisePhoto.Designer.cs">
+      <DependentUpon>PrisePhoto.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,8 +72,8 @@
       <DependentUpon>Saisie.cs</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
-    <EmbeddedResource Include="prisePhoto.resx">
-      <DependentUpon>prisePhoto.cs</DependentUpon>
+    <EmbeddedResource Include="PrisePhoto.resx">
+      <DependentUpon>PrisePhoto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,6 +1,6 @@
 ﻿namespace ProjetReconFormulaire
 {
-    partial class dateNaiss
+    partial class Saisie
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -73,7 +73,7 @@
             this.prenom.SelectionStart = 0;
             this.prenom.ShortcutsEnabled = true;
             this.prenom.Size = new System.Drawing.Size(184, 23);
-            this.prenom.TabIndex = 0;
+            this.prenom.TabIndex = 2;
             this.prenom.UseSelectable = true;
             this.prenom.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.prenom.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -114,7 +114,7 @@
             this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 29);
             this.dateDeNaiss.Name = "dateDeNaiss";
             this.dateDeNaiss.Size = new System.Drawing.Size(184, 29);
-            this.dateDeNaiss.TabIndex = 2;
+            this.dateDeNaiss.TabIndex = 3;
             this.dateDeNaiss.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // email
@@ -142,7 +142,7 @@
             this.email.SelectionStart = 0;
             this.email.ShortcutsEnabled = true;
             this.email.Size = new System.Drawing.Size(184, 23);
-            this.email.TabIndex = 3;
+            this.email.TabIndex = 4;
             this.email.UseSelectable = true;
             this.email.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.email.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -153,7 +153,7 @@
             this.sexeHomme.Location = new System.Drawing.Point(200, 176);
             this.sexeHomme.Name = "sexeHomme";
             this.sexeHomme.Size = new System.Drawing.Size(67, 15);
-            this.sexeHomme.TabIndex = 4;
+            this.sexeHomme.TabIndex = 5;
             this.sexeHomme.Text = "Homme";
             this.sexeHomme.UseSelectable = true;
             // 
@@ -163,7 +163,7 @@
             this.sexeFemme.Location = new System.Drawing.Point(287, 176);
             this.sexeFemme.Name = "sexeFemme";
             this.sexeFemme.Size = new System.Drawing.Size(63, 15);
-            this.sexeFemme.TabIndex = 5;
+            this.sexeFemme.TabIndex = 6;
             this.sexeFemme.Text = "Femme";
             this.sexeFemme.UseSelectable = true;
             // 
@@ -192,7 +192,7 @@
             this.statut.SelectionStart = 0;
             this.statut.ShortcutsEnabled = true;
             this.statut.Size = new System.Drawing.Size(184, 23);
-            this.statut.TabIndex = 6;
+            this.statut.TabIndex = 7;
             this.statut.UseSelectable = true;
             this.statut.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.statut.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -206,7 +206,6 @@
             this.label1.Size = new System.Drawing.Size(48, 16);
             this.label1.TabIndex = 7;
             this.label1.Text = "Nom :";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -260,20 +259,22 @@
             // 
             // valide
             // 
+            this.valide.Cursor = System.Windows.Forms.Cursors.Hand;
             this.valide.Location = new System.Drawing.Point(85, 386);
             this.valide.Name = "valide";
             this.valide.Size = new System.Drawing.Size(304, 31);
-            this.valide.TabIndex = 13;
+            this.valide.TabIndex = 9;
             this.valide.Text = "Valider";
             this.valide.UseSelectable = true;
             this.valide.Click += new System.EventHandler(this.valide_Click);
             // 
             // prisePhoto
             // 
+            this.prisePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
             this.prisePhoto.Location = new System.Drawing.Point(85, 346);
             this.prisePhoto.Name = "prisePhoto";
             this.prisePhoto.Size = new System.Drawing.Size(304, 31);
-            this.prisePhoto.TabIndex = 14;
+            this.prisePhoto.TabIndex = 8;
             this.prisePhoto.Text = "Prendre une photo";
             this.prisePhoto.UseSelectable = true;
             this.prisePhoto.Click += new System.EventHandler(this.prisePhoto_Click);
@@ -311,9 +312,8 @@
             this.erreur.TabIndex = 13;
             this.erreur.Text = "Les champs doivent tous être complets";
             this.erreur.Visible = false;
-            this.erreur.Click += new System.EventHandler(this.erreur_Click);
             // 
-            // dateNaiss
+            // Saisie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -322,9 +322,8 @@
             this.Controls.Add(this.saisieGroupbox);
             this.Controls.Add(this.prisePhoto);
             this.Controls.Add(this.valide);
-            this.Name = "dateNaiss";
+            this.Name = "Saisie";
             this.Text = "Formulaire d\'inscription";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.saisieGroupbox.ResumeLayout(false);
             this.saisieGroupbox.PerformLayout();
             this.ResumeLayout(false);

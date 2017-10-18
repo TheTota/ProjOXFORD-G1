@@ -1,6 +1,6 @@
 ﻿namespace ProjetReconFormulaire
 {
-    partial class prisePhoto
+    partial class PrisePhoto
     {
         /// <summary>
         /// Required designer variable.
