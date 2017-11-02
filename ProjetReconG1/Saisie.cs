@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using projetOxford;
 using MetroFramework.Forms;
+using WebEye.Controls.WinForms.WebCameraControl;
 
 namespace ProjetReconFormulaire
 {
@@ -19,6 +20,9 @@ namespace ProjetReconFormulaire
     /// </summary>
     public partial class Saisie : MetroForm
     {
+        private User monUser;
+        private bool prisEnPhoto = false;
+
         /// <summary>
         /// Constructeur de la classe Saisie
         /// </summary>
@@ -61,7 +65,8 @@ namespace ProjetReconFormulaire
                     }
 
                     // Inscription de l'utilisateur dans la base à partir des valeurs des champs du formulaire.
-                    this.PersistUser(new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text));
+                    monUser = new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text);
+                    this.PersistUser(monUser);
                 }
             }
             catch (Exception ex)
@@ -79,9 +84,30 @@ namespace ProjetReconFormulaire
         /// <param name="e"></param>
         private void prisePhoto_Click(object sender, EventArgs e)
         {
-            PrisePhoto prisephoto = new PrisePhoto();
-            prisephoto.Show();
-            erreur.Visible = false;
+            try
+            {
+                //Vérifie que l'utilisateur n'a pas déja été pris en photos (la valeur sera mis à true quand la photo sera enregistré)
+                if (prisEnPhoto==true)
+                {
+                    throw new Exception("L'utilisateur s'est déja pris en photos");
+                }
+
+                //Formulaire à supprimmer dés que la webcam serat operationnelle
+                PrisePhoto prisephoto = new PrisePhoto();
+                prisephoto.Show();
+
+                //Ouverture de la webcam de l'ordinateur (à condition quelle ensoit equipé)
+                //erreur.Visible = false;
+                //WebCameraControl camera = new WebCameraControl();
+                //List<WebCameraId> cameras = new List<WebCameraId>(camera.GetVideoCaptureDevices());
+                //camera.StartCapture(cameras[0]);
+                //camera.GetCurrentImage();
+                //Bitmap image = camera.GetCurrentImage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -96,21 +122,31 @@ namespace ProjetReconFormulaire
             int code = generator.Next(1000, 9999);
 
             // Connexion à la base de données
-            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password=''";
+            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root'";
             MySqlConnection conn = new MySqlConnection(conStr);
             conn.Open();
 
+            //Verifie que l'utilisateur a bien pris et enregistré sa photo
+            string maRequete = "select id from photos where id=(select count(*)+1 from users)";
+            MySqlCommand CmdEmploye1 = new MySqlCommand(maRequete, conn);
+            string monID = (string)CmdEmploye1.ExecuteScalar();
+            if (monID == null)
+            {
+                conn.Close();
+                throw new Exception("Photo non enregistré");
+            }
+
             // Création de la requête d'insertion du nouvel utilisateur dans la base
-            string requete = "insert into user values(@id,@prenom,@nom,@dateDeNaiss,@email,@sexe,@statut,@code)";
+            string requete = "insert into users(prenom,nom,birth,email,sexe,status,mdp,photo,type) values(@prenom,@nom,@dateDeNaiss,@email,@sexe,@statut,@code,@photo,1)";
             MySqlCommand CmdEmploye = new MySqlCommand(requete, conn);
-            CmdEmploye.Parameters.AddWithValue("@id", 0);
             CmdEmploye.Parameters.AddWithValue("@prenom", user.Nom);
             CmdEmploye.Parameters.AddWithValue("@nom", user.Prenom);
             CmdEmploye.Parameters.AddWithValue("@dateDeNaiss", user.DateDeNaissance);
             CmdEmploye.Parameters.AddWithValue("@email", user.Email);
             CmdEmploye.Parameters.AddWithValue("@sexe", user.Sexe);
-            CmdEmploye.Parameters.AddWithValue("@statut", user.Statut);
+            CmdEmploye.Parameters.AddWithValue("@statut", 1);
             CmdEmploye.Parameters.AddWithValue("@code", code);
+            CmdEmploye.Parameters.AddWithValue("@photo", monID);
 
             // Exécution de la requête et fermeture de la connexion
             CmdEmploye.ExecuteNonQuery();
