@@ -68,7 +68,7 @@ namespace ProjetReconFormulaire
                     monUser = new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text);
                     this.PersistUser(monUser);
                 }
-        }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -100,7 +100,7 @@ namespace ProjetReconFormulaire
                 //prisephoto.Show();
 
                 // Connexion à la base de données
-                string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root'";
+                string conStr = @"server=localhost;user=root;database=oxford;port=3306;password= ";
                 MySqlConnection conn = new MySqlConnection(conStr);
                 conn.Open();
                 erreur.Visible = false;
@@ -113,10 +113,10 @@ namespace ProjetReconFormulaire
 
 
                 //Enregistrement de la photo dans la bdd et fermeture de la connexion
-                string maRequete = "INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*)+1 from users),'@date','@adresse')";
+                string maRequete = "INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*)+1 from users),@date,@adresse)";
                 MySqlCommand CmdEmploye2 = new MySqlCommand(maRequete, conn);
-                CmdEmploye.Parameters.AddWithValue("@date", new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day));
-                CmdEmploye.Parameters.AddWithValue("@adresse", photo);
+                CmdEmploye2.Parameters.AddWithValue("@date", DateTime.Now);
+                CmdEmploye2.Parameters.AddWithValue("@adresse", photo);
                 CmdEmploye2.ExecuteNonQuery();
                 conn.Close();
 
@@ -142,7 +142,7 @@ namespace ProjetReconFormulaire
             int code = generator.Next(1000, 9999);
 
             // Connexion à la base de données
-            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root' ";
+            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password= ";
             MySqlConnection conn = new MySqlConnection(conStr);
             conn.Open();
 
