@@ -74,6 +74,7 @@
     <Compile Include="Saisie.Designer.cs">
       <DependentUpon>Saisie.cs</DependentUpon>
     </Compile>
+    <Compile Include="TraitementsBdd.cs" />
     <Compile Include="User.cs" />
     <EmbeddedResource Include="PrisePhoto.resx">
       <DependentUpon>PrisePhoto.cs</DependentUpon>

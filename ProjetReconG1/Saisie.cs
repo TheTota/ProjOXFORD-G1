@@ -68,10 +68,12 @@ namespace ProjetReconFormulaire
                             sexe = "homme";
                         }
 
-                        // Inscription de l'utilisateur dans la base à partir des valeurs des champs du formulaire si il n'y a pas d'erreurs.
-                        monUser = new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text);
+                        // Création d'un objet utilisateur qui sera persisté plus tard dans la base
+                        monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, 1, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
+
                         if (erreur.Visible == false)
                         {
+                            // Persistance (insertion) de l'utilisateur dans la base
                             this.PersistUser(monUser);
                         }
                     }
@@ -79,7 +81,7 @@ namespace ProjetReconFormulaire
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -94,11 +96,11 @@ namespace ProjetReconFormulaire
         {
             try
             {
-                //Valeur d'adresse et de la photo
+                // Valeur d'adresse et de la photo
                 String photo = "adresse photo";
 
-                //Vérifie que l'utilisateur n'a pas déja été pris en photos (la valeur sera mis à true quand la photo sera enregistré)
-                if (prisEnPhoto==true)
+                // Vérifie que l'utilisateur n'a pas déja été pris en photos (la valeur sera mis à true quand la photo sera enregistré)
+                if (prisEnPhoto == true)
                 {
                     throw new Exception("L'utilisateur s'est déja pris en photos");
                 }
@@ -107,26 +109,15 @@ namespace ProjetReconFormulaire
                 //PrisePhoto prisephoto = new PrisePhoto();
                 //prisephoto.Show();
 
-                // Connexion à la base de données
-                string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root' ";
-                MySqlConnection conn = new MySqlConnection(conStr);
-                conn.Open();
                 erreur.Visible = false;
-                
+
                 //Si l'utilisateur a pris une photo lors de l'utilisation précédente mais n'est pas allé au bout de l'opération ,celle-ci est supprimé de la bdd
-                string requete = "delete from photos where id>(select count(*)from users)";
-                MySqlCommand CmdEmploye = new MySqlCommand(requete, conn);
-                CmdEmploye.ExecuteNonQuery();
-                //Ouverture de la webcam de l'ordinateur (à condition quelle ensoit equipé) ,prise de la photo et enregistrement de celle-ci
+                TraitementsBdd.DeletePhotoSiAnnulation();
 
+                // TODO: Ouverture de la webcam de l'ordinateur (à condition quelle ensoit equipé) ,prise de la photo et enregistrement de celle-ci
 
-                //Enregistrement de la photo dans la bdd et fermeture de la connexion
-                string maRequete = "INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*)+1 from users),@date,@adresse)";
-                MySqlCommand CmdEmploye2 = new MySqlCommand(maRequete, conn);
-                CmdEmploye2.Parameters.AddWithValue("@date", DateTime.Now);
-                CmdEmploye2.Parameters.AddWithValue("@adresse", photo);
-                CmdEmploye2.ExecuteNonQuery();
-                conn.Close();
+                //Enregistrement de la photo dans la bdd
+                TraitementsBdd.InsertPhoto(photo);
 
                 // Affichage du code généré et prend en compte le fait que l'utilisateur a pris une photo
                 MessageBox.Show("Votre photo a été enregistré avec succès ");
@@ -134,7 +125,7 @@ namespace ProjetReconFormulaire
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -145,41 +136,38 @@ namespace ProjetReconFormulaire
         /// <param name="user"></param>
         private void PersistUser(User user)
         {
-            // Génération aléatoire du code/mdp de l'utilisateur
-            Random generator = new Random();
-            int code = generator.Next(1000, 9999);
-
-            // Connexion à la base de données
-            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root' ";
-            MySqlConnection conn = new MySqlConnection(conStr);
-            conn.Open();
-
-            //Verifie que l'utilisateur a bien pris et enregistré sa photo
-            
+            //Verifie que l'utilisateur a bien pris et enregistré sa photo            
             if (prisEnPhoto == false)
             {
-                conn.Close();
-                throw new Exception("Photo non enregistré");
+                throw new Exception("Photo non enregistrée.");
             }
 
             // Création de la requête d'insertion du nouvel utilisateur dans la base (le mot de passe n'est pas pris en compte pour le moment et le status est prédefinie dans la requete)
-            string requete = "insert into users(prenom,nom,birth,email,sexe,status,photo,type) values(@prenom,@nom,@dateDeNaiss,@email,@sexe,1,(select count(*) from photos),1)";
-            MySqlCommand CmdEmploye = new MySqlCommand(requete, conn);
-            CmdEmploye.Parameters.AddWithValue("@prenom", user.Nom);
-            CmdEmploye.Parameters.AddWithValue("@nom", user.Prenom);
-            CmdEmploye.Parameters.AddWithValue("@dateDeNaiss", user.DateDeNaissance);
-            CmdEmploye.Parameters.AddWithValue("@email", user.Email);
-            CmdEmploye.Parameters.AddWithValue("@sexe", user.Sexe);
-            CmdEmploye.Parameters.AddWithValue("@code", code);
-
-            // Exécution de la requête et fermeture de la connexion
-            CmdEmploye.ExecuteNonQuery();
-            conn.Close();
+            TraitementsBdd.InsertUser(user);
 
             // Affichage du code généré 
-            MessageBox.Show("Vous avez été enregistré avec succès \n Votre Code d'accès secret est : " + code);
-            
-            //Remise à 0 du formulaire
+            MessageBox.Show("Vous avez été enregistré avec succès !\nVotre Code d'accès secret est : " + user.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Remise à 0 du formulaire
+            ResetForm();
+        }
+
+        /// <summary>
+        /// Méthode générant un code à 4 chiffres.
+        /// </summary>
+        /// <returns></returns>
+        private int GenCode()
+        {
+            // Génération aléatoire du code/mdp de l'utilisateur
+            Random generator = new Random();
+            return generator.Next(1000, 9999);
+        }
+
+        /// <summary>
+        /// Méthode permettant de remettre à 0 le formulaire.
+        /// </summary>
+        private void ResetForm()
+        {
             prisEnPhoto = false;
             prenom.Text = "";
             nom.Text = "";
