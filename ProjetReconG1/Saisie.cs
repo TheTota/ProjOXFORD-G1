@@ -88,7 +88,6 @@ namespace ProjetReconFormulaire
             {
                 //Valeur d'adresse et de la photo
                 String photo = "adresse photo";
-                DateTime datePrise = DateTime.Now;
 
                 //Vérifie que l'utilisateur n'a pas déja été pris en photos (la valeur sera mis à true quand la photo sera enregistré)
                 if (prisEnPhoto==true)
@@ -116,7 +115,7 @@ namespace ProjetReconFormulaire
                 //Enregistrement de la photo dans la bdd et fermeture de la connexion
                 string maRequete = "INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*)+1 from users),'@date','@adresse')";
                 MySqlCommand CmdEmploye2 = new MySqlCommand(maRequete, conn);
-                CmdEmploye.Parameters.AddWithValue("@date", datePrise);
+                CmdEmploye.Parameters.AddWithValue("@date", new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day));
                 CmdEmploye.Parameters.AddWithValue("@adresse", photo);
                 CmdEmploye2.ExecuteNonQuery();
                 conn.Close();
@@ -143,7 +142,7 @@ namespace ProjetReconFormulaire
             int code = generator.Next(1000, 9999);
 
             // Connexion à la base de données
-            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password= ";
+            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root' ";
             MySqlConnection conn = new MySqlConnection(conStr);
             conn.Open();
 
@@ -156,7 +155,7 @@ namespace ProjetReconFormulaire
             }
 
             // Création de la requête d'insertion du nouvel utilisateur dans la base (le mot de passe n'est pas pris en compte pour le moment et le status est prédefinie dans la requete)
-            string requete = "insert into users(prenom,nom,birth,email,sexe,status,photo,type) values('@prenom','@nom','@dateDeNaiss','@email','@sexe',1,(select count(*) from photos),1)";
+            string requete = "insert into users(prenom,nom,birth,email,sexe,status,photo,type) values(@prenom,@nom,@dateDeNaiss,@email,@sexe,1,(select count(*) from photos),1)";
             MySqlCommand CmdEmploye = new MySqlCommand(requete, conn);
             CmdEmploye.Parameters.AddWithValue("@prenom", user.Nom);
             CmdEmploye.Parameters.AddWithValue("@nom", user.Prenom);
