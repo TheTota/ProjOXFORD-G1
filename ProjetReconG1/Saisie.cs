@@ -43,30 +43,38 @@ namespace ProjetReconFormulaire
             try
             {
                 // Controles sur les champs du formulaire
-                if (string.IsNullOrWhiteSpace(nom.Text) && string.IsNullOrWhiteSpace(prenom.Text) && string.IsNullOrWhiteSpace(email.Text) && string.IsNullOrWhiteSpace(statut.Text))
-                {
-                    erreur.Visible = true;
-                }
-                if (sexeFemme.Checked == false && sexeHomme.Checked == false)
+                if (string.IsNullOrWhiteSpace(nom.Text) || string.IsNullOrWhiteSpace(prenom.Text) || string.IsNullOrWhiteSpace(email.Text) || string.IsNullOrWhiteSpace(statut.Text))
                 {
                     erreur.Visible = true;
                 }
                 else
                 {
-                    // Si on a pas d'erreur, on détermine le sexe de la personne
-                    string sexe;
-                    if (sexeFemme.Checked == true)
+                    erreur.Visible = false;
+                    if (sexeFemme.Checked == false && sexeHomme.Checked == false)
                     {
-                        sexe = "femme";
+                        erreur.Visible = true;
                     }
                     else
                     {
-                        sexe = "homme";
-                    }
+                        erreur.Visible = false;
+                        // Si on a pas d'erreur, on détermine le sexe de la personne
+                        string sexe;
+                        if (sexeFemme.Checked == true)
+                        {
+                            sexe = "femme";
+                        }
+                        else
+                        {
+                            sexe = "homme";
+                        }
 
-                    // Inscription de l'utilisateur dans la base à partir des valeurs des champs du formulaire.
-                    monUser = new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text);
-                    this.PersistUser(monUser);
+                        // Inscription de l'utilisateur dans la base à partir des valeurs des champs du formulaire si il n'y a pas d'erreurs.
+                        monUser = new User(prenom.Text, nom.Text, 00, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, statut.Text);
+                        if (erreur.Visible == false)
+                        {
+                            this.PersistUser(monUser);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -100,7 +108,7 @@ namespace ProjetReconFormulaire
                 //prisephoto.Show();
 
                 // Connexion à la base de données
-                string conStr = @"server=localhost;user=root;database=oxford;port=3306;password= ";
+                string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root' ";
                 MySqlConnection conn = new MySqlConnection(conStr);
                 conn.Open();
                 erreur.Visible = false;
@@ -142,7 +150,7 @@ namespace ProjetReconFormulaire
             int code = generator.Next(1000, 9999);
 
             // Connexion à la base de données
-            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password= ";
+            string conStr = @"server=localhost;user=root;database=oxford;port=3306;password='root' ";
             MySqlConnection conn = new MySqlConnection(conStr);
             conn.Open();
 
