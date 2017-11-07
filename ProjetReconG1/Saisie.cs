@@ -96,6 +96,8 @@ namespace ProjetReconFormulaire
         {
             try
             {
+                PrisePhoto formPrisePhoto = new PrisePhoto();
+                
                 // Valeur d'adresse et de la photo
                 String photo = "adresse photo";
 
@@ -104,13 +106,12 @@ namespace ProjetReconFormulaire
                 {
                     throw new Exception("L'utilisateur s'est déja pris en photos");
                 }
-
-                //Formulaire à supprimmer dés que la webcam sera operationnelle
-                //PrisePhoto prisephoto = new PrisePhoto();
-                //prisephoto.Show();
-
+                else
+                {
+                    formPrisePhoto.ShowDialog();
+                }
                 erreur.Visible = false;
-
+                /*
                 //Si l'utilisateur a pris une photo lors de l'utilisation précédente mais n'est pas allé au bout de l'opération ,celle-ci est supprimé de la bdd
                 TraitementsBdd.DeletePhotoSiAnnulation();
 
@@ -121,7 +122,7 @@ namespace ProjetReconFormulaire
 
                 // Affichage du code généré et prend en compte le fait que l'utilisateur a pris une photo
                 MessageBox.Show("Votre photo a été enregistré avec succès ");
-                prisEnPhoto = true;
+                prisEnPhoto = true; */
             }
             catch (Exception ex)
             {

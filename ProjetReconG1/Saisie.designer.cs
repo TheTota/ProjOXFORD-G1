@@ -54,16 +54,18 @@
             // 
             // 
             this.prenom.CustomButton.Image = null;
-            this.prenom.CustomButton.Location = new System.Drawing.Point(162, 1);
+            this.prenom.CustomButton.Location = new System.Drawing.Point(292, 2);
+            this.prenom.CustomButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.prenom.CustomButton.Name = "";
-            this.prenom.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.prenom.CustomButton.Size = new System.Drawing.Size(31, 28);
             this.prenom.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.prenom.CustomButton.TabIndex = 1;
             this.prenom.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.prenom.CustomButton.UseSelectable = true;
             this.prenom.CustomButton.Visible = false;
             this.prenom.Lines = new string[0];
-            this.prenom.Location = new System.Drawing.Point(182, 82);
+            this.prenom.Location = new System.Drawing.Point(243, 101);
+            this.prenom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.prenom.MaxLength = 32767;
             this.prenom.Name = "prenom";
             this.prenom.PasswordChar = '\0';
@@ -72,7 +74,7 @@
             this.prenom.SelectionLength = 0;
             this.prenom.SelectionStart = 0;
             this.prenom.ShortcutsEnabled = true;
-            this.prenom.Size = new System.Drawing.Size(184, 23);
+            this.prenom.Size = new System.Drawing.Size(245, 28);
             this.prenom.TabIndex = 2;
             this.prenom.UseSelectable = true;
             this.prenom.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -84,16 +86,18 @@
             // 
             // 
             this.nom.CustomButton.Image = null;
-            this.nom.CustomButton.Location = new System.Drawing.Point(162, 1);
+            this.nom.CustomButton.Location = new System.Drawing.Point(292, 2);
+            this.nom.CustomButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nom.CustomButton.Name = "";
-            this.nom.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.nom.CustomButton.Size = new System.Drawing.Size(31, 28);
             this.nom.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.nom.CustomButton.TabIndex = 1;
             this.nom.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.nom.CustomButton.UseSelectable = true;
             this.nom.CustomButton.Visible = false;
             this.nom.Lines = new string[0];
-            this.nom.Location = new System.Drawing.Point(182, 51);
+            this.nom.Location = new System.Drawing.Point(243, 63);
+            this.nom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nom.MaxLength = 32767;
             this.nom.Name = "nom";
             this.nom.PasswordChar = '\0';
@@ -102,7 +106,7 @@
             this.nom.SelectionLength = 0;
             this.nom.SelectionStart = 0;
             this.nom.ShortcutsEnabled = true;
-            this.nom.Size = new System.Drawing.Size(184, 23);
+            this.nom.Size = new System.Drawing.Size(245, 28);
             this.nom.TabIndex = 1;
             this.nom.UseSelectable = true;
             this.nom.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -110,10 +114,11 @@
             // 
             // dateDeNaiss
             // 
-            this.dateDeNaiss.Location = new System.Drawing.Point(182, 111);
-            this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dateDeNaiss.Location = new System.Drawing.Point(243, 137);
+            this.dateDeNaiss.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 30);
             this.dateDeNaiss.Name = "dateDeNaiss";
-            this.dateDeNaiss.Size = new System.Drawing.Size(184, 29);
+            this.dateDeNaiss.Size = new System.Drawing.Size(244, 30);
             this.dateDeNaiss.TabIndex = 3;
             this.dateDeNaiss.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -123,16 +128,18 @@
             // 
             // 
             this.email.CustomButton.Image = null;
-            this.email.CustomButton.Location = new System.Drawing.Point(162, 1);
+            this.email.CustomButton.Location = new System.Drawing.Point(292, 2);
+            this.email.CustomButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.email.CustomButton.Name = "";
-            this.email.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.email.CustomButton.Size = new System.Drawing.Size(31, 28);
             this.email.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.email.CustomButton.TabIndex = 1;
             this.email.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.email.CustomButton.UseSelectable = true;
             this.email.CustomButton.Visible = false;
             this.email.Lines = new string[0];
-            this.email.Location = new System.Drawing.Point(182, 147);
+            this.email.Location = new System.Drawing.Point(243, 181);
+            this.email.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.email.MaxLength = 32767;
             this.email.Name = "email";
             this.email.PasswordChar = '\0';
@@ -141,7 +148,7 @@
             this.email.SelectionLength = 0;
             this.email.SelectionStart = 0;
             this.email.ShortcutsEnabled = true;
-            this.email.Size = new System.Drawing.Size(184, 23);
+            this.email.Size = new System.Drawing.Size(245, 28);
             this.email.TabIndex = 4;
             this.email.UseSelectable = true;
             this.email.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -150,9 +157,10 @@
             // sexeHomme
             // 
             this.sexeHomme.AutoSize = true;
-            this.sexeHomme.Location = new System.Drawing.Point(200, 176);
+            this.sexeHomme.Location = new System.Drawing.Point(267, 217);
+            this.sexeHomme.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.sexeHomme.Name = "sexeHomme";
-            this.sexeHomme.Size = new System.Drawing.Size(67, 15);
+            this.sexeHomme.Size = new System.Drawing.Size(70, 17);
             this.sexeHomme.TabIndex = 5;
             this.sexeHomme.Text = "Homme";
             this.sexeHomme.UseSelectable = true;
@@ -160,9 +168,10 @@
             // sexeFemme
             // 
             this.sexeFemme.AutoSize = true;
-            this.sexeFemme.Location = new System.Drawing.Point(287, 176);
+            this.sexeFemme.Location = new System.Drawing.Point(383, 217);
+            this.sexeFemme.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.sexeFemme.Name = "sexeFemme";
-            this.sexeFemme.Size = new System.Drawing.Size(63, 15);
+            this.sexeFemme.Size = new System.Drawing.Size(66, 17);
             this.sexeFemme.TabIndex = 6;
             this.sexeFemme.Text = "Femme";
             this.sexeFemme.UseSelectable = true;
@@ -173,16 +182,18 @@
             // 
             // 
             this.statut.CustomButton.Image = null;
-            this.statut.CustomButton.Location = new System.Drawing.Point(162, 1);
+            this.statut.CustomButton.Location = new System.Drawing.Point(292, 2);
+            this.statut.CustomButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.statut.CustomButton.Name = "";
-            this.statut.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.statut.CustomButton.Size = new System.Drawing.Size(31, 28);
             this.statut.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.statut.CustomButton.TabIndex = 1;
             this.statut.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.statut.CustomButton.UseSelectable = true;
             this.statut.CustomButton.Visible = false;
             this.statut.Lines = new string[0];
-            this.statut.Location = new System.Drawing.Point(182, 198);
+            this.statut.Location = new System.Drawing.Point(243, 244);
+            this.statut.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.statut.MaxLength = 32767;
             this.statut.Name = "statut";
             this.statut.PasswordChar = '\0';
@@ -191,7 +202,7 @@
             this.statut.SelectionLength = 0;
             this.statut.SelectionStart = 0;
             this.statut.ShortcutsEnabled = true;
-            this.statut.Size = new System.Drawing.Size(184, 23);
+            this.statut.Size = new System.Drawing.Size(245, 28);
             this.statut.TabIndex = 7;
             this.statut.UseSelectable = true;
             this.statut.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -201,9 +212,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 51);
+            this.label1.Location = new System.Drawing.Point(21, 63);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 16);
+            this.label1.Size = new System.Drawing.Size(59, 20);
             this.label1.TabIndex = 7;
             this.label1.Text = "Nom :";
             // 
@@ -211,9 +223,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(16, 82);
+            this.label2.Location = new System.Drawing.Point(21, 101);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 16);
+            this.label2.Size = new System.Drawing.Size(85, 20);
             this.label2.TabIndex = 8;
             this.label2.Text = "Prenom :";
             // 
@@ -221,9 +234,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(16, 111);
+            this.label3.Location = new System.Drawing.Point(21, 137);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 16);
+            this.label3.Size = new System.Drawing.Size(178, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "Date de naissance :";
             // 
@@ -231,9 +245,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(16, 147);
+            this.label4.Location = new System.Drawing.Point(21, 181);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 16);
+            this.label4.Size = new System.Drawing.Size(68, 20);
             this.label4.TabIndex = 10;
             this.label4.Text = "Email :";
             // 
@@ -241,9 +256,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(16, 176);
+            this.label5.Location = new System.Drawing.Point(21, 217);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 16);
+            this.label5.Size = new System.Drawing.Size(62, 20);
             this.label5.TabIndex = 11;
             this.label5.Text = "Sexe :";
             // 
@@ -251,18 +267,20 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(16, 198);
+            this.label6.Location = new System.Drawing.Point(21, 244);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 16);
+            this.label6.Size = new System.Drawing.Size(77, 20);
             this.label6.TabIndex = 12;
             this.label6.Text = "Statut : ";
             // 
             // valide
             // 
             this.valide.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.valide.Location = new System.Drawing.Point(85, 386);
+            this.valide.Location = new System.Drawing.Point(113, 475);
+            this.valide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.valide.Name = "valide";
-            this.valide.Size = new System.Drawing.Size(304, 31);
+            this.valide.Size = new System.Drawing.Size(405, 38);
             this.valide.TabIndex = 9;
             this.valide.Text = "Valider";
             this.valide.UseSelectable = true;
@@ -271,9 +289,10 @@
             // prisePhoto
             // 
             this.prisePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.prisePhoto.Location = new System.Drawing.Point(85, 346);
+            this.prisePhoto.Location = new System.Drawing.Point(113, 426);
+            this.prisePhoto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.prisePhoto.Name = "prisePhoto";
-            this.prisePhoto.Size = new System.Drawing.Size(304, 31);
+            this.prisePhoto.Size = new System.Drawing.Size(405, 38);
             this.prisePhoto.TabIndex = 8;
             this.prisePhoto.Text = "Prendre une photo";
             this.prisePhoto.UseSelectable = true;
@@ -294,9 +313,11 @@
             this.saisieGroupbox.Controls.Add(this.statut);
             this.saisieGroupbox.Controls.Add(this.label2);
             this.saisieGroupbox.Controls.Add(this.label1);
-            this.saisieGroupbox.Location = new System.Drawing.Point(23, 75);
+            this.saisieGroupbox.Location = new System.Drawing.Point(31, 92);
+            this.saisieGroupbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.saisieGroupbox.Name = "saisieGroupbox";
-            this.saisieGroupbox.Size = new System.Drawing.Size(692, 252);
+            this.saisieGroupbox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saisieGroupbox.Size = new System.Drawing.Size(923, 310);
             this.saisieGroupbox.TabIndex = 15;
             this.saisieGroupbox.TabStop = false;
             this.saisieGroupbox.Text = "Saisie";
@@ -306,23 +327,26 @@
             this.erreur.AutoSize = true;
             this.erreur.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.erreur.ForeColor = System.Drawing.Color.Red;
-            this.erreur.Location = new System.Drawing.Point(284, 29);
+            this.erreur.Location = new System.Drawing.Point(379, 36);
+            this.erreur.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.erreur.Name = "erreur";
-            this.erreur.Size = new System.Drawing.Size(322, 20);
+            this.erreur.Size = new System.Drawing.Size(386, 25);
             this.erreur.TabIndex = 13;
             this.erreur.Text = "Les champs doivent tous être complets";
             this.erreur.Visible = false;
             // 
             // Saisie
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 470);
+            this.ClientSize = new System.Drawing.Size(984, 578);
             this.Controls.Add(this.erreur);
             this.Controls.Add(this.saisieGroupbox);
             this.Controls.Add(this.prisePhoto);
             this.Controls.Add(this.valide);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Saisie";
+            this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Text = "Formulaire d\'inscription";
             this.saisieGroupbox.ResumeLayout(false);
             this.saisieGroupbox.PerformLayout();
