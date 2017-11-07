@@ -100,7 +100,7 @@ namespace projetOxford
         /// <param name="adresse">Adresse pointant sur la photo.</param>
         public static void InsertPhoto(string adresse)
         {
-            string requete = @"INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*) from users), @date, @adresse)";
+            string requete = @"INSERT INTO photos(`id`,`date`,`value`, `faceid`) VALUES((select count(*) from users), @date, @adresse, @faceid)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -115,6 +115,7 @@ namespace projetOxford
                 // Execution de la requête SQL
                 cmd.Parameters.AddWithValue("@date", DateTimeToUnixTimestamp(DateTime.Now));
                 cmd.Parameters.AddWithValue("@adresse", adresse);
+                cmd.Parameters.AddWithValue("@faceid", null);
                 cmd.ExecuteNonQuery();
 
                 // Fermeture de la connexion
@@ -130,7 +131,7 @@ namespace projetOxford
 
         public static void InsertUser(User userAPersister)
         {
-            string requete = @"INSERT INTO users(prenom, nom, birth, email, sexe, status, photo, type) VALUES (@prenom, @nom, @dateDeNaiss, @email, @sexe, @statut, @nbUsers + 1, @statut)";
+            string requete = @"INSERT INTO users(prenom, nom, birth, email, sexe, status, photo, type, code) VALUES (@prenom, @nom, @dateDeNaiss, @email, @sexe, @statut, @nbUsers + 1, @statut, @code)";
             try
             {
                 // Ouverture de la connexion à la BDD

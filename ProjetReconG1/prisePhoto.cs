@@ -25,6 +25,9 @@ namespace ProjetReconFormulaire
         // Lieu où sera sauvegardée la photo
         string savePath = @"C:\Users\thoma\OneDrive\Documents\Photos Oxford\";
 
+        /// <summary>
+        /// Constructeur de la classe PrisePhoto.
+        /// </summary>
         public PrisePhoto()
         {
             InitializeComponent();

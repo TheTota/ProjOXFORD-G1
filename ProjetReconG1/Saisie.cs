@@ -133,7 +133,7 @@ namespace ProjetReconFormulaire
             TraitementsBdd.InsertPhoto(photo);
 
             // Affichage du code généré 
-            MessageBox.Show("Vous avez été enregistré avec succès !\nVotre Code d'accès secret est : " + user.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + user.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // Remise à 0 du formulaire
             ResetForm();
