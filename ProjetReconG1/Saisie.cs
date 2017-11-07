@@ -21,7 +21,8 @@ namespace ProjetReconFormulaire
     public partial class Saisie : MetroForm
     {
         private User monUser;
-        private bool prisEnPhoto = false;
+        public static bool prisEnPhoto = false;
+        public static string photo = "";
 
         /// <summary>
         /// Constructeur de la classe Saisie
@@ -96,33 +97,16 @@ namespace ProjetReconFormulaire
         {
             try
             {
-                PrisePhoto formPrisePhoto = new PrisePhoto();
-                
-                // Valeur d'adresse et de la photo
-                String photo = "adresse photo";
-
-                // Vérifie que l'utilisateur n'a pas déja été pris en photos (la valeur sera mis à true quand la photo sera enregistré)
-                if (prisEnPhoto == true)
+                // Instanciation du formulaire et ouverture
+                if (prisEnPhoto)
                 {
                     throw new Exception("L'utilisateur s'est déja pris en photos");
                 }
                 else
                 {
+                    PrisePhoto formPrisePhoto = new PrisePhoto();
                     formPrisePhoto.ShowDialog();
                 }
-                erreur.Visible = false;
-                /*
-                //Si l'utilisateur a pris une photo lors de l'utilisation précédente mais n'est pas allé au bout de l'opération ,celle-ci est supprimé de la bdd
-                TraitementsBdd.DeletePhotoSiAnnulation();
-
-                // TODO: Ouverture de la webcam de l'ordinateur (à condition quelle ensoit equipé) ,prise de la photo et enregistrement de celle-ci
-
-                //Enregistrement de la photo dans la bdd
-                TraitementsBdd.InsertPhoto(photo);
-
-                // Affichage du code généré et prend en compte le fait que l'utilisateur a pris une photo
-                MessageBox.Show("Votre photo a été enregistré avec succès ");
-                prisEnPhoto = true; */
             }
             catch (Exception ex)
             {
@@ -138,13 +122,15 @@ namespace ProjetReconFormulaire
         private void PersistUser(User user)
         {
             //Verifie que l'utilisateur a bien pris et enregistré sa photo            
-            if (prisEnPhoto == false)
+            if (!prisEnPhoto)
             {
-                throw new Exception("Photo non enregistrée.");
+                throw new Exception("Photo non enregistrée.\nVeuillez vous prendre en photo.");
             }
 
             // Création de la requête d'insertion du nouvel utilisateur dans la base (le mot de passe n'est pas pris en compte pour le moment et le status est prédefinie dans la requete)
             TraitementsBdd.InsertUser(user);
+            //Enregistrement de la photo dans la bdd
+            TraitementsBdd.InsertPhoto(photo);
 
             // Affichage du code généré 
             MessageBox.Show("Vous avez été enregistré avec succès !\nVotre Code d'accès secret est : " + user.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -175,6 +161,21 @@ namespace ProjetReconFormulaire
             dateDeNaiss.Text = "";
             statut.Text = "";
             email.Text = "";
+            imgValide.Visible = false;
+        }
+        
+        /// <summary>
+        /// Evenement qui se déclenche lorsque le formulaire prend le focus.
+        /// Servira à afficher la validation de la prise de photo.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Saisie_Activated(object sender, EventArgs e)
+        {
+            if (prisEnPhoto)
+            {
+                imgValide.Visible = true;
+            }
         }
     }
 }

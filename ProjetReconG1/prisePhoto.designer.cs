@@ -36,6 +36,9 @@ namespace ProjetReconFormulaire
             // 
             // webcam
             // 
+            this.webcam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.webcam.Location = new System.Drawing.Point(30, 77);
             this.webcam.Name = "webcam";
             this.webcam.Size = new System.Drawing.Size(683, 373);
@@ -63,6 +66,7 @@ namespace ProjetReconFormulaire
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PrisePhoto";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
+            this.Resizable = false;
             this.Text = "prisePhoto";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrisePhoto_FormClosing);
             this.ResumeLayout(false);

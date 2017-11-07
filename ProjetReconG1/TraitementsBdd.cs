@@ -63,6 +63,7 @@ namespace projetOxford
             }
         }
 
+        /* Méthode DeletePhotoSiAnnulation()
         /// <summary>
         /// Méthode qui supprime la photo prise par l'utilisateur si il a annulé son inscription.
         /// </summary>
@@ -91,7 +92,7 @@ namespace projetOxford
                 FermerConnexion();
                 throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
             }
-        }
+        } */
 
         /// <summary>
         /// Enregistrement de la photo dans la bdd.
@@ -99,7 +100,7 @@ namespace projetOxford
         /// <param name="adresse">Adresse pointant sur la photo.</param>
         public static void InsertPhoto(string adresse)
         {
-            string requete = @"INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*)+1 from users), @date, @adresse)";
+            string requete = @"INSERT INTO photos(`id`,`date`,`value`) VALUES((select count(*) from users), @date, @adresse)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -126,9 +127,10 @@ namespace projetOxford
             }
         }
 
+
         public static void InsertUser(User userAPersister)
         {
-            string requete = @"INSERT INTO users(prenom, nom, birth, email, sexe, status, photo, type) VALUES (@prenom, @nom, @dateDeNaiss, @email, @sexe, @statut, (select count(*) from photos), @statut)";
+            string requete = @"INSERT INTO users(prenom, nom, birth, email, sexe, status, photo, type) VALUES (@prenom, @nom, @dateDeNaiss, @email, @sexe, @statut, @nbUsers + 1, @statut)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -146,12 +148,45 @@ namespace projetOxford
                 cmd.Parameters.AddWithValue("@dateDeNaiss", DateTimeToUnixTimestamp(userAPersister.DateDeNaissance));
                 cmd.Parameters.AddWithValue("@email", userAPersister.Email);
                 cmd.Parameters.AddWithValue("@sexe", userAPersister.Sexe);
+                cmd.Parameters.AddWithValue("@nbUsers", GetNbUsers());
                 cmd.Parameters.AddWithValue("@statut", userAPersister.Statut);
                 cmd.Parameters.AddWithValue("@code", userAPersister.Code);
                 cmd.ExecuteNonQuery();
 
                 // Fermeture de la connexion
                 FermerConnexion();
+            }
+            catch (Exception ex)
+            {
+                FermerConnexion();
+                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
+        /// </summary>
+        private static int GetNbUsers()
+        {
+            string requete = @"SELECT count(*) FROM oxford.users";
+            try
+            {
+                // Ouverture de la connexion à la BDD
+                OuvrirConnexion();
+
+                // Définition de la requête SQL
+                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                // Execution de la requête SQL
+                int nbUsers = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // Fermeture de la connexion
+                FermerConnexion();
+
+                return nbUsers;
             }
             catch (Exception ex)
             {
