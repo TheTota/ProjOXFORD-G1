@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetReconG1", "ProjetReconG1\ProjetReconG1.csproj", "{33129E19-CDCF-412D-ADF4-E2D016F2F602}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptureWebcamNuget", "CaptureWebcamNuget\CaptureWebcamNuget.csproj", "{EB1B12F6-C7F7-42CE-94D5-702694CDF5FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{33129E19-CDCF-412D-ADF4-E2D016F2F602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33129E19-CDCF-412D-ADF4-E2D016F2F602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33129E19-CDCF-412D-ADF4-E2D016F2F602}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB1B12F6-C7F7-42CE-94D5-702694CDF5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB1B12F6-C7F7-42CE-94D5-702694CDF5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB1B12F6-C7F7-42CE-94D5-702694CDF5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB1B12F6-C7F7-42CE-94D5-702694CDF5FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
