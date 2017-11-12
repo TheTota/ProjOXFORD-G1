@@ -100,7 +100,7 @@ namespace projetOxford
         /// <param name="adresse">Adresse pointant sur la photo.</param>
         public static void InsertPhoto(string adresse)
         {
-            string requete = @"INSERT INTO photos(`id`,`date`,`value`, `faceid`) VALUES((select count(*) from users), @date, @adresse, @faceid)";
+            string requete = @"INSERT INTO photos(`date`,`value`, `faceid`) VALUES( @date, @adresse, @faceid)";
             try
             {
                 // Ouverture de la connexion à la BDD

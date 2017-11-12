@@ -12,17 +12,21 @@ using projetOxford;
 using MetroFramework.Forms;
 using WebEye.Controls.WinForms.WebCameraControl;
 
+
 namespace ProjetReconFormulaire
 {
+
     /// <summary>
     /// Formulaire permettant l'inscription basique d'un nouvel utilisateur dans la base.
     /// Ce formulaire ne s'occupe pas de la prise de photo.
     /// </summary>
     public partial class Saisie : MetroForm
     {
+
         private User monUser;
         public static bool prisEnPhoto = false;
         public static string photo = "";
+        private bool vraimail;
 
         /// <summary>
         /// Constructeur de la classe Saisie
@@ -31,7 +35,21 @@ namespace ProjetReconFormulaire
         {
             InitializeComponent();
         }
-
+        //Fonction pour vérifier si une email est valide
+        //Retourne: true si elle est valide
+        //Retourne: false si elle n'est pas valide
+        bool EmailEstBonne(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Correspond au clic sur le bouton "Valider".
         /// Procède à l'inscription d'un utilisateur en créant un enregistrement dans 
@@ -44,6 +62,18 @@ namespace ProjetReconFormulaire
             try
             {
                 // Controles sur les champs du formulaire
+
+                //Contrôle de l'adresse mail grâce à la fonction EmailEstBonne
+                if (EmailEstBonne(email.Text) == false)
+                {
+                    MessageBox.Show("Veuillez Saisir une email valide", "Erreur - Email Invalide", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    vraimail = false;
+                }
+                else
+                {
+                    vraimail = true;
+                }
+
                 if (string.IsNullOrWhiteSpace(nom.Text) || string.IsNullOrWhiteSpace(prenom.Text) || string.IsNullOrWhiteSpace(email.Text) || string.IsNullOrWhiteSpace(statut.Text))
                 {
                     erreur.Visible = true;
@@ -72,7 +102,7 @@ namespace ProjetReconFormulaire
                         // Création d'un objet utilisateur qui sera persisté plus tard dans la base
                         monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, 1, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
 
-                        if (erreur.Visible == false)
+                        if (erreur.Visible == false && vraimail == true)
                         {
                             // Persistance (insertion) de l'utilisateur dans la base
                             this.PersistUser(monUser);
@@ -98,15 +128,10 @@ namespace ProjetReconFormulaire
             try
             {
                 // Instanciation du formulaire et ouverture
-                if (prisEnPhoto)
-                {
-                    throw new Exception("L'utilisateur s'est déja pris en photos");
-                }
-                else
-                {
-                    PrisePhoto formPrisePhoto = new PrisePhoto();
-                    formPrisePhoto.ShowDialog();
-                }
+
+                PrisePhoto formPrisePhoto = new PrisePhoto();
+                formPrisePhoto.ShowDialog();
+
             }
             catch (Exception ex)
             {
@@ -163,7 +188,7 @@ namespace ProjetReconFormulaire
             email.Text = "";
             imgValide.Visible = false;
         }
-        
+
         /// <summary>
         /// Evenement qui se déclenche lorsque le formulaire prend le focus.
         /// Servira à afficher la validation de la prise de photo.
