@@ -23,7 +23,12 @@ namespace ProjetReconFormulaire
         List<WebCameraId> listCams;
 
         // Lieu où sera sauvegardée la photo
-        string savePath = @"C:\Users\thoma\OneDrive\Documents\Photos Oxford\";
+        // ATTENTION : le chemin vers le bureau par exemple sera:
+        //C:\Users\LENOMDETONPC\Desktop\tuMetLeNomDeLimage
+        //ce qui sera après le dernier slash c'est le NOMDU FICHIER
+        //ici on veut que l'image s'appelle oxfoto8454.jpg (8454 sera le mdp généré pas la peine de le mettre)
+        //donc le chemin sera: C:\Users\LENOMDETONPC\Desktop\oxfoto
+        string savePath = @"C:\Users\benbahri\Desktop\oxfoto";
 
         /// <summary>
         /// Constructeur de la classe PrisePhoto.
@@ -31,7 +36,7 @@ namespace ProjetReconFormulaire
         public PrisePhoto()
         {
             InitializeComponent();
-            
+
             // Récupération des caméras 
             listCams = webcam.GetVideoCaptureDevices().ToList<WebCameraId>();
 
@@ -50,7 +55,9 @@ namespace ProjetReconFormulaire
             if (webcam.IsCapturing)
             {
                 // On détermine le chemin complet final pointant vers la photo
-                string photo = savePath + "oxfoto" + GenCode() + ".jpg";
+
+
+                string photo = savePath + GenCode() + ".jpg";
 
                 // On prend une photo qu'on enregistre au path donné
                 webcam.GetCurrentImage().Save(photo, ImageFormat.Jpeg);
@@ -58,7 +65,7 @@ namespace ProjetReconFormulaire
                 // On confirme au form de saisie que la photo a été prise
                 Saisie.prisEnPhoto = true;
                 Saisie.photo = photo;
-                
+
                 // Fermeture du formulaire
                 this.Close();
             }
