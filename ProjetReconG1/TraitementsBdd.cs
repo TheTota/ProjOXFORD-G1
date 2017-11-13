@@ -208,23 +208,6 @@ namespace projetOxford
                    new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)).TotalSeconds;
         }
 
-        public static void sendMail(string mail)
-        {
-            MailMessage message = new MailMessage();
-            SmtpClient smtp = new SmtpClient();
-
-            message.From = new MailAddress("ultramegabidon@gmail.com");
-            message.To.Add(new MailAddress(mail));
-            message.Subject = "Inscription";
-            message.Body = "JE SUIS BEAU PROUTE PROUTE";
-
-            smtp.Port = 587;
-            smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("ultramegabidon@gmail.com", "Megabidon83");
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Send(message);
-        }
+       
     }
 }

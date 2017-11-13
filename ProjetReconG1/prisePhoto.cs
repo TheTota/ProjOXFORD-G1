@@ -23,7 +23,7 @@ namespace ProjetReconFormulaire
         List<WebCameraId> listCams;
 
         // Lieu où sera sauvegardée la photo
-        string savePath = @"C:\Users\thoma\OneDrive\Documents\Photos Oxford\";
+        string savePath = @"D:\Users\ludo\Documents\";
 
         /// <summary>
         /// Constructeur de la classe PrisePhoto.

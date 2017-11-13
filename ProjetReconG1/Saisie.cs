@@ -11,6 +11,7 @@ using MySql.Data.MySqlClient;
 using projetOxford;
 using MetroFramework.Forms;
 using WebEye.Controls.WinForms.WebCameraControl;
+using System.Net.Mail;
 
 namespace ProjetReconFormulaire
 {
@@ -71,7 +72,7 @@ namespace ProjetReconFormulaire
 
                         // Création d'un objet utilisateur qui sera persisté plus tard dans la base
                         monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, 1, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
-                        TraitementsBdd.sendMail(email.Text);
+                        SendMail(email.Text, prenom.Text,nom.Text,Saisie.photo);
                         if (erreur.Visible == false)
                         {
                             // Persistance (insertion) de l'utilisateur dans la base
@@ -176,6 +177,53 @@ namespace ProjetReconFormulaire
             {
                 imgValide.Visible = true;
             }
+        }
+        /// <summary>
+        /// Envoi du mail
+        /// </summary>
+        /// <param name="mail">Mail destinataire</param>
+        /// <param name="prenom">Prénom du destinataire</param>
+        /// <param name="nom">Nom du destinataire</param>
+        /// <param name="photopath">Chemin de la photo</param>
+        private void SendMail(string mail, string prenom, string nom, string photopath)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient smtp = new SmtpClient();
+
+                message.From = new MailAddress("ultramegabidon@gmail.com");
+                message.To.Add(new MailAddress(mail));
+                message.Subject = "Inscription";
+                Attachment Photo = new Attachment(photopath);
+                message.Body = "Bonjour, " + nom + " " + prenom + "" +
+                    "\n" +
+                    "Merci d'être passé au stand du BTS SIO." +
+                    "\n" +
+                    "\n" + "Ce message fait suite à la réussite de votre inscription à travers notre application." +
+                    "\n" +
+                    "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : https://bts-sio.lyc-bonaparte.fr" +
+                    "\n" +
+                    "Bien à vous, l'équipe du BTS SIO SLAM\n" +
+                    "\n" +
+                    "-------------------------------------------------------------------------------------------------\n" +
+                    "Ceci est un méssage automatique\n" +
+                    "Merci de ne pas y répondre\n";
+                message.Attachments.Add(Photo);
+
+                smtp.Port = 587;
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential("ultramegabidon@gmail.com", "Megabidon83");
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(message);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            
         }
     }
 }
