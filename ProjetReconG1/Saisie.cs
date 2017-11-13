@@ -71,7 +71,7 @@ namespace ProjetReconFormulaire
 
                         // Création d'un objet utilisateur qui sera persisté plus tard dans la base
                         monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, 1, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
-
+                        TraitementsBdd.sendMail(email.Text);
                         if (erreur.Visible == false)
                         {
                             // Persistance (insertion) de l'utilisateur dans la base
