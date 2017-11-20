@@ -35,7 +35,6 @@
             this.email = new MetroFramework.Controls.MetroTextBox();
             this.sexeHomme = new MetroFramework.Controls.MetroRadioButton();
             this.sexeFemme = new MetroFramework.Controls.MetroRadioButton();
-            this.statut = new MetroFramework.Controls.MetroTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,6 +44,7 @@
             this.valide = new MetroFramework.Controls.MetroButton();
             this.prisePhoto = new MetroFramework.Controls.MetroButton();
             this.saisieGroupbox = new System.Windows.Forms.GroupBox();
+            this.cboStatut = new System.Windows.Forms.ComboBox();
             this.erreur = new System.Windows.Forms.Label();
             this.imgValide = new System.Windows.Forms.PictureBox();
             this.saisieGroupbox.SuspendLayout();
@@ -179,38 +179,6 @@
             this.sexeFemme.Text = "Femme";
             this.sexeFemme.UseSelectable = true;
             // 
-            // statut
-            // 
-            // 
-            // 
-            // 
-            this.statut.CustomButton.Image = null;
-            this.statut.CustomButton.Location = new System.Drawing.Point(219, 2);
-            this.statut.CustomButton.Margin = new System.Windows.Forms.Padding(4);
-            this.statut.CustomButton.Name = "";
-            this.statut.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.statut.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.statut.CustomButton.TabIndex = 1;
-            this.statut.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.statut.CustomButton.UseSelectable = true;
-            this.statut.CustomButton.Visible = false;
-            this.statut.Lines = new string[0];
-            this.statut.Location = new System.Drawing.Point(243, 244);
-            this.statut.Margin = new System.Windows.Forms.Padding(4);
-            this.statut.MaxLength = 32767;
-            this.statut.Name = "statut";
-            this.statut.PasswordChar = '\0';
-            this.statut.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.statut.SelectedText = "";
-            this.statut.SelectionLength = 0;
-            this.statut.SelectionStart = 0;
-            this.statut.ShortcutsEnabled = true;
-            this.statut.Size = new System.Drawing.Size(245, 28);
-            this.statut.TabIndex = 7;
-            this.statut.UseSelectable = true;
-            this.statut.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.statut.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -303,6 +271,7 @@
             // 
             // saisieGroupbox
             // 
+            this.saisieGroupbox.Controls.Add(this.cboStatut);
             this.saisieGroupbox.Controls.Add(this.nom);
             this.saisieGroupbox.Controls.Add(this.prenom);
             this.saisieGroupbox.Controls.Add(this.dateDeNaiss);
@@ -313,7 +282,6 @@
             this.saisieGroupbox.Controls.Add(this.label4);
             this.saisieGroupbox.Controls.Add(this.sexeFemme);
             this.saisieGroupbox.Controls.Add(this.label3);
-            this.saisieGroupbox.Controls.Add(this.statut);
             this.saisieGroupbox.Controls.Add(this.label2);
             this.saisieGroupbox.Controls.Add(this.label1);
             this.saisieGroupbox.Location = new System.Drawing.Point(31, 92);
@@ -324,6 +292,15 @@
             this.saisieGroupbox.TabIndex = 15;
             this.saisieGroupbox.TabStop = false;
             this.saisieGroupbox.Text = "Saisie";
+            // 
+            // cboStatut
+            // 
+            this.cboStatut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboStatut.FormattingEnabled = true;
+            this.cboStatut.Location = new System.Drawing.Point(243, 241);
+            this.cboStatut.Name = "cboStatut";
+            this.cboStatut.Size = new System.Drawing.Size(244, 24);
+            this.cboStatut.TabIndex = 13;
             // 
             // erreur
             // 
@@ -361,6 +338,7 @@
             this.Controls.Add(this.prisePhoto);
             this.Controls.Add(this.valide);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "Saisie";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
@@ -382,7 +360,6 @@
         private MetroFramework.Controls.MetroTextBox email;
         private MetroFramework.Controls.MetroRadioButton sexeHomme;
         private MetroFramework.Controls.MetroRadioButton sexeFemme;
-        private MetroFramework.Controls.MetroTextBox statut;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -394,6 +371,7 @@
         private System.Windows.Forms.GroupBox saisieGroupbox;
         private System.Windows.Forms.Label erreur;
         private System.Windows.Forms.PictureBox imgValide;
+        private System.Windows.Forms.ComboBox cboStatut;
     }
 }
 

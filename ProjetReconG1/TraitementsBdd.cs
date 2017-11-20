@@ -131,7 +131,7 @@ namespace projetOxford
 
         public static void InsertUser(User userAPersister)
         {
-            string requete = @"INSERT INTO users(prenom, nom, birth, email, sexe, status, photo, type, code) VALUES (@prenom, @nom, @dateDeNaiss, @email, @sexe, @statut, @nbUsers + 1, @statut, @code)";
+            string requete = @"INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@nom, @prenom, @dateDeNaiss, @sexe, @email, @nbUsers + 1, @code, @type, 0)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -144,14 +144,14 @@ namespace projetOxford
                 };
 
                 // Execution de la requête SQL
-                cmd.Parameters.AddWithValue("@prenom", userAPersister.Nom);
                 cmd.Parameters.AddWithValue("@nom", userAPersister.Prenom);
+                cmd.Parameters.AddWithValue("@prenom", userAPersister.Nom);
                 cmd.Parameters.AddWithValue("@dateDeNaiss", DateTimeToUnixTimestamp(userAPersister.DateDeNaissance));
                 cmd.Parameters.AddWithValue("@email", userAPersister.Email);
                 cmd.Parameters.AddWithValue("@sexe", userAPersister.Sexe);
                 cmd.Parameters.AddWithValue("@nbUsers", GetNbUsers());
-                cmd.Parameters.AddWithValue("@statut", userAPersister.Statut);
                 cmd.Parameters.AddWithValue("@code", userAPersister.Code);
+                cmd.Parameters.AddWithValue("@type", userAPersister.Type);
                 cmd.ExecuteNonQuery();
 
                 // Fermeture de la connexion
@@ -188,6 +188,42 @@ namespace projetOxford
                 FermerConnexion();
 
                 return nbUsers;
+            }
+            catch (Exception ex)
+            {
+                FermerConnexion();
+                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
+            }
+        }
+
+        public static Dictionary<int, string> GetTypesUsers()
+        {
+            string requete = @"SELECT id, value FROM oxford.types";
+            try
+            {
+                // Ouverture de la connexion à la BDD
+                OuvrirConnexion();
+
+                // Définition de la requête SQL
+                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                // Dictionnaire qui contiendra les valeurs des types liés aux id
+                Dictionary<int, string> lesTypes = new Dictionary<int, string>();
+
+                // Execution de la requête SQL
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    lesTypes.Add(dataReader.GetInt32(0), dataReader.GetString(1));
+                }
+
+                // Fermeture de la connexion
+                FermerConnexion();
+
+                return lesTypes;
             }
             catch (Exception ex)
             {

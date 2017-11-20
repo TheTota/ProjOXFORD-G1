@@ -64,6 +64,7 @@ namespace ProjetReconFormulaire
             this.Controls.Add(this.btnPrendrePhoto);
             this.Controls.Add(this.webcam);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "PrisePhoto";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;

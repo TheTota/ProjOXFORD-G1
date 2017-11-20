@@ -9,17 +9,17 @@ namespace projetOxford
         private DateTime dateDeNaissance;
         private string email;
         private string sexe;
-        private int statut;
+        private int type;
         private int code;
 
-        public User(string prenom, string nom, DateTime dateDeNaissance, string email, string sexe, int statut, int code)
+        public User(string prenom, string nom, DateTime dateDeNaissance, string email, string sexe, int type, int code)
         {
             this.prenom = prenom;
             this.nom = nom;
             this.dateDeNaissance = dateDeNaissance;
             this.email = email;
             this.sexe = sexe;
-            this.statut = statut;
+            this.type = type;
             this.code = code;
         }
 
@@ -28,7 +28,7 @@ namespace projetOxford
         public DateTime DateDeNaissance { get => dateDeNaissance; }
         public string Email { get => email; }
         public string Sexe { get => sexe; }
-        public int Statut { get => statut; }
+        public int Type { get => type; }
         public int Code { get => code; }
     }
 }

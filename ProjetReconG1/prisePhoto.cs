@@ -28,7 +28,7 @@ namespace ProjetReconFormulaire
         //ce qui sera après le dernier slash c'est le NOMDU FICHIER
         //ici on veut que l'image s'appelle oxfoto8454.jpg (8454 sera le mdp généré pas la peine de le mettre)
         //donc le chemin sera: C:\Users\LENOMDETONPC\Desktop\oxfoto
-        string savePath = @"C:\Users\benbahri\Desktop\oxfoto";
+        string savePath = @"C:\Users\thoma\Desktop\oxfoto";
 
         /// <summary>
         /// Constructeur de la classe PrisePhoto.

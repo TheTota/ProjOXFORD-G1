@@ -22,11 +22,11 @@ namespace ProjetReconFormulaire
     /// </summary>
     public partial class Saisie : MetroForm
     {
-
         private User monUser;
         public static bool prisEnPhoto = false;
         public static string photo = "";
         private bool vraimail;
+        private Dictionary<int, String> dicoTypes;
 
         /// <summary>
         /// Constructeur de la classe Saisie
@@ -34,6 +34,16 @@ namespace ProjetReconFormulaire
         public Saisie()
         {
             InitializeComponent();
+
+            // Récupération des types en BDD
+            this.dicoTypes = TraitementsBdd.GetTypesUsers();
+            // Création d'une liste de chaines à partir du dico de types récupéré
+            foreach (var type in this.dicoTypes)
+            {
+                // Attribution du contenu de la liste des noms des types à la comboBox
+                cboStatut.Items.Add(type.Value);
+            }
+            cboStatut.SelectedItem = cboStatut.Items[0];
         }
         //Fonction pour vérifier si une email est valide
         //Retourne: true si elle est valide
@@ -62,9 +72,7 @@ namespace ProjetReconFormulaire
             try
             {
                 // Controles sur les champs du formulaire
-
-                //Contrôle de l'adresse mail grâce à la fonction EmailEstBonne
-                if (EmailEstBonne(email.Text) == false)
+                if (!EmailEstBonne(email.Text))
                 {
                     MessageBox.Show("Veuillez Saisir une email valide", "Erreur - Email Invalide", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     vraimail = false;
@@ -74,33 +82,33 @@ namespace ProjetReconFormulaire
                     vraimail = true;
                 }
 
-                if (string.IsNullOrWhiteSpace(nom.Text) || string.IsNullOrWhiteSpace(prenom.Text) || string.IsNullOrWhiteSpace(email.Text) || string.IsNullOrWhiteSpace(statut.Text))
+                if (string.IsNullOrWhiteSpace(nom.Text) || string.IsNullOrWhiteSpace(prenom.Text) || string.IsNullOrWhiteSpace(email.Text))
                 {
                     erreur.Visible = true;
                 }
                 else
                 {
                     erreur.Visible = false;
-                    if (sexeFemme.Checked == false && sexeHomme.Checked == false)
+                    if (!sexeFemme.Checked && !sexeHomme.Checked)
                     {
                         erreur.Visible = true;
                     }
                     else
                     {
                         erreur.Visible = false;
+
                         // Si on a pas d'erreur, on détermine le sexe de la personne
                         string sexe;
-                        if (sexeFemme.Checked == true)
-                        {
+                        if (sexeFemme.Checked)
                             sexe = "femme";
-                        }
                         else
-                        {
                             sexe = "homme";
-                        }
+
+                        // On détermine le type d'utilisateur
+                        int typeKey = cboStatut.SelectedIndex + 1;
 
                         // Création d'un objet utilisateur qui sera persisté plus tard dans la base
-                        monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, 1, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
+                        monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
 
                         if (erreur.Visible == false && vraimail == true)
                         {
@@ -128,7 +136,6 @@ namespace ProjetReconFormulaire
             try
             {
                 // Instanciation du formulaire et ouverture
-
                 PrisePhoto formPrisePhoto = new PrisePhoto();
                 formPrisePhoto.ShowDialog();
 
@@ -184,7 +191,6 @@ namespace ProjetReconFormulaire
             prenom.Text = "";
             nom.Text = "";
             dateDeNaiss.Text = "";
-            statut.Text = "";
             email.Text = "";
             imgValide.Visible = false;
         }
