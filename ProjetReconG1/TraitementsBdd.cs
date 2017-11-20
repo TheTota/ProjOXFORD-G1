@@ -100,7 +100,7 @@ namespace projetOxford
         /// <param name="adresse">Adresse pointant sur la photo.</param>
         public static void InsertPhoto(string adresse)
         {
-            string requete = @"INSERT INTO photos(`date`,`value`, `faceid`) VALUES( @date, @adresse, @faceid)";
+            string requete = @"INSERT INTO photos(`id`, `date`,`value`, `faceid`) VALUES(@id, @date, @adresse, @faceid)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -113,6 +113,7 @@ namespace projetOxford
                 };
 
                 // Execution de la requête SQL
+                cmd.Parameters.AddWithValue("@id", GetNbUsers());
                 cmd.Parameters.AddWithValue("@date", DateTimeToUnixTimestamp(DateTime.Now));
                 cmd.Parameters.AddWithValue("@adresse", adresse);
                 cmd.Parameters.AddWithValue("@faceid", null);
@@ -131,7 +132,7 @@ namespace projetOxford
 
         public static void InsertUser(User userAPersister)
         {
-            string requete = @"INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@nom, @prenom, @dateDeNaiss, @sexe, @email, @nbUsers + 1, @code, @type, 0)";
+            string requete = @"INSERT INTO users(id, nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@id + 1, @nom, @prenom, @dateDeNaiss, @sexe, @email, @nbUsers + 1, @code, @type, 0)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -144,11 +145,12 @@ namespace projetOxford
                 };
 
                 // Execution de la requête SQL
+                cmd.Parameters.AddWithValue("@id", GetNbUsers());
                 cmd.Parameters.AddWithValue("@nom", userAPersister.Prenom);
                 cmd.Parameters.AddWithValue("@prenom", userAPersister.Nom);
                 cmd.Parameters.AddWithValue("@dateDeNaiss", DateTimeToUnixTimestamp(userAPersister.DateDeNaissance));
-                cmd.Parameters.AddWithValue("@email", userAPersister.Email);
                 cmd.Parameters.AddWithValue("@sexe", userAPersister.Sexe);
+                cmd.Parameters.AddWithValue("@email", userAPersister.Email);
                 cmd.Parameters.AddWithValue("@nbUsers", GetNbUsers());
                 cmd.Parameters.AddWithValue("@code", userAPersister.Code);
                 cmd.Parameters.AddWithValue("@type", userAPersister.Type);
@@ -172,8 +174,13 @@ namespace projetOxford
             string requete = @"SELECT count(*) FROM oxford.users";
             try
             {
+                ConnectionState initialCoState = _connexion.State;
+
                 // Ouverture de la connexion à la BDD
-                OuvrirConnexion();
+                if (initialCoState == ConnectionState.Closed)
+                {
+                    OuvrirConnexion();
+                }
 
                 // Définition de la requête SQL
                 MySqlCommand cmd = new MySqlCommand(requete, _connexion)
@@ -185,7 +192,10 @@ namespace projetOxford
                 int nbUsers = Convert.ToInt32(cmd.ExecuteScalar());
 
                 // Fermeture de la connexion
-                FermerConnexion();
+                if (initialCoState == ConnectionState.Closed)
+                {
+                    FermerConnexion();
+                }
 
                 return nbUsers;
             }

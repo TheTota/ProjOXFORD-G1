@@ -190,7 +190,9 @@ namespace ProjetReconFormulaire
             prisEnPhoto = false;
             prenom.Text = "";
             nom.Text = "";
-            dateDeNaiss.Text = "";
+            dateDeNaiss.Text = "01/01/2000";
+            sexeFemme.Checked = false;
+            sexeHomme.Checked = false;
             email.Text = "";
             imgValide.Visible = false;
         }
