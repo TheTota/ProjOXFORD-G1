@@ -76,6 +76,12 @@
     </Compile>
     <Compile Include="TraitementsBdd.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="VuePhoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VuePhoto.Designer.cs">
+      <DependentUpon>VuePhoto.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="PrisePhoto.resx">
       <DependentUpon>PrisePhoto.cs</DependentUpon>
     </EmbeddedResource>
@@ -91,6 +97,9 @@
     </Compile>
     <EmbeddedResource Include="Saisie.resx">
       <DependentUpon>Saisie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VuePhoto.resx">
+      <DependentUpon>VuePhoto.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

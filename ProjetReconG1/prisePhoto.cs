@@ -23,7 +23,7 @@ namespace ProjetReconFormulaire
         List<WebCameraId> listCams;
 
         // Lieu où sera sauvegardée la photo
-        string savePath = @"C:\Users\thoma\OneDrive\Documents\Photos Oxford\";
+        string savePath = @"C:\Users\leoes\OneDrive\Documents\Photos Oxford\";
 
         /// <summary>
         /// Constructeur de la classe PrisePhoto.
@@ -54,7 +54,8 @@ namespace ProjetReconFormulaire
 
                 // On prend une photo qu'on enregistre au path donné
                 webcam.GetCurrentImage().Save(photo, ImageFormat.Jpeg);
-
+                // on enregistre l'image dans la photo courante du formulaire d'accueil
+                Saisie.photoUser = webcam.GetCurrentImage();
                 // On confirme au form de saisie que la photo a été prise
                 Saisie.prisEnPhoto = true;
                 Saisie.photo = photo;

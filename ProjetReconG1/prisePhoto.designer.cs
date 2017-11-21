@@ -39,18 +39,18 @@ namespace ProjetReconFormulaire
             this.webcam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.webcam.Location = new System.Drawing.Point(30, 77);
+            this.webcam.Location = new System.Drawing.Point(22, 62);
+            this.webcam.Margin = new System.Windows.Forms.Padding(2);
             this.webcam.Name = "webcam";
-            this.webcam.Size = new System.Drawing.Size(683, 373);
+            this.webcam.Size = new System.Drawing.Size(455, 289);
             this.webcam.TabIndex = 0;
             // 
             // btnPrendrePhoto
             // 
             this.btnPrendrePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrendrePhoto.Location = new System.Drawing.Point(146, 468);
-            this.btnPrendrePhoto.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPrendrePhoto.Location = new System.Drawing.Point(77, 371);
             this.btnPrendrePhoto.Name = "btnPrendrePhoto";
-            this.btnPrendrePhoto.Size = new System.Drawing.Size(405, 38);
+            this.btnPrendrePhoto.Size = new System.Drawing.Size(304, 31);
             this.btnPrendrePhoto.TabIndex = 9;
             this.btnPrendrePhoto.Text = "Prendre la photo";
             this.btnPrendrePhoto.UseSelectable = true;
@@ -58,14 +58,12 @@ namespace ProjetReconFormulaire
             // 
             // PrisePhoto
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 523);
+            this.ClientSize = new System.Drawing.Size(522, 425);
             this.Controls.Add(this.btnPrendrePhoto);
             this.Controls.Add(this.webcam);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PrisePhoto";
-            this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
             this.Text = "prisePhoto";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrisePhoto_FormClosing);

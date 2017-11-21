@@ -11,6 +11,7 @@ using MySql.Data.MySqlClient;
 using projetOxford;
 using MetroFramework.Forms;
 using WebEye.Controls.WinForms.WebCameraControl;
+using ProjetReconG1.Properties;
 
 namespace ProjetReconFormulaire
 {
@@ -23,6 +24,7 @@ namespace ProjetReconFormulaire
         private User monUser;
         public static bool prisEnPhoto = false;
         public static string photo = "";
+        public static Image photoUser;
 
         /// <summary>
         /// Constructeur de la classe Saisie
@@ -175,6 +177,33 @@ namespace ProjetReconFormulaire
             if (prisEnPhoto)
             {
                 imgValide.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Evenement permettant de visualiser la photo par l'utilisateur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bVoirPhoto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (prisEnPhoto)
+                {
+                    VuePhoto vuePhoto = new VuePhoto();
+                    vuePhoto.Owner = this;
+                    vuePhoto.photoUser.Image = photoUser;
+                    vuePhoto.Show();
+                }
+                else
+                {
+                    throw new Exception("Veuillez d'abord vous prendre en photo");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
