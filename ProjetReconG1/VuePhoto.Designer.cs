@@ -35,9 +35,9 @@
             // 
             // photoUser
             // 
-            this.photoUser.Location = new System.Drawing.Point(23, 73);
+            this.photoUser.Location = new System.Drawing.Point(23, 59);
             this.photoUser.Name = "photoUser";
-            this.photoUser.Size = new System.Drawing.Size(1946, 960);
+            this.photoUser.Size = new System.Drawing.Size(1946, 695);
             this.photoUser.TabIndex = 0;
             this.photoUser.TabStop = false;
             // 

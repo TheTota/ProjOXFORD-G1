@@ -13,11 +13,19 @@ namespace ProjetReconFormulaire
 {
     public partial class VuePhoto : MetroForm
     {
+        /// <summary>
+        /// Constructeur de la classe Vuephoto
+        /// </summary>
         public VuePhoto()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Evenement permettant de fermer le formulaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void metroButton1_Click(object sender, EventArgs e)
         {
             this.Close();
