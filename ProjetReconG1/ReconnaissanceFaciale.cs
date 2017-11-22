@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using projetOxf;
+using System.Text.RegularExpressions;
 
 namespace projetOxford
 {
@@ -22,7 +23,7 @@ namespace projetOxford
         const string uriBaseVerify = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/verify";
         const string uriFaceAdd = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/facelists/oxford/persistedFaces";
         const string uriFaceCompare = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/findsimilars";
-        
+
         /// <summary>
         ///  Envoie une image sur les serveurs microsoft l'ajoute dans la facelist
         ///  Oxford et retourne un faceId persistant
@@ -99,7 +100,13 @@ namespace projetOxford
                 string contentString = await response.Content.ReadAsStringAsync();
                 contentString = contentString.TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
 
-                if (contentString == "")
+                //vérifie qu'il n'y à que 1 seul visage sur la photo sinon retourne une erreur
+                int count = Regex.Matches(contentString, "faceId").Count;
+                if (count > 1)
+                {
+                    throw new Exception("Plusieurs personnes détectées sur l'image, veuillez reprendre une photo ne comportant que votre visage.");
+                }
+                else if (count == 0)
                 {
                     throw new Exception("Aucun visage détécté ! ");
                 }
@@ -147,6 +154,7 @@ namespace projetOxford
 
             // Téléchargement du JSON de réponse.
             string contentString = await response.Content.ReadAsStringAsync();
+
             contentString = contentString.TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
             if (contentString != "")
             {

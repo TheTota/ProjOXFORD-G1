@@ -84,31 +84,37 @@ namespace projetOxf
 
         public async void TraiterImage(string photo)
         {
-            // Création d'un faceid temporaire à partir de la photo donnée
-            JObject jObjectFaceId = await ReconnaissanceFaciale.FaceRecCreateFaceIdTempAsync(photo);
-            string faceIdTempo = jObjectFaceId.GetValue("faceId").ToString();
-
-            // Comparaison du faceId à ceux existant dans la list en BDD microsoft
-            JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo); ;
-
-            if (jObjectComparaison == null)
+            try
             {
-                JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
-                Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
-            }
-            else
-            {
-                double confidence = Convert.ToDouble(jObjectComparaison.GetValue("confidence"));
+                // Création d'un faceid temporaire à partir de la photo donnée
+                JObject jObjectFaceId = await ReconnaissanceFaciale.FaceRecCreateFaceIdTempAsync(photo);
+                string faceIdTempo = jObjectFaceId.GetValue("faceId").ToString();
 
-                if (confidence < 0.5)
+                // Comparaison du faceId à ceux existant dans la list en BDD microsoft
+                JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo); ;
+
+                if (jObjectComparaison == null)
                 {
                     JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
                     Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
                 }
                 else
                 {
-                    throw new Exception("Inscription impossible : vous êtes déjà inscrits");
+                    double confidence = Convert.ToDouble(jObjectComparaison.GetValue("confidence"));
+
+                    if (confidence < 0.5)
+                    {
+                        JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
+                        Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+                    }
+                    else
+                    {
+                        throw new Exception("Inscription impossible : vous êtes déjà inscrits");
+                    }
                 }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
