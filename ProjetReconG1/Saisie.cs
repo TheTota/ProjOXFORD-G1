@@ -61,6 +61,7 @@ namespace projetOxf
                 return false;
             }
         }
+
         /// <summary>
         /// Correspond au clic sur le bouton "Valider".
         /// Procède à l'inscription d'un utilisateur en créant un enregistrement dans 
@@ -139,7 +140,6 @@ namespace projetOxf
                 // Instanciation du formulaire et ouverture
                 PrisePhoto formPrisePhoto = new PrisePhoto();
                 formPrisePhoto.ShowDialog();
-
             }
             catch (Exception ex)
             {
@@ -209,6 +209,7 @@ namespace projetOxf
             if (prisEnPhoto)
             {
                 imgValide.Visible = true;
+                this.prisePhoto.Enabled = false;
             }
         }
     }

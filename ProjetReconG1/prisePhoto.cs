@@ -32,6 +32,9 @@ namespace projetOxf
         //donc le chemin sera: C:\Users\LENOMDETONPC\Desktop\oxfoto
         string savePath = @"C:\Users\thoma\Desktop\oxfoto";
 
+        string photo;
+        bool traitementTermine;
+
         /// <summary>
         /// Constructeur de la classe PrisePhoto.
         /// </summary>
@@ -44,6 +47,8 @@ namespace projetOxf
 
             // Démarre la capture 
             webcam.StartCapture(listCams[0]);
+
+            this.traitementTermine = false;
         }
 
         /// <summary>
@@ -59,20 +64,17 @@ namespace projetOxf
                 if (webcam.IsCapturing)
                 {
                     // On détermine le chemin complet final pointant vers la photo
-                    string photo = savePath + GenCode() + ".jpg";
+                    this.photo = savePath + GenCode() + ".jpg";
 
                     // On prend une photo qu'on enregistre au path donné
-                    webcam.GetCurrentImage().Save(photo, ImageFormat.Jpeg);
+                    webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
 
                     // Traitement de l'image avec la bdd oxford
-                    TraiterImage(photo);
-
-                    // On confirme au form de saisie que la photo a été prise
-                    Saisie.prisEnPhoto = true;
-                    Saisie.photo = photo;
-
-                    // Fermeture du formulaire
-                    this.Close();
+                    this.timerTraitement.Enabled = true;
+                    this.webcam.Visible = false;
+                    this.metroProgressSpinner1.Visible = true;
+                    TraiterImage(this.photo);
+                    //TraiterImage(@"C:\Users\thoma\Desktop\oxfoto1285.jpg");
                 }
             }
             catch (Exception ex)
@@ -109,12 +111,21 @@ namespace projetOxf
                     }
                     else
                     {
-                        throw new Exception("Inscription impossible : vous êtes déjà inscrits");
+                        throw new PersonneDejaInscriteException("Inscription impossible : vous êtes déjà inscrits.");
                     }
                 }
-            } catch (Exception ex)
+                this.traitementTermine = true;
+            }
+            catch (PersonneDejaInscriteException pex)
+            {
+                MessageBox.Show(pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.metroProgressSpinner1.Visible = false;
+                this.webcam.Visible = true;
             }
         }
 
@@ -140,6 +151,26 @@ namespace projetOxf
             // Génération aléatoire du code/mdp de l'utilisateur
             Random generator = new Random();
             return generator.Next(1000, 9999);
+        }
+
+        /// <summary>
+        /// Chaque 100ms et quand le timer est activé, on test si le traitement async est terminé.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timerTraitement_Tick(object sender, EventArgs e)
+        {
+            if (this.traitementTermine)
+            {
+                this.metroProgressSpinner1.Visible = false;
+
+                // On confirme au form de saisie que la photo a été prise
+                Saisie.prisEnPhoto = true;
+                Saisie.photo = photo;
+
+                // Fermeture du formulaire
+                this.Close();
+            }
         }
     }
 }
