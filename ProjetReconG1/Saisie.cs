@@ -13,7 +13,7 @@ using MetroFramework.Forms;
 using WebEye.Controls.WinForms.WebCameraControl;
 
 
-namespace ProjetReconFormulaire
+namespace projetOxf
 {
 
     /// <summary>
@@ -25,6 +25,7 @@ namespace ProjetReconFormulaire
         private User monUser;
         public static bool prisEnPhoto = false;
         public static string photo = "";
+        public static string faceIdPersistent;
         private bool vraimail;
         private Dictionary<int, String> dicoTypes;
 
@@ -162,7 +163,7 @@ namespace ProjetReconFormulaire
             // Création de la requête d'insertion du nouvel utilisateur dans la base (le mot de passe n'est pas pris en compte pour le moment et le status est prédefinie dans la requete)
             TraitementsBdd.InsertUser(user);
             //Enregistrement de la photo dans la bdd
-            TraitementsBdd.InsertPhoto(photo);
+            TraitementsBdd.InsertPhoto(photo, faceIdPersistent);
 
             // Affichage du code généré 
             MessageBox.Show("Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + user.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);

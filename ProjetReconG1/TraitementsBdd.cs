@@ -98,7 +98,7 @@ namespace projetOxford
         /// Enregistrement de la photo dans la bdd.
         /// </summary>
         /// <param name="adresse">Adresse pointant sur la photo.</param>
-        public static void InsertPhoto(string adresse)
+        public static void InsertPhoto(string adresse, string faceId)
         {
             string requete = @"INSERT INTO photos(`id`, `date`,`value`, `faceid`) VALUES(@id, @date, @adresse, @faceid)";
             try
@@ -116,7 +116,7 @@ namespace projetOxford
                 cmd.Parameters.AddWithValue("@id", GetNbUsers());
                 cmd.Parameters.AddWithValue("@date", DateTimeToUnixTimestamp(DateTime.Now));
                 cmd.Parameters.AddWithValue("@adresse", adresse);
-                cmd.Parameters.AddWithValue("@faceid", null);
+                cmd.Parameters.AddWithValue("@faceid", faceId);
                 cmd.ExecuteNonQuery();
 
                 // Fermeture de la connexion

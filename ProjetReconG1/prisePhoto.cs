@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using projetOxford;
 using WebEye.Controls.WinForms.WebCameraControl;
+using Newtonsoft.Json.Linq;
 
-namespace ProjetReconFormulaire
+namespace projetOxf
 {
     /// <summary>
     /// Formulaire de test.
@@ -38,7 +40,7 @@ namespace ProjetReconFormulaire
             InitializeComponent();
 
             // Récupération des caméras 
-            listCams = webcam.GetVideoCaptureDevices().ToList<WebCameraId>();
+            listCams = webcam.GetVideoCaptureDevices().ToList();
 
             // Démarre la capture 
             webcam.StartCapture(listCams[0]);
@@ -55,12 +57,13 @@ namespace ProjetReconFormulaire
             if (webcam.IsCapturing)
             {
                 // On détermine le chemin complet final pointant vers la photo
-
-
                 string photo = savePath + GenCode() + ".jpg";
 
                 // On prend une photo qu'on enregistre au path donné
                 webcam.GetCurrentImage().Save(photo, ImageFormat.Jpeg);
+
+                // Traitement de l'image avec la bdd oxford
+                TraiterImage(@"C:\Users\thoma\OneDrive\Documents\Photos Oxford\Stan-Van-Gundy.jpg");
 
                 // On confirme au form de saisie que la photo a été prise
                 Saisie.prisEnPhoto = true;
@@ -68,6 +71,28 @@ namespace ProjetReconFormulaire
 
                 // Fermeture du formulaire
                 this.Close();
+            }
+        }
+
+
+        public async void TraiterImage(string photo)
+        {
+            // Création d'un faceid temporaire à partir de la photo donnée
+            JObject jObjectFaceId = await ReconnaissanceFaciale.FaceRecCreateFaceIdTempAsync(photo);
+            string faceIdTempo = jObjectFaceId.GetValue("faceId").ToString();
+
+            // Comparaison du faceId à ceux existant dans la list en BDD microsoft
+            JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo);
+            double confidence = Convert.ToDouble(jObjectComparaison.GetValue("confidence"));
+
+            // Si la personne n'est pas reconnue, on récupère
+            if (confidence < 0.5)
+            {
+                JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
+                Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+            } else
+            {
+                throw new Exception("Inscription impossible : vous êtes déjà inscrits");
             }
         }
 

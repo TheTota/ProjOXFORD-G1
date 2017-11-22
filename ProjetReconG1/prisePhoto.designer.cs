@@ -1,6 +1,6 @@
 ﻿using WebEye.Controls.WinForms.WebCameraControl;
 
-namespace ProjetReconFormulaire
+namespace projetOxf
 {
     partial class PrisePhoto
     {
