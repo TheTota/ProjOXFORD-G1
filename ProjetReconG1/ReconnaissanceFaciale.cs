@@ -18,7 +18,7 @@ namespace projetOxford
         const string clefOxford = "bade90def1b947a7ae96c103847db05c";
 
         //Url de POST de demande 
-        const string uriBaseDetect = "https://westcentralus.api.cognitive.microsoft.com/ace/v1.0/detect";
+        const string uriBaseDetect = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
         const string uriBaseVerify = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/verify";
         const string uriFaceAdd = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/facelists/oxford/persistedFaces";
         const string uriFaceCompare = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/findsimilars";
@@ -154,7 +154,7 @@ namespace projetOxford
             }
             else
             {
-                throw new Exception("Erreur de comparaison");
+                return null;
             }
 
             return data;

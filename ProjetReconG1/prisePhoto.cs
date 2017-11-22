@@ -53,24 +53,31 @@ namespace projetOxf
         /// <param name="e"></param>
         private void btnPhoto_onclick(object sender, EventArgs e)
         {
-            // Si la webcam est bien active..
-            if (webcam.IsCapturing)
+            try
             {
-                // On détermine le chemin complet final pointant vers la photo
-                string photo = savePath + GenCode() + ".jpg";
+                // Si la webcam est bien active..
+                if (webcam.IsCapturing)
+                {
+                    // On détermine le chemin complet final pointant vers la photo
+                    string photo = savePath + GenCode() + ".jpg";
 
-                // On prend une photo qu'on enregistre au path donné
-                webcam.GetCurrentImage().Save(photo, ImageFormat.Jpeg);
+                    // On prend une photo qu'on enregistre au path donné
+                    webcam.GetCurrentImage().Save(photo, ImageFormat.Jpeg);
 
-                // Traitement de l'image avec la bdd oxford
-                TraiterImage(@"C:\Users\thoma\OneDrive\Documents\Photos Oxford\Stan-Van-Gundy.jpg");
+                    // Traitement de l'image avec la bdd oxford
+                    TraiterImage(photo);
 
-                // On confirme au form de saisie que la photo a été prise
-                Saisie.prisEnPhoto = true;
-                Saisie.photo = photo;
+                    // On confirme au form de saisie que la photo a été prise
+                    Saisie.prisEnPhoto = true;
+                    Saisie.photo = photo;
 
-                // Fermeture du formulaire
-                this.Close();
+                    // Fermeture du formulaire
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -82,17 +89,26 @@ namespace projetOxf
             string faceIdTempo = jObjectFaceId.GetValue("faceId").ToString();
 
             // Comparaison du faceId à ceux existant dans la list en BDD microsoft
-            JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo);
-            double confidence = Convert.ToDouble(jObjectComparaison.GetValue("confidence"));
+            JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo); ;
 
-            // Si la personne n'est pas reconnue, on récupère
-            if (confidence < 0.5)
+            if (jObjectComparaison == null)
             {
                 JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
                 Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
-            } else
+            }
+            else
             {
-                throw new Exception("Inscription impossible : vous êtes déjà inscrits");
+                double confidence = Convert.ToDouble(jObjectComparaison.GetValue("confidence"));
+
+                if (confidence < 0.5)
+                {
+                    JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
+                    Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+                }
+                else
+                {
+                    throw new Exception("Inscription impossible : vous êtes déjà inscrits");
+                }
             }
         }
 
