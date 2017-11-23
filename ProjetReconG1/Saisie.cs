@@ -196,6 +196,8 @@ namespace projetOxf
             sexeHomme.Checked = false;
             email.Text = "";
             imgValide.Visible = false;
+            cboStatut.SelectedIndex = 0;
+            prisePhoto.Enabled = true;
         }
 
         /// <summary>

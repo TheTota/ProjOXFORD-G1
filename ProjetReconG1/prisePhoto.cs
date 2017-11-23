@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using projetOxford;
 using WebEye.Controls.WinForms.WebCameraControl;
@@ -25,11 +20,6 @@ namespace projetOxf
         List<WebCameraId> listCams;
 
         // Lieu où sera sauvegardée la photo
-        // ATTENTION : le chemin vers le bureau par exemple sera:
-        //C:\Users\LENOMDETONPC\Desktop\tuMetLeNomDeLimage
-        //ce qui sera après le dernier slash c'est le NOMDU FICHIER
-        //ici on veut que l'image s'appelle oxfoto8454.jpg (8454 sera le mdp généré pas la peine de le mettre)
-        //donc le chemin sera: C:\Users\LENOMDETONPC\Desktop\oxfoto
         string savePath = @"C:\Users\thoma\Desktop\oxfoto";
 
         string photo;
@@ -73,8 +63,10 @@ namespace projetOxf
                     this.timerTraitement.Enabled = true;
                     this.webcam.Visible = false;
                     this.metroProgressSpinner1.Visible = true;
-                    TraiterImage(this.photo);
-                    //TraiterImage(@"C:\Users\thoma\Desktop\oxfoto1285.jpg");
+                    this.btnPrendrePhoto.Enabled = false;
+
+                    //TraiterImage(this.photo);
+                    TraiterImage(@"C:\Users\thoma\Desktop\flou.jpg");
                 }
             }
             catch (Exception ex)
@@ -84,6 +76,11 @@ namespace projetOxf
         }
 
 
+        /// <summary>
+        /// Fonction principale permettant d'inscrire un visage dans la BDD de microsoft après
+        /// avoir vérifié qu'il n'était pas déjà inscrit.
+        /// </summary>
+        /// <param name="photo">Photo param>
         public async void TraiterImage(string photo)
         {
             try
@@ -95,6 +92,7 @@ namespace projetOxf
                 // Comparaison du faceId à ceux existant dans la list en BDD microsoft
                 JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo); ;
 
+                // Si jObectComparaison est égal à null, alors personne dans la BDD ressemble au visage.
                 if (jObjectComparaison == null)
                 {
                     JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
@@ -102,8 +100,11 @@ namespace projetOxf
                 }
                 else
                 {
+                    // Récupération du pourcentage de reconnaissance du visage
                     double confidence = Convert.ToDouble(jObjectComparaison.GetValue("confidence"));
 
+                    // Si on a trouvé une personne qui ressemble mais la ressemblance n'est pas assez importante
+                    // pour dire que la personne a été reconnue, on l'inscrit.
                     if (confidence < 0.5)
                     {
                         JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
@@ -114,11 +115,13 @@ namespace projetOxf
                         throw new PersonneDejaInscriteException("Inscription impossible : vous êtes déjà inscrits.");
                     }
                 }
+
+                // On déclare le traitement comme terminé ce qui permettra au timer de stopper l'attente
                 this.traitementTermine = true;
             }
             catch (PersonneDejaInscriteException pex)
             {
-                MessageBox.Show(pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
             catch (Exception ex)
@@ -126,6 +129,7 @@ namespace projetOxf
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.metroProgressSpinner1.Visible = false;
                 this.webcam.Visible = true;
+                this.btnPrendrePhoto.Enabled = true;
             }
         }
 
