@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Saisie));
             this.prenom = new MetroFramework.Controls.MetroTextBox();
             this.nom = new MetroFramework.Controls.MetroTextBox();
@@ -47,6 +48,8 @@
             this.cboStatut = new System.Windows.Forms.ComboBox();
             this.erreur = new System.Windows.Forms.Label();
             this.imgValide = new System.Windows.Forms.PictureBox();
+            this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saisieGroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgValide)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +70,7 @@
             this.prenom.CustomButton.UseSelectable = true;
             this.prenom.CustomButton.Visible = false;
             this.prenom.Lines = new string[0];
-            this.prenom.Location = new System.Drawing.Point(243, 101);
+            this.prenom.Location = new System.Drawing.Point(243, 100);
             this.prenom.Margin = new System.Windows.Forms.Padding(4);
             this.prenom.MaxLength = 32767;
             this.prenom.Name = "prenom";
@@ -117,7 +120,7 @@
             // 
             // dateDeNaiss
             // 
-            this.dateDeNaiss.Location = new System.Drawing.Point(243, 137);
+            this.dateDeNaiss.Location = new System.Drawing.Point(243, 138);
             this.dateDeNaiss.Margin = new System.Windows.Forms.Padding(4);
             this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 30);
             this.dateDeNaiss.Name = "dateDeNaiss";
@@ -141,7 +144,7 @@
             this.email.CustomButton.UseSelectable = true;
             this.email.CustomButton.Visible = false;
             this.email.Lines = new string[0];
-            this.email.Location = new System.Drawing.Point(243, 181);
+            this.email.Location = new System.Drawing.Point(243, 182);
             this.email.Margin = new System.Windows.Forms.Padding(4);
             this.email.MaxLength = 32767;
             this.email.Name = "email";
@@ -160,22 +163,24 @@
             // sexeHomme
             // 
             this.sexeHomme.AutoSize = true;
-            this.sexeHomme.Location = new System.Drawing.Point(267, 217);
+            this.sexeHomme.Location = new System.Drawing.Point(267, 223);
             this.sexeHomme.Margin = new System.Windows.Forms.Padding(4);
             this.sexeHomme.Name = "sexeHomme";
             this.sexeHomme.Size = new System.Drawing.Size(70, 17);
             this.sexeHomme.TabIndex = 5;
+            this.sexeHomme.TabStop = true;
             this.sexeHomme.Text = "Homme";
             this.sexeHomme.UseSelectable = true;
             // 
             // sexeFemme
             // 
             this.sexeFemme.AutoSize = true;
-            this.sexeFemme.Location = new System.Drawing.Point(383, 217);
+            this.sexeFemme.Location = new System.Drawing.Point(383, 223);
             this.sexeFemme.Margin = new System.Windows.Forms.Padding(4);
             this.sexeFemme.Name = "sexeFemme";
             this.sexeFemme.Size = new System.Drawing.Size(66, 17);
             this.sexeFemme.TabIndex = 6;
+            this.sexeFemme.TabStop = true;
             this.sexeFemme.Text = "Femme";
             this.sexeFemme.UseSelectable = true;
             // 
@@ -183,7 +188,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 63);
+            this.label1.Location = new System.Drawing.Point(21, 67);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 20);
@@ -194,7 +199,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(21, 101);
+            this.label2.Location = new System.Drawing.Point(21, 106);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 20);
@@ -205,7 +210,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(21, 137);
+            this.label3.Location = new System.Drawing.Point(21, 142);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(178, 20);
@@ -216,7 +221,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(21, 181);
+            this.label4.Location = new System.Drawing.Point(21, 184);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 20);
@@ -227,7 +232,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(21, 217);
+            this.label5.Location = new System.Drawing.Point(21, 220);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 20);
@@ -238,7 +243,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(21, 244);
+            this.label6.Location = new System.Drawing.Point(21, 254);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 20);
@@ -297,7 +302,7 @@
             // 
             this.cboStatut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboStatut.FormattingEnabled = true;
-            this.cboStatut.Location = new System.Drawing.Point(243, 241);
+            this.cboStatut.Location = new System.Drawing.Point(243, 253);
             this.cboStatut.Name = "cboStatut";
             this.cboStatut.Size = new System.Drawing.Size(244, 24);
             this.cboStatut.TabIndex = 13;
@@ -310,9 +315,9 @@
             this.erreur.Location = new System.Drawing.Point(379, 36);
             this.erreur.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.erreur.Name = "erreur";
-            this.erreur.Size = new System.Drawing.Size(386, 25);
+            this.erreur.Size = new System.Drawing.Size(387, 25);
             this.erreur.TabIndex = 13;
-            this.erreur.Text = "Les champs doivent tous être complets";
+            this.erreur.Text = "Tous les champs doivent être complets";
             this.erreur.Visible = false;
             // 
             // imgValide
@@ -327,11 +332,26 @@
             this.imgValide.TabStop = false;
             this.imgValide.Visible = false;
             // 
+            // metroProgressSpinner1
+            // 
+            this.metroProgressSpinner1.Location = new System.Drawing.Point(526, 475);
+            this.metroProgressSpinner1.Maximum = 100;
+            this.metroProgressSpinner1.Name = "metroProgressSpinner1";
+            this.metroProgressSpinner1.Size = new System.Drawing.Size(36, 36);
+            this.metroProgressSpinner1.TabIndex = 17;
+            this.metroProgressSpinner1.UseSelectable = true;
+            this.metroProgressSpinner1.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Saisie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 578);
+            this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.imgValide);
             this.Controls.Add(this.erreur);
             this.Controls.Add(this.saisieGroupbox);
@@ -372,6 +392,8 @@
         private System.Windows.Forms.Label erreur;
         private System.Windows.Forms.PictureBox imgValide;
         private System.Windows.Forms.ComboBox cboStatut;
+        private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

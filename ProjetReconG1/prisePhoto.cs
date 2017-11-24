@@ -55,6 +55,7 @@ namespace projetOxf
                 {
                     // On détermine le chemin complet final pointant vers la photo
                     this.photo = savePath + GenCode() + ".jpg";
+                    //this.photo = @"C:\Users\thoma\Desktop\usa-today-9765113.0.jpg";
 
                     // On prend une photo qu'on enregistre au path donné
                     webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
@@ -66,7 +67,7 @@ namespace projetOxf
                     this.btnPrendrePhoto.Enabled = false;
 
                     //TraiterImage(this.photo);
-                    TraiterImage(@"C:\Users\thoma\Desktop\flou.jpg");
+                    TraiterImage(this.photo);
                 }
             }
             catch (Exception ex)
@@ -95,8 +96,7 @@ namespace projetOxf
                 // Si jObectComparaison est égal à null, alors personne dans la BDD ressemble au visage.
                 if (jObjectComparaison == null)
                 {
-                    JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
-                    Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+                    Saisie.faceIdTemp = faceIdTempo;
                 }
                 else
                 {
@@ -105,10 +105,9 @@ namespace projetOxf
 
                     // Si on a trouvé une personne qui ressemble mais la ressemblance n'est pas assez importante
                     // pour dire que la personne a été reconnue, on l'inscrit.
-                    if (confidence < 0.5)
+                    if (confidence < 0.7)
                     {
-                        JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
-                        Saisie.faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+                        Saisie.faceIdTemp = faceIdTempo;
                     }
                     else
                     {
