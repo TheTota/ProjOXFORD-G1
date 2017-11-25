@@ -1,6 +1,6 @@
 ﻿using WebEye.Controls.WinForms.WebCameraControl;
 
-namespace ProjetReconFormulaire
+namespace projetOxf
 {
     partial class PrisePhoto
     {
@@ -30,8 +30,11 @@ namespace ProjetReconFormulaire
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.webcam = new WebEye.Controls.WinForms.WebCameraControl.WebCameraControl();
             this.btnPrendrePhoto = new MetroFramework.Controls.MetroButton();
+            this.timerTraitement = new System.Windows.Forms.Timer(this.components);
+            this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.SuspendLayout();
             // 
             // webcam
@@ -56,14 +59,30 @@ namespace ProjetReconFormulaire
             this.btnPrendrePhoto.UseSelectable = true;
             this.btnPrendrePhoto.Click += new System.EventHandler(this.btnPhoto_onclick);
             // 
+            // timerTraitement
+            // 
+            this.timerTraitement.Tick += new System.EventHandler(this.timerTraitement_Tick);
+            // 
+            // metroProgressSpinner1
+            // 
+            this.metroProgressSpinner1.Location = new System.Drawing.Point(244, 159);
+            this.metroProgressSpinner1.Maximum = 100;
+            this.metroProgressSpinner1.Name = "metroProgressSpinner1";
+            this.metroProgressSpinner1.Size = new System.Drawing.Size(213, 213);
+            this.metroProgressSpinner1.TabIndex = 10;
+            this.metroProgressSpinner1.UseSelectable = true;
+            this.metroProgressSpinner1.Visible = false;
+            // 
             // PrisePhoto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 523);
+            this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.btnPrendrePhoto);
             this.Controls.Add(this.webcam);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "PrisePhoto";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
@@ -77,5 +96,7 @@ namespace ProjetReconFormulaire
 
         private WebCameraControl webcam;
         private MetroFramework.Controls.MetroButton btnPrendrePhoto;
+        private System.Windows.Forms.Timer timerTraitement;
+        private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
     }
 }
