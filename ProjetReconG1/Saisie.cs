@@ -280,11 +280,11 @@ namespace projetOxf
                     "\n" +
                     "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : https://bts-sio.lyc-bonaparte.fr" +
                     "\n" +
-                    "Bien à vous, l'équipe du BTS SIO SLAM\n" +
+                    "Bien à vous, l'équipe du BTS SIO SLAM.\n" +
                     "\n" +
                     "-------------------------------------------------------------------------------------------------\n" +
-                    "Ceci est un méssage automatique\n" +
-                    "Merci de ne pas y répondre\n";
+                    "Ceci est un message automatique.\n" +
+                    "Merci de ne pas y répondre.\n";
                 message.Attachments.Add(Photo);
 
                 smtp.Port = 587;
