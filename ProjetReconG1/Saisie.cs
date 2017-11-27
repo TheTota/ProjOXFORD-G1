@@ -25,6 +25,7 @@ namespace ProjetReconFormulaire
         public static bool prisEnPhoto = false;
         public static string photo = "";
         public static Image photoUser;
+        public static Image photoDépart;
 
         /// <summary>
         /// Constructeur de la classe Saisie
@@ -107,7 +108,12 @@ namespace ProjetReconFormulaire
                 else
                 {
                     PrisePhoto formPrisePhoto = new PrisePhoto();
-                    formPrisePhoto.ShowDialog();
+                    if (formPrisePhoto.ShowDialog() == DialogResult.OK)
+                    {
+                        photoDépart = maPhoto.Image;
+                        maPhoto.Image = photoUser;
+                        maPhoto.Visible = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -164,6 +170,7 @@ namespace ProjetReconFormulaire
             statut.Text = "";
             email.Text = "";
             imgValide.Visible = false;
+            maPhoto.Image = photoDépart;
         }
         
         /// <summary>
@@ -177,33 +184,6 @@ namespace ProjetReconFormulaire
             if (prisEnPhoto)
             {
                 imgValide.Visible = true;
-            }
-        }
-
-        /// <summary>
-        /// Evenement permettant de visualiser la photo par l'utilisateur
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void bVoirPhoto_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (prisEnPhoto)
-                {
-                    VuePhoto vuePhoto = new VuePhoto();
-                    vuePhoto.Owner = this;
-                    vuePhoto.photoUser.Image = photoUser;
-                    vuePhoto.Show();
-                }
-                else
-                {
-                    throw new Exception("Veuillez d'abord vous prendre en photo");
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
     }

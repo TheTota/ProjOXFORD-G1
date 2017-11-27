@@ -42,15 +42,16 @@ namespace ProjetReconFormulaire
             this.webcam.Location = new System.Drawing.Point(22, 62);
             this.webcam.Margin = new System.Windows.Forms.Padding(2);
             this.webcam.Name = "webcam";
-            this.webcam.Size = new System.Drawing.Size(455, 289);
+            this.webcam.Size = new System.Drawing.Size(539, 289);
             this.webcam.TabIndex = 0;
             // 
             // btnPrendrePhoto
             // 
             this.btnPrendrePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrendrePhoto.Location = new System.Drawing.Point(77, 371);
+            this.btnPrendrePhoto.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnPrendrePhoto.Location = new System.Drawing.Point(202, 386);
             this.btnPrendrePhoto.Name = "btnPrendrePhoto";
-            this.btnPrendrePhoto.Size = new System.Drawing.Size(304, 31);
+            this.btnPrendrePhoto.Size = new System.Drawing.Size(170, 31);
             this.btnPrendrePhoto.TabIndex = 9;
             this.btnPrendrePhoto.Text = "Prendre la photo";
             this.btnPrendrePhoto.UseSelectable = true;
@@ -60,7 +61,7 @@ namespace ProjetReconFormulaire
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 425);
+            this.ClientSize = new System.Drawing.Size(598, 440);
             this.Controls.Add(this.btnPrendrePhoto);
             this.Controls.Add(this.webcam);
             this.Name = "PrisePhoto";

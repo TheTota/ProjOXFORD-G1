@@ -47,9 +47,10 @@
             this.saisieGroupbox = new System.Windows.Forms.GroupBox();
             this.erreur = new System.Windows.Forms.Label();
             this.imgValide = new System.Windows.Forms.PictureBox();
-            this.bVoirPhoto = new MetroFramework.Controls.MetroButton();
+            this.maPhoto = new System.Windows.Forms.PictureBox();
             this.saisieGroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgValide)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // prenom
@@ -58,9 +59,9 @@
             // 
             // 
             this.prenom.CustomButton.Image = null;
-            this.prenom.CustomButton.Location = new System.Drawing.Point(122, 1);
+            this.prenom.CustomButton.Location = new System.Drawing.Point(162, 1);
             this.prenom.CustomButton.Name = "";
-            this.prenom.CustomButton.Size = new System.Drawing.Size(16, 17);
+            this.prenom.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.prenom.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.prenom.CustomButton.TabIndex = 1;
             this.prenom.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -88,9 +89,9 @@
             // 
             // 
             this.nom.CustomButton.Image = null;
-            this.nom.CustomButton.Location = new System.Drawing.Point(122, 1);
+            this.nom.CustomButton.Location = new System.Drawing.Point(162, 1);
             this.nom.CustomButton.Name = "";
-            this.nom.CustomButton.Size = new System.Drawing.Size(16, 17);
+            this.nom.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.nom.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.nom.CustomButton.TabIndex = 1;
             this.nom.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -117,7 +118,7 @@
             this.dateDeNaiss.Location = new System.Drawing.Point(182, 111);
             this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 29);
             this.dateDeNaiss.Name = "dateDeNaiss";
-            this.dateDeNaiss.Size = new System.Drawing.Size(184, 30);
+            this.dateDeNaiss.Size = new System.Drawing.Size(184, 29);
             this.dateDeNaiss.TabIndex = 3;
             this.dateDeNaiss.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -127,9 +128,9 @@
             // 
             // 
             this.email.CustomButton.Image = null;
-            this.email.CustomButton.Location = new System.Drawing.Point(122, 1);
+            this.email.CustomButton.Location = new System.Drawing.Point(162, 1);
             this.email.CustomButton.Name = "";
-            this.email.CustomButton.Size = new System.Drawing.Size(16, 17);
+            this.email.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.email.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.email.CustomButton.TabIndex = 1;
             this.email.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -177,9 +178,9 @@
             // 
             // 
             this.statut.CustomButton.Image = null;
-            this.statut.CustomButton.Location = new System.Drawing.Point(122, 1);
+            this.statut.CustomButton.Location = new System.Drawing.Point(162, 1);
             this.statut.CustomButton.Name = "";
-            this.statut.CustomButton.Size = new System.Drawing.Size(16, 17);
+            this.statut.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.statut.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.statut.CustomButton.TabIndex = 1;
             this.statut.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -285,6 +286,7 @@
             // 
             // saisieGroupbox
             // 
+            this.saisieGroupbox.Controls.Add(this.maPhoto);
             this.saisieGroupbox.Controls.Add(this.nom);
             this.saisieGroupbox.Controls.Add(this.prenom);
             this.saisieGroupbox.Controls.Add(this.dateDeNaiss);
@@ -322,7 +324,7 @@
             this.imgValide.Image = global::ProjetReconG1.Properties.Resources.check_oui;
             this.imgValide.InitialImage = ((System.Drawing.Image)(resources.GetObject("imgValide.InitialImage")));
             this.imgValide.Location = new System.Drawing.Point(394, 346);
-            this.imgValide.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.imgValide.Margin = new System.Windows.Forms.Padding(2);
             this.imgValide.Name = "imgValide";
             this.imgValide.Size = new System.Drawing.Size(29, 31);
             this.imgValide.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -330,22 +332,22 @@
             this.imgValide.TabStop = false;
             this.imgValide.Visible = false;
             // 
-            // bVoirPhoto
+            // maPhoto
             // 
-            this.bVoirPhoto.Location = new System.Drawing.Point(85, 424);
-            this.bVoirPhoto.Name = "bVoirPhoto";
-            this.bVoirPhoto.Size = new System.Drawing.Size(304, 32);
-            this.bVoirPhoto.TabIndex = 17;
-            this.bVoirPhoto.Text = "Aperçu photo";
-            this.bVoirPhoto.UseSelectable = true;
-            this.bVoirPhoto.Click += new System.EventHandler(this.bVoirPhoto_Click);
+            this.maPhoto.Image = global::ProjetReconG1.Properties.Resources.index;
+            this.maPhoto.InitialImage = global::ProjetReconG1.Properties.Resources.index;
+            this.maPhoto.Location = new System.Drawing.Point(372, 20);
+            this.maPhoto.Name = "maPhoto";
+            this.maPhoto.Size = new System.Drawing.Size(314, 214);
+            this.maPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.maPhoto.TabIndex = 13;
+            this.maPhoto.TabStop = false;
             // 
             // Saisie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 470);
-            this.Controls.Add(this.bVoirPhoto);
+            this.ClientSize = new System.Drawing.Size(738, 435);
             this.Controls.Add(this.imgValide);
             this.Controls.Add(this.erreur);
             this.Controls.Add(this.saisieGroupbox);
@@ -358,6 +360,7 @@
             this.saisieGroupbox.ResumeLayout(false);
             this.saisieGroupbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgValide)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -383,7 +386,7 @@
         private System.Windows.Forms.GroupBox saisieGroupbox;
         private System.Windows.Forms.Label erreur;
         private System.Windows.Forms.PictureBox imgValide;
-        private MetroFramework.Controls.MetroButton bVoirPhoto;
+        private System.Windows.Forms.PictureBox maPhoto;
     }
 }
 
