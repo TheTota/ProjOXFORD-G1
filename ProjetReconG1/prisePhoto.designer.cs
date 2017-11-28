@@ -50,7 +50,7 @@ namespace projetOxf
             // btnPrendrePhoto
             // 
             this.btnPrendrePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrendrePhoto.Location = new System.Drawing.Point(146, 468);
+            this.btnPrendrePhoto.Location = new System.Drawing.Point(166, 468);
             this.btnPrendrePhoto.Margin = new System.Windows.Forms.Padding(4);
             this.btnPrendrePhoto.Name = "btnPrendrePhoto";
             this.btnPrendrePhoto.Size = new System.Drawing.Size(405, 38);
@@ -83,6 +83,7 @@ namespace projetOxf
             this.Controls.Add(this.webcam);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
+            this.Movable = false;
             this.Name = "PrisePhoto";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;

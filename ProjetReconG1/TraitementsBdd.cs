@@ -7,11 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MySql.Data.MySqlClient;  // Librairie de connexion à MySQL ajoutée en référence.
-using System.Net.Mail;
 
 namespace projetOxford
 {
@@ -22,9 +18,8 @@ namespace projetOxford
     {
         /// <summary>
         /// Membre privé contenant les informations de connexion à la base de données.
-        /// Le @ sert à prendre la chaîne de caractères telle quelle.
         /// </summary>
-        private const string CNX = @"Server=127.0.0.1; Port=3306; Database=oxford; Uid=root; Pwd=;";     // LEO ! Ta bdd a un mdp! donc remplace "Pwd=;" par "Pwd='root'" !
+        private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;"; 
 
         /// <summary>
         /// Déclaration d'un objet de la classe MysqlConnection.
@@ -64,44 +59,13 @@ namespace projetOxford
             }
         }
 
-        /* Méthode DeletePhotoSiAnnulation()
-        /// <summary>
-        /// Méthode qui supprime la photo prise par l'utilisateur si il a annulé son inscription.
-        /// </summary>
-        public static void DeletePhotoSiAnnulation()
-        {
-            string requete = @"DELETE FROM photos WHERE id>(SELECT count(*) FROM users)";
-            try
-            {
-                // Ouverture de la connexion à la BDD
-                OuvrirConnexion();
-
-                // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                // Execution de la requête SQL
-                cmd.ExecuteNonQuery();
-
-                // Fermeture de la connexion
-                FermerConnexion();
-            }
-            catch (Exception ex)
-            {
-                FermerConnexion();
-                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
-            }
-        } */
-
         /// <summary>
         /// Enregistrement de la photo dans la bdd.
         /// </summary>
         /// <param name="adresse">Adresse pointant sur la photo.</param>
         public static void InsertPhoto(string adresse, string faceId)
         {
-            string requete = @"INSERT INTO photos(`id`, `date`,`value`, `faceid`) VALUES(@id, @date, @adresse, @faceid)";
+            string requete = @"INSERT INTO photos(`date`,`value`, `faceid`) VALUES(@date, @adresse, @faceid)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -114,7 +78,6 @@ namespace projetOxford
                 };
 
                 // Execution de la requête SQL
-                cmd.Parameters.AddWithValue("@id", GetNbUsers());
                 cmd.Parameters.AddWithValue("@date", DateTimeToUnixTimestamp(DateTime.Now));
                 cmd.Parameters.AddWithValue("@adresse", adresse);
                 cmd.Parameters.AddWithValue("@faceid", faceId);
@@ -131,9 +94,9 @@ namespace projetOxford
         }
 
 
-        public static void InsertUser(User userAPersister)
+        public static void InsertUser(User userAPersister, int idPhoto)
         {
-            string requete = @"INSERT INTO users(id, nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@id + 1, @nom, @prenom, @dateDeNaiss, @sexe, @email, @nbUsers + 1, @code, @type, 0)";
+            string requete = @"INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@nom, @prenom, @dateDeNaiss, @sexe, @email, @idPhoto, @code, @type, 0)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -146,13 +109,12 @@ namespace projetOxford
                 };
 
                 // Execution de la requête SQL
-                cmd.Parameters.AddWithValue("@id", GetNbUsers());
                 cmd.Parameters.AddWithValue("@nom", userAPersister.Prenom);
                 cmd.Parameters.AddWithValue("@prenom", userAPersister.Nom);
                 cmd.Parameters.AddWithValue("@dateDeNaiss", DateTimeToUnixTimestamp(userAPersister.DateDeNaissance));
                 cmd.Parameters.AddWithValue("@sexe", userAPersister.Sexe);
                 cmd.Parameters.AddWithValue("@email", userAPersister.Email);
-                cmd.Parameters.AddWithValue("@nbUsers", GetNbUsers());
+                cmd.Parameters.AddWithValue("@idPhoto", idPhoto);
                 cmd.Parameters.AddWithValue("@code", userAPersister.Code);
                 cmd.Parameters.AddWithValue("@type", userAPersister.Type);
                 cmd.ExecuteNonQuery();
@@ -166,13 +128,13 @@ namespace projetOxford
                 throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
             }
         }
-
+        /*
         /// <summary>
         /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
         /// </summary>
         private static int GetNbUsers()
         {
-            string requete = @"SELECT count(*) FROM oxford.users";
+            string requete = @"SELECT count(*) FROM simubac_oxford.users";
             try
             {
                 ConnectionState initialCoState = _connexion.State;
@@ -207,9 +169,90 @@ namespace projetOxford
             }
         }
 
+        /// <summary>
+        /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
+        /// </summary>
+        private static int GetNbPhotos()
+        {
+            string requete = @"SELECT count(*) FROM simubac_oxford.photos";
+            try
+            {
+                ConnectionState initialCoState = _connexion.State;
+
+                // Ouverture de la connexion à la BDD
+                if (initialCoState == ConnectionState.Closed)
+                {
+                    OuvrirConnexion();
+                }
+
+                // Définition de la requête SQL
+                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                // Execution de la requête SQL
+                int nbPhotos = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // Fermeture de la connexion
+                if (initialCoState == ConnectionState.Closed)
+                {
+                    FermerConnexion();
+                }
+
+                return nbPhotos;
+            }
+            catch (Exception ex)
+            {
+                FermerConnexion();
+                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
+            }
+        }
+        */
+
+        /// <summary>
+        /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
+        /// </summary>
+        public static int GetMaxPhotos()
+        {
+            string requete = @"SELECT max(id) FROM simubac_oxford.photos";
+            try
+            {
+                ConnectionState initialCoState = _connexion.State;
+
+                // Ouverture de la connexion à la BDD
+                if (initialCoState == ConnectionState.Closed)
+                {
+                    OuvrirConnexion();
+                }
+
+                // Définition de la requête SQL
+                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                // Execution de la requête SQL
+                int maxIdPhotos = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // Fermeture de la connexion
+                if (initialCoState == ConnectionState.Closed)
+                {
+                    FermerConnexion();
+                }
+
+                return maxIdPhotos;
+            }
+            catch (Exception ex)
+            {
+                FermerConnexion();
+                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
+            }
+        }
+
         public static Dictionary<int, string> GetTypesUsers()
         {
-            string requete = @"SELECT id, value FROM oxford.types";
+            string requete = @"SELECT id, value FROM simubac_oxford.types";
             try
             {
                 // Ouverture de la connexion à la BDD

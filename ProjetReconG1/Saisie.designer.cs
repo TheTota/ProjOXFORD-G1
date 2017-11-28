@@ -50,8 +50,10 @@
             this.imgValide = new System.Windows.Forms.PictureBox();
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.maPhoto = new System.Windows.Forms.PictureBox();
             this.saisieGroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgValide)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // prenom
@@ -276,6 +278,7 @@
             // 
             // saisieGroupbox
             // 
+            this.saisieGroupbox.Controls.Add(this.maPhoto);
             this.saisieGroupbox.Controls.Add(this.cboStatut);
             this.saisieGroupbox.Controls.Add(this.nom);
             this.saisieGroupbox.Controls.Add(this.prenom);
@@ -346,6 +349,16 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // maPhoto
+            // 
+            this.maPhoto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.maPhoto.Location = new System.Drawing.Point(544, 58);
+            this.maPhoto.Name = "maPhoto";
+            this.maPhoto.Size = new System.Drawing.Size(342, 218);
+            this.maPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.maPhoto.TabIndex = 14;
+            this.maPhoto.TabStop = false;
+            // 
             // Saisie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -367,6 +380,7 @@
             this.saisieGroupbox.ResumeLayout(false);
             this.saisieGroupbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgValide)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -394,6 +408,7 @@
         private System.Windows.Forms.ComboBox cboStatut;
         private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.PictureBox maPhoto;
     }
 }
 

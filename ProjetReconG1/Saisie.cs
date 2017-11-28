@@ -38,6 +38,7 @@ namespace projetOxf
         public Saisie()
         {
             InitializeComponent();
+            this.Show();
 
             // Récupération des types en BDD
             this.dicoTypes = TraitementsBdd.GetTypesUsers();
@@ -107,19 +108,21 @@ namespace projetOxf
                             // Si on a pas d'erreur, on détermine le sexe de la personne
                             string sexe;
                             if (sexeFemme.Checked)
-                                sexe = "femme";
+                                sexe = "F";
                             else
-                                sexe = "homme";
+                                sexe = "H";
 
                             // On détermine le type d'utilisateur
                             int typeKey = cboStatut.SelectedIndex + 1;
 
                             // Création d'un objet utilisateur qui sera persisté plus tard dans la base
                             monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
-                            SendMail(email.Text, prenom.Text, nom.Text, Saisie.photo);
+                            SendMail(email.Text, prenom.Text, nom.Text, photo);
 
                             if (erreur.Visible == false && vraiMail == true)
                             {
+                                this.valide.Enabled = false;
+                                this.metroProgressSpinner1.Visible = true;
                                 // Persistance (insertion) de l'utilisateur dans la base
                                 this.PersistUser(monUser);
                             }
@@ -165,12 +168,7 @@ namespace projetOxf
         /// <param name="user"></param>
         private void PersistUser(User user)
         {
-            this.valide.Enabled = false;
-            this.metroProgressSpinner1.Visible = true;
-
-            // Création de la requête d'insertion du nouvel utilisateur dans la base (le mot de passe n'est pas pris en compte pour le moment et le status est prédefinie dans la requete)
-            TraitementsBdd.InsertUser(user);
-
+            // Inscription de l'utilisateur dans la BDD MS
             this.traitementTermine = false;
             this.timer1.Enabled = true;
             InscrireDansBddMS(faceIdTemp);
@@ -230,6 +228,7 @@ namespace projetOxf
             {
                 imgValide.Visible = true;
                 this.prisePhoto.Enabled = false;
+                this.maPhoto.Image = Image.FromFile(photo);
             }
         }
 
@@ -248,12 +247,13 @@ namespace projetOxf
 
                 //Enregistrement de la photo dans la bdd
                 TraitementsBdd.InsertPhoto(photo, faceIdPersistent);
+                TraitementsBdd.InsertUser(monUser, TraitementsBdd.GetMaxPhotos());
 
                 // Affichage du code généré 
                 MessageBox.Show("Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
         }
+
         /// <summary>
         /// Envoi du mail
         /// </summary>
