@@ -268,7 +268,7 @@ namespace projetOxf
                 MailMessage message = new MailMessage();
                 SmtpClient smtp = new SmtpClient();
 
-                message.From = new MailAddress("ultramegabidon@gmail.com");
+                message.From = new MailAddress("bts-sio@lyc-bonaparte.fr");
                 message.To.Add(new MailAddress(mail));
                 message.Subject = "Inscription";
                 Attachment Photo = new Attachment(photopath);
@@ -276,11 +276,17 @@ namespace projetOxf
                     "\n" +
                     "Merci d'être passé au stand du BTS SIO." +
                     "\n" +
-                    "\n" + "Ce message fait suite à la réussite de votre inscription à travers notre application." +
+                    "\n" + "Ce message fait suite à la réussite de votre inscription à travers notre application" +
+                    "\n" + "présentée au forum du numérique le Jeudi 07 decembre 2017." +
                     "\n" +
-                    "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : https://bts-sio.lyc-bonaparte.fr" +
+                    "\n" + "Vous pourrez rencontrer les étudiants du BTS SIO au dates suivantes :" +
+                    "\n" + "- Salon du lycéen et de l'étudiant : Samedi 13 Janvier 2018" +
+                    "\n" + "- Journée portes ouvertes (Lycée Bonaparte) : Mercredi 7 février 2018 13h-16h45" +
+                    "\n" + "- Journée portes ouvertes (Lycée Bonaparte) : Samedi 24 Mars 2018 9h-13h" + "\n" +
+                    "\n" + "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : https://bts-sio.lyc-bonaparte.fr" +
                     "\n" +
-                    "Bien à vous, l'équipe du BTS SIO SLAM.\n" +
+                    "\n" +
+                    "Bien à vous, les étudiants et professeurs du BTS SIO SLAM.\n" +
                     "\n" +
                     "-------------------------------------------------------------------------------------------------\n" +
                     "Ceci est un message automatique.\n" +
@@ -288,18 +294,18 @@ namespace projetOxf
                 message.Attachments.Add(Photo);
 
                 smtp.Port = 587;
-                smtp.Host = "smtp.gmail.com";
+                smtp.Host = "SSL0.OVH.NET";
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("ultramegabidon@gmail.com", "Megabidon83");
+                smtp.Credentials = new System.Net.NetworkCredential("bts-sio@lyc-bonaparte.fr", "M@il0xford2017");
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
     }
 }
