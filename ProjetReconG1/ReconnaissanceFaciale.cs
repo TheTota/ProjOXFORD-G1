@@ -16,7 +16,7 @@ namespace projetOxford
     public class ReconnaissanceFaciale
     {
         //Lien de la clef Oxford
-        const string clefOxford = "bade90def1b947a7ae96c103847db05c";
+        const string clefOxford = "c68422f56ead4a0b998fd07811bf0b05";
 
         //Url de POST de demande 
         const string uriBaseDetect = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
