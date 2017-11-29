@@ -115,14 +115,14 @@ namespace projetOxf
                             // On détermine le type d'utilisateur
                             int typeKey = cboStatut.SelectedIndex + 1;
 
-                            // Création d'un objet utilisateur qui sera persisté plus tard dans la base
-                            monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
-                            SendMail(email.Text, prenom.Text, nom.Text, photo);
 
                             if (erreur.Visible == false && vraiMail == true)
                             {
                                 this.valide.Enabled = false;
                                 this.metroProgressSpinner1.Visible = true;
+                                // Création d'un objet utilisateur qui sera persisté plus tard dans la base
+                                monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
+                                SendMail(email.Text, prenom.Text, nom.Text, photo);
                                 // Persistance (insertion) de l'utilisateur dans la base
                                 this.PersistUser(monUser);
                             }
@@ -213,7 +213,8 @@ namespace projetOxf
             prisePhoto.Enabled = true;
             valide.Enabled = true;
             timer1.Enabled = false;
-            this.metroProgressSpinner1.Visible = false;
+            metroProgressSpinner1.Visible = false;
+            maPhoto.Image = null;
         }
 
         /// <summary>
@@ -295,11 +296,11 @@ namespace projetOxf
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
     }
 }

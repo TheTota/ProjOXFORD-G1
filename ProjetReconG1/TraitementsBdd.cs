@@ -19,7 +19,10 @@ namespace projetOxford
         /// <summary>
         /// Membre privé contenant les informations de connexion à la base de données.
         /// </summary>
-        private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;"; 
+        // BDD DE TEST:
+        //private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;"; 
+        // BDD DE PROD:
+        private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;";
 
         /// <summary>
         /// Déclaration d'un objet de la classe MysqlConnection.
