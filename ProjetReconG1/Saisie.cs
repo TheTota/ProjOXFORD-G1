@@ -270,6 +270,7 @@ namespace projetOxf
 
                 message.From = new MailAddress("bts-sio@lyc-bonaparte.fr");
                 message.To.Add(new MailAddress(mail));
+                message.CC.Add("bts-sio@lyc-bonaparte.fr");
                 message.Subject = "Inscription";
                 Attachment Photo = new Attachment(photopath);
                 message.Body = "Bonjour, " + nom + " " + prenom + "" +
