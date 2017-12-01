@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 using projetOxford;
 using MetroFramework.Forms;
-using WebEye.Controls.WinForms.WebCameraControl;
 using Newtonsoft.Json.Linq;
 using System.Net.Mail;
 
@@ -23,11 +15,16 @@ namespace projetOxf
     /// </summary>
     public partial class Saisie : MetroForm
     {
+        /// <summary>
+        /// Utilisateur qui sera créé à partir des champs remplis du formulaire
+        /// </summary>
         private User monUser;
+
         public static bool prisEnPhoto = false;
         public static string photo = "";
         public static string faceIdPersistent;
         public static string faceIdTemp;
+
         private bool vraiMail;
         private bool traitementTermine;
 
@@ -37,25 +34,27 @@ namespace projetOxf
         public Saisie()
         {
             InitializeComponent();
-            this.Show();
 
             // Récupération des types en BDD
             BindingSource bindingSource1 = new BindingSource
             {
                 DataSource = TraitementsBdd.GetTypesUsers()
             };
-            
+
             // Population de la combobox des types d'utilisateurs
             cboStatut.DataSource = bindingSource1.DataSource;
         }
-        //Fonction pour vérifier si une email est valide
-        //Retourne: true si elle est valide
-        //Retourne: false si elle n'est pas valide
-        bool EmailEstBonne(string email)
+
+        /// <summary>
+        /// Fonction permettant de vérifier si une adresse email est valide.
+        /// </summary>
+        /// <param name="email">Adresse email à tester.</param>
+        /// <returns>Vrai si l'email est valide, faux si il ne l'est pas.</returns>
+        bool EmailValide(string email)
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
+                var addr = new MailAddress(email);
                 return true;
             }
             catch
@@ -75,65 +74,74 @@ namespace projetOxf
         {
             try
             {
-                if (prisEnPhoto)
+                // Si le formulaire est bien rempli, on procède à l'inscription de l'utilisateur
+                if (FormulaireEstBienRempli())
                 {
-                    // Controles sur les champs du formulaire
-                    if (!EmailEstBonne(email.Text))
-                    {
-                        vraiMail = false;
-                        throw new Exception("Veuillez saisir une addresse email valide.");
-                    }
-                    else
-                    {
-                        vraiMail = true;
-                    }
+                    // On bloque une éventuelle "revalidation" de l'inscription pdt le traitement
+                    this.valide.Enabled = false;
+                    this.metroProgressSpinner1.Visible = true;
 
-                    if (string.IsNullOrWhiteSpace(nom.Text) || string.IsNullOrWhiteSpace(prenom.Text) || string.IsNullOrWhiteSpace(email.Text))
-                    {
-                        erreur.Visible = true;
-                    }
-                    else
-                    {
-                        erreur.Visible = false;
-                        if (!sexeFemme.Checked && !sexeHomme.Checked)
-                        {
-                            erreur.Visible = true;
-                        }
-                        else
-                        {
-                            erreur.Visible = false;
+                    // Création d'un objet utilisateur qui sera persisté plus tard dans la base
+                    monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, GetSexe(), cboStatut.SelectedIndex + 1, GenCode());
 
-                            // Si on a pas d'erreur, on détermine le sexe de la personne
-                            string sexe;
-                            if (sexeFemme.Checked)
-                                sexe = "F";
-                            else
-                                sexe = "H";
+                    // Envoi du mail de confirmation de l'inscription
+                    SendMail(email.Text, prenom.Text, nom.Text, photo);
 
-                            // On détermine le type d'utilisateur
-                            int typeKey = cboStatut.SelectedIndex + 1;
-
-
-                            if (erreur.Visible == false && vraiMail == true)
-                            {
-                                this.valide.Enabled = false;
-                                // Création d'un objet utilisateur qui sera persisté plus tard dans la base
-                                monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
-                                SendMail(email.Text, prenom.Text, nom.Text, photo);
-                                // Persistance (insertion) de l'utilisateur dans la base
-                                this.PersistUser(monUser);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception("Veuillez vous prendre en photo.");
+                    // Persistance de l'utilisateur dans notre BDD et dans la BDD MS
+                    this.PersistUser(monUser);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Fonction déterminant le sexe choisi par l'utilisateur.
+        /// </summary>
+        /// <returns>Retourne 'H' si c'est un homme, 'F' si c'est une femme.</returns>
+        private string GetSexe()
+        {
+            string sexe;
+            if (sexeFemme.Checked)
+                sexe = "F";
+            else
+                sexe = "H";
+
+            return sexe;
+        }
+
+        /// <summary>
+        /// Fonction permettant de tester si le formulaire a été rempli correctement.
+        /// </summary>
+        /// <returns>Retourne True si le formulaire a été bien rempli, et false si ce n'est pas le cas.</returns>
+        private bool FormulaireEstBienRempli()
+        {
+            // On test si une photo a été prise
+            if (prisEnPhoto)
+            {
+                // On test si tous les champs du formulaire ont été remplis
+                if (!string.IsNullOrWhiteSpace(nom.Text) && !string.IsNullOrWhiteSpace(prenom.Text) && !string.IsNullOrWhiteSpace(email.Text) && (sexeFemme.Checked || sexeHomme.Checked))
+                {
+                    // On test si l'email est valide
+                    if (EmailValide(this.email.Text))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception("Veuillez entrer une adresse email valide.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Veuillez remplir tous les champs du formulaire.");
+                }
+            }
+            else
+            {
+                throw new Exception("Veuillez vous prendre en photo.");
             }
         }
 
@@ -168,7 +176,6 @@ namespace projetOxf
             // Inscription de l'utilisateur dans la BDD MS
             this.traitementTermine = false;
             this.timer1.Enabled = true;
-            this.metroProgressSpinner1.Visible = true;
             InscrireDansBddMS(faceIdTemp);
         }
 
@@ -178,8 +185,13 @@ namespace projetOxf
         /// <param name="faceIdTemp"></param>
         private async void InscrireDansBddMS(string faceIdTemp)
         {
+            // Inscription du visage dans la liste de faceid oxford sur le serveur MS
             JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
+
+            // Récupération du faceid persistant qui sera associé à l'utilisateur
             faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+
+            // On signale que le traitement est terminé
             this.traitementTermine = true;
         }
 
@@ -223,9 +235,13 @@ namespace projetOxf
         /// <param name="e"></param>
         private void Saisie_Activated(object sender, EventArgs e)
         {
+            // Si une photo valide a été prise...
             if (prisEnPhoto)
             {
+                // ... alors on affiche un icone indiquant le succès de la prise de photo
                 imgValide.Visible = true;
+
+                // Et on affiche désactive la prise d'une nouvelle photo, et on affiche la photo prise
                 this.prisePhoto.Enabled = false;
                 this.maPhoto.Image = Image.FromFile(photo);
             }
@@ -254,7 +270,7 @@ namespace projetOxf
         }
 
         /// <summary>
-        /// Envoi du mail
+        /// Envoi du mail.
         /// </summary>
         /// <param name="mail">Mail destinataire</param>
         /// <param name="prenom">Prénom du destinataire</param>
@@ -298,7 +314,6 @@ namespace projetOxf
             {
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
     }
 }

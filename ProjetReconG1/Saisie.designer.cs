@@ -45,15 +45,14 @@
             this.valide = new MetroFramework.Controls.MetroButton();
             this.prisePhoto = new MetroFramework.Controls.MetroButton();
             this.saisieGroupbox = new System.Windows.Forms.GroupBox();
+            this.maPhoto = new System.Windows.Forms.PictureBox();
             this.cboStatut = new System.Windows.Forms.ComboBox();
-            this.erreur = new System.Windows.Forms.Label();
             this.imgValide = new System.Windows.Forms.PictureBox();
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.maPhoto = new System.Windows.Forms.PictureBox();
             this.saisieGroupbox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgValide)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgValide)).BeginInit();
             this.SuspendLayout();
             // 
             // prenom
@@ -301,6 +300,16 @@
             this.saisieGroupbox.TabStop = false;
             this.saisieGroupbox.Text = "Saisie";
             // 
+            // maPhoto
+            // 
+            this.maPhoto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.maPhoto.Location = new System.Drawing.Point(544, 58);
+            this.maPhoto.Name = "maPhoto";
+            this.maPhoto.Size = new System.Drawing.Size(342, 218);
+            this.maPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.maPhoto.TabIndex = 14;
+            this.maPhoto.TabStop = false;
+            // 
             // cboStatut
             // 
             this.cboStatut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -309,19 +318,6 @@
             this.cboStatut.Name = "cboStatut";
             this.cboStatut.Size = new System.Drawing.Size(244, 24);
             this.cboStatut.TabIndex = 13;
-            // 
-            // erreur
-            // 
-            this.erreur.AutoSize = true;
-            this.erreur.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.erreur.ForeColor = System.Drawing.Color.Red;
-            this.erreur.Location = new System.Drawing.Point(379, 36);
-            this.erreur.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.erreur.Name = "erreur";
-            this.erreur.Size = new System.Drawing.Size(387, 25);
-            this.erreur.TabIndex = 13;
-            this.erreur.Text = "Tous les champs doivent être complets";
-            this.erreur.Visible = false;
             // 
             // imgValide
             // 
@@ -349,16 +345,6 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // maPhoto
-            // 
-            this.maPhoto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.maPhoto.Location = new System.Drawing.Point(544, 58);
-            this.maPhoto.Name = "maPhoto";
-            this.maPhoto.Size = new System.Drawing.Size(342, 218);
-            this.maPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.maPhoto.TabIndex = 14;
-            this.maPhoto.TabStop = false;
-            // 
             // Saisie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -366,7 +352,6 @@
             this.ClientSize = new System.Drawing.Size(984, 578);
             this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.imgValide);
-            this.Controls.Add(this.erreur);
             this.Controls.Add(this.saisieGroupbox);
             this.Controls.Add(this.prisePhoto);
             this.Controls.Add(this.valide);
@@ -379,10 +364,9 @@
             this.Activated += new System.EventHandler(this.Saisie_Activated);
             this.saisieGroupbox.ResumeLayout(false);
             this.saisieGroupbox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgValide)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgValide)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -403,7 +387,6 @@
         private MetroFramework.Controls.MetroButton valide;
         private MetroFramework.Controls.MetroButton prisePhoto;
         private System.Windows.Forms.GroupBox saisieGroupbox;
-        private System.Windows.Forms.Label erreur;
         private System.Windows.Forms.PictureBox imgValide;
         private System.Windows.Forms.ComboBox cboStatut;
         private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
