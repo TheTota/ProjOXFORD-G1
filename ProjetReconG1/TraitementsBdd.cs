@@ -172,9 +172,9 @@ namespace projetOxford
             }
         }
 
-        public static Dictionary<int, string> GetTypesUsers()
+        public static List<string> GetTypesUsers()
         {
-            string requete = @"SELECT id, value FROM types";
+            string requete = @"SELECT value FROM types";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -187,13 +187,13 @@ namespace projetOxford
                 };
 
                 // Dictionnaire qui contiendra les valeurs des types liés aux id
-                Dictionary<int, string> lesTypes = new Dictionary<int, string>();
+                List<string> lesTypes = new List<string>();
 
                 // Execution de la requête SQL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    lesTypes.Add(dataReader.GetInt32(0), dataReader.GetString(1));
+                    lesTypes.Add(dataReader.GetString(0));
                 }
 
                 // Fermeture de la connexion

@@ -30,7 +30,6 @@ namespace projetOxf
         public static string faceIdTemp;
         private bool vraiMail;
         private bool traitementTermine;
-        private Dictionary<int, String> dicoTypes;
 
         /// <summary>
         /// Constructeur de la classe Saisie
@@ -41,14 +40,13 @@ namespace projetOxf
             this.Show();
 
             // Récupération des types en BDD
-            this.dicoTypes = TraitementsBdd.GetTypesUsers();
-            // Création d'une liste de chaines à partir du dico de types récupéré
-            foreach (var type in this.dicoTypes)
+            BindingSource bindingSource1 = new BindingSource
             {
-                // Attribution du contenu de la liste des noms des types à la comboBox
-                cboStatut.Items.Add(type.Value);
-            }
-            cboStatut.SelectedItem = cboStatut.Items[0];
+                DataSource = TraitementsBdd.GetTypesUsers()
+            };
+            
+            // Population de la combobox des types d'utilisateurs
+            cboStatut.DataSource = bindingSource1.DataSource;
         }
         //Fonction pour vérifier si une email est valide
         //Retourne: true si elle est valide
