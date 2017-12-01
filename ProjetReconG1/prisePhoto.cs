@@ -54,8 +54,7 @@ namespace projetOxf
                 if (webcam.IsCapturing)
                 {
                     // On détermine le chemin complet final pointant vers la photo
-                    this.photo = savePath + GenCode() + ".jpg";
-                    //this.photo = @"C:\Users\thoma\Desktop\usa-today-9765113.0.jpg";
+                    this.photo = savePath + DateTimeToUnixTimestamp(DateTime.Now) + ".jpg";
 
                     // On prend une photo qu'on enregistre au path donné
                     webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
@@ -145,15 +144,14 @@ namespace projetOxf
         }
 
         /// <summary>
-        /// Méthode générant un code à 4 chiffres. 
-        /// Solution PROVISOIRE pour le nom des photos à enregistrer.
+        /// Méthode qui permet de convertir un DateTime en unix timestamp.
         /// </summary>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private int GenCode()
+        public static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
-            // Génération aléatoire du code/mdp de l'utilisateur
-            Random generator = new Random();
-            return generator.Next(1000, 9999);
+            return (TimeZoneInfo.ConvertTimeToUtc(dateTime) -
+                   new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
         }
 
         /// <summary>

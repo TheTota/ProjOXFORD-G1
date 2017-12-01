@@ -16,20 +16,23 @@ namespace projetOxf
     public partial class Saisie : MetroForm
     {
         /// <summary>
-        /// Utilisateur qui sera créé à partir des champs remplis du formulaire
+        /// Utilisateur qui sera créé à partir des champs remplis du formulaire.
         /// </summary>
         private User monUser;
 
+        // Variables statiques qui permettront la communication avec le formulaire de prise de photo
         public static bool prisEnPhoto = false;
         public static string photo = "";
         public static string faceIdPersistent;
         public static string faceIdTemp;
 
-        private bool vraiMail;
+        /// <summary>
+        /// Booléen indiquant si le traitement oxford est terminé ou non.
+        /// </summary>
         private bool traitementTermine;
 
         /// <summary>
-        /// Constructeur de la classe Saisie
+        /// Constructeur de la classe Saisie.
         /// </summary>
         public Saisie()
         {
@@ -43,24 +46,6 @@ namespace projetOxf
 
             // Population de la combobox des types d'utilisateurs
             cboStatut.DataSource = bindingSource1.DataSource;
-        }
-
-        /// <summary>
-        /// Fonction permettant de vérifier si une adresse email est valide.
-        /// </summary>
-        /// <param name="email">Adresse email à tester.</param>
-        /// <returns>Vrai si l'email est valide, faux si il ne l'est pas.</returns>
-        bool EmailValide(string email)
-        {
-            try
-            {
-                var addr = new MailAddress(email);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -79,7 +64,7 @@ namespace projetOxf
                 {
                     // On bloque une éventuelle "revalidation" de l'inscription pdt le traitement
                     this.valide.Enabled = false;
-                    this.metroProgressSpinner1.Visible = true;
+                    this.traitementOxfordProgressSpinner.Visible = true;
 
                     // Création d'un objet utilisateur qui sera persisté plus tard dans la base
                     monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, GetSexe(), cboStatut.SelectedIndex + 1, GenCode());
@@ -125,13 +110,29 @@ namespace projetOxf
                 if (!string.IsNullOrWhiteSpace(nom.Text) && !string.IsNullOrWhiteSpace(prenom.Text) && !string.IsNullOrWhiteSpace(email.Text) && (sexeFemme.Checked || sexeHomme.Checked))
                 {
                     // On test si l'email est valide
-                    if (EmailValide(this.email.Text))
+                    if (System.Text.RegularExpressions.Regex.IsMatch(email.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
                     {
-                        return true;
+                        // On test si le prénom est valide
+                        if (System.Text.RegularExpressions.Regex.IsMatch(prenom.Text, "^[a-zA-Z]"))
+                        {
+                            // On test si le nom est valide
+                            if (System.Text.RegularExpressions.Regex.IsMatch(nom.Text, "^[a-zA-Z]"))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                throw new Exception("Veuillez saisir un nom ne comportant que des lettres.");
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Veuillez saisir un prénom ne comportant que des lettres.");
+                        }
                     }
                     else
                     {
-                        throw new Exception("Veuillez entrer une adresse email valide.");
+                        throw new Exception("Veuillez saisir une adresse email valide.");
                     }
                 }
                 else
@@ -223,7 +224,7 @@ namespace projetOxf
             prisePhoto.Enabled = true;
             valide.Enabled = true;
             timer1.Enabled = false;
-            metroProgressSpinner1.Visible = false;
+            traitementOxfordProgressSpinner.Visible = false;
             maPhoto.Image = null;
         }
 

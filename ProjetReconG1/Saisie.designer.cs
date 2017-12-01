@@ -48,7 +48,7 @@
             this.maPhoto = new System.Windows.Forms.PictureBox();
             this.cboStatut = new System.Windows.Forms.ComboBox();
             this.imgValide = new System.Windows.Forms.PictureBox();
-            this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.traitementOxfordProgressSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saisieGroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maPhoto)).BeginInit();
@@ -73,7 +73,7 @@
             this.prenom.Lines = new string[0];
             this.prenom.Location = new System.Drawing.Point(243, 100);
             this.prenom.Margin = new System.Windows.Forms.Padding(4);
-            this.prenom.MaxLength = 32767;
+            this.prenom.MaxLength = 50;
             this.prenom.Name = "prenom";
             this.prenom.PasswordChar = '\0';
             this.prenom.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -105,7 +105,7 @@
             this.nom.Lines = new string[0];
             this.nom.Location = new System.Drawing.Point(243, 63);
             this.nom.Margin = new System.Windows.Forms.Padding(4);
-            this.nom.MaxLength = 32767;
+            this.nom.MaxLength = 50;
             this.nom.Name = "nom";
             this.nom.PasswordChar = '\0';
             this.nom.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -123,6 +123,8 @@
             // 
             this.dateDeNaiss.Location = new System.Drawing.Point(243, 138);
             this.dateDeNaiss.Margin = new System.Windows.Forms.Padding(4);
+            this.dateDeNaiss.MaxDate = new System.DateTime(2007, 1, 1, 0, 0, 0, 0);
+            this.dateDeNaiss.MinDate = new System.DateTime(1930, 1, 1, 0, 0, 0, 0);
             this.dateDeNaiss.MinimumSize = new System.Drawing.Size(0, 30);
             this.dateDeNaiss.Name = "dateDeNaiss";
             this.dateDeNaiss.Size = new System.Drawing.Size(244, 30);
@@ -147,7 +149,7 @@
             this.email.Lines = new string[0];
             this.email.Location = new System.Drawing.Point(243, 182);
             this.email.Margin = new System.Windows.Forms.Padding(4);
-            this.email.MaxLength = 32767;
+            this.email.MaxLength = 50;
             this.email.Name = "email";
             this.email.PasswordChar = '\0';
             this.email.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -331,15 +333,15 @@
             this.imgValide.TabStop = false;
             this.imgValide.Visible = false;
             // 
-            // metroProgressSpinner1
+            // traitementOxfordProgressSpinner
             // 
-            this.metroProgressSpinner1.Location = new System.Drawing.Point(526, 475);
-            this.metroProgressSpinner1.Maximum = 100;
-            this.metroProgressSpinner1.Name = "metroProgressSpinner1";
-            this.metroProgressSpinner1.Size = new System.Drawing.Size(36, 36);
-            this.metroProgressSpinner1.TabIndex = 17;
-            this.metroProgressSpinner1.UseSelectable = true;
-            this.metroProgressSpinner1.Visible = false;
+            this.traitementOxfordProgressSpinner.Location = new System.Drawing.Point(526, 475);
+            this.traitementOxfordProgressSpinner.Maximum = 100;
+            this.traitementOxfordProgressSpinner.Name = "traitementOxfordProgressSpinner";
+            this.traitementOxfordProgressSpinner.Size = new System.Drawing.Size(36, 36);
+            this.traitementOxfordProgressSpinner.TabIndex = 17;
+            this.traitementOxfordProgressSpinner.UseSelectable = true;
+            this.traitementOxfordProgressSpinner.Visible = false;
             // 
             // timer1
             // 
@@ -350,7 +352,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 578);
-            this.Controls.Add(this.metroProgressSpinner1);
+            this.Controls.Add(this.traitementOxfordProgressSpinner);
             this.Controls.Add(this.imgValide);
             this.Controls.Add(this.saisieGroupbox);
             this.Controls.Add(this.prisePhoto);
@@ -389,7 +391,7 @@
         private System.Windows.Forms.GroupBox saisieGroupbox;
         private System.Windows.Forms.PictureBox imgValide;
         private System.Windows.Forms.ComboBox cboStatut;
-        private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
+        private MetroFramework.Controls.MetroProgressSpinner traitementOxfordProgressSpinner;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox maPhoto;
     }
