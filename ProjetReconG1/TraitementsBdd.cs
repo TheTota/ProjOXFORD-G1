@@ -22,7 +22,7 @@ namespace projetOxford
         // BDD DE TEST:
         //private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;"; 
         // BDD DE PROD:
-        private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;";
+        private const string CNX = @"Server=mysql-oxfordbonaparte.alwaysdata.net; Port=3306; Database=oxfordbonaparte_db; Uid=148178; Pwd=ToRYolOU;";
 
         /// <summary>
         /// Déclaration d'un objet de la classe MysqlConnection.
@@ -131,94 +131,13 @@ namespace projetOxford
                 throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
             }
         }
-        /*
-        /// <summary>
-        /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
-        /// </summary>
-        private static int GetNbUsers()
-        {
-            string requete = @"SELECT count(*) FROM simubac_oxford.users";
-            try
-            {
-                ConnectionState initialCoState = _connexion.State;
-
-                // Ouverture de la connexion à la BDD
-                if (initialCoState == ConnectionState.Closed)
-                {
-                    OuvrirConnexion();
-                }
-
-                // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                // Execution de la requête SQL
-                int nbUsers = Convert.ToInt32(cmd.ExecuteScalar());
-
-                // Fermeture de la connexion
-                if (initialCoState == ConnectionState.Closed)
-                {
-                    FermerConnexion();
-                }
-
-                return nbUsers;
-            }
-            catch (Exception ex)
-            {
-                FermerConnexion();
-                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
-        /// </summary>
-        private static int GetNbPhotos()
-        {
-            string requete = @"SELECT count(*) FROM simubac_oxford.photos";
-            try
-            {
-                ConnectionState initialCoState = _connexion.State;
-
-                // Ouverture de la connexion à la BDD
-                if (initialCoState == ConnectionState.Closed)
-                {
-                    OuvrirConnexion();
-                }
-
-                // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                // Execution de la requête SQL
-                int nbPhotos = Convert.ToInt32(cmd.ExecuteScalar());
-
-                // Fermeture de la connexion
-                if (initialCoState == ConnectionState.Closed)
-                {
-                    FermerConnexion();
-                }
-
-                return nbPhotos;
-            }
-            catch (Exception ex)
-            {
-                FermerConnexion();
-                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
-            }
-        }
-        */
 
         /// <summary>
         /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
         /// </summary>
         public static int GetMaxPhotos()
         {
-            string requete = @"SELECT max(id) FROM simubac_oxford.photos";
+            string requete = @"SELECT max(id) FROM photos";
             try
             {
                 ConnectionState initialCoState = _connexion.State;
@@ -255,7 +174,7 @@ namespace projetOxford
 
         public static Dictionary<int, string> GetTypesUsers()
         {
-            string requete = @"SELECT id, value FROM simubac_oxford.types";
+            string requete = @"SELECT id, value FROM types";
             try
             {
                 // Ouverture de la connexion à la BDD

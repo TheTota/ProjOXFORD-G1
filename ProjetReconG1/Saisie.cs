@@ -119,7 +119,6 @@ namespace projetOxf
                             if (erreur.Visible == false && vraiMail == true)
                             {
                                 this.valide.Enabled = false;
-                                this.metroProgressSpinner1.Visible = true;
                                 // Création d'un objet utilisateur qui sera persisté plus tard dans la base
                                 monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
                                 SendMail(email.Text, prenom.Text, nom.Text, photo);
@@ -171,6 +170,7 @@ namespace projetOxf
             // Inscription de l'utilisateur dans la BDD MS
             this.traitementTermine = false;
             this.timer1.Enabled = true;
+            this.metroProgressSpinner1.Visible = true;
             InscrireDansBddMS(faceIdTemp);
         }
 
