@@ -87,7 +87,7 @@ namespace projetOxf
             this.Name = "PrisePhoto";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
-            this.Text = "prisePhoto";
+            this.Text = "Prise de photo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrisePhoto_FormClosing);
             this.ResumeLayout(false);
 
