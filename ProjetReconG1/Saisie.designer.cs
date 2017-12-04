@@ -1,4 +1,4 @@
-﻿namespace projetOxf
+﻿namespace ProjetOxf
 {
     partial class Saisie
     {
@@ -263,7 +263,7 @@
             this.valide.TabIndex = 9;
             this.valide.Text = "Valider";
             this.valide.UseSelectable = true;
-            this.valide.Click += new System.EventHandler(this.valide_Click);
+            this.valide.Click += new System.EventHandler(this.Valide_Click);
             // 
             // prisePhoto
             // 
@@ -275,7 +275,7 @@
             this.prisePhoto.TabIndex = 8;
             this.prisePhoto.Text = "Prendre une photo";
             this.prisePhoto.UseSelectable = true;
-            this.prisePhoto.Click += new System.EventHandler(this.prisePhoto_Click);
+            this.prisePhoto.Click += new System.EventHandler(this.PrisePhoto_Click);
             // 
             // saisieGroupbox
             // 
@@ -345,7 +345,7 @@
             // 
             // timer1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Saisie
             // 

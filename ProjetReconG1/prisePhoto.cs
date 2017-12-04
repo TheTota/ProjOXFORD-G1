@@ -1,86 +1,72 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="PrisePhoto.cs" company="SIO">
+//     Copyright (c) SIO. All rights reserved.
+// </copyright>
+// <author>Thomas Cianfarani</author>
+// <author>Mehdi Ben Bahri</author>
+// <author>Léo Espeu</author>
+//-----------------------------------------------------------------------
+
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 using projetOxford;
 using WebEye.Controls.WinForms.WebCameraControl;
-using Newtonsoft.Json.Linq;
 
-namespace projetOxf
+namespace ProjetOxf
 {
-    /// <summary>
-    /// Formulaire de test.
-    /// Le vrai formulaire permettra de prendre une photo à partir d'une caméra
-    /// connectée à l'ordinateur.
-    /// </summary>
+    /// <summary>Formulaire de test. Le vrai formulaire permettra de prendre une photo à partir d'une
+    /// caméra connectée à l'ordinateur.</summary>
+    /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
     public partial class PrisePhoto : MetroFramework.Forms.MetroForm
     {
-        // Webeye
-        List<WebCameraId> listCams;
+        /// <summary>Liste des caméras liées à l'ordinateur.</summary>
+        private List<WebCameraId> listCams;
 
-        // Lieu où sera sauvegardée la photo
-        string savePath = @"C:\Users\thoma\Desktop\oxfoto";
+        /// <summary>Lieu où sera sauvegardée la photo.</summary>
+        private string savePath = @"C:\Users\thoma\Desktop\oxfoto";
 
-        string photo;
-        bool traitementTermine;
+        /// <summary>Chemin pointant sur la photo prise.</summary>
+        private string photo;
 
-        /// <summary>
-        /// Constructeur de la classe PrisePhoto.
-        /// </summary>
+        /// <summary>Booléen définissant si le traitement Oxford est terminé.</summary>
+        private bool traitementTermine;
+
+        /// <summary>Initialise une nouvelle instance de la classe <see cref="PrisePhoto"/>.</summary>
+        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
         public PrisePhoto()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             // Récupération des caméras 
-            listCams = webcam.GetVideoCaptureDevices().ToList();
+            this.listCams = this.webcam.GetVideoCaptureDevices().ToList();
 
             // Démarre la capture 
-            webcam.StartCapture(listCams[0]);
+            this.webcam.StartCapture(this.listCams[0]);
 
             this.traitementTermine = false;
         }
 
-        /// <summary>
-        /// Prise de photo lors du clic sur le bouton "Prendre la photo".
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnPhoto_onclick(object sender, EventArgs e)
+        /// <summary>Méthode qui permet de convertir un DateTime en unix timestamp.</summary>
+        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
+        /// <param name="dateTime"> Date à convertir. </param>
+        /// <returns> La date au format Unix Timestamp. </returns>
+        public static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
-            try
-            {
-                // Si la webcam est bien active..
-                if (webcam.IsCapturing)
-                {
-                    // On détermine le chemin complet final pointant vers la photo
-                    this.photo = savePath + DateTimeToUnixTimestamp(DateTime.Now) + ".jpg";
-
-                    // On prend une photo qu'on enregistre au path donné
-                    webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
-
-                    // Traitement de l'image avec la bdd oxford
-                    this.timerTraitement.Enabled = true;
-                    this.webcam.Visible = false;
-                    this.metroProgressSpinner1.Visible = true;
-                    this.btnPrendrePhoto.Enabled = false;
-
-                    //TraiterImage(this.photo);
-                    TraiterImage(this.photo);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            return (TimeZoneInfo.ConvertTimeToUtc(dateTime) -
+                   new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
         }
 
-
-        /// <summary>
-        /// Fonction principale permettant d'inscrire un visage dans la BDD de microsoft après
-        /// avoir vérifié qu'il n'était pas déjà inscrit.
-        /// </summary>
-        /// <param name="photo">Photo param>
+        /// <summary>Fonction principale permettant d'inscrire un visage dans la BDD de microsoft après
+        /// avoir vérifié qu'il n'était pas déjà inscrit.</summary>
+        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
+        /// <exception cref="PersonneDejaInscriteException">
+        ///     Thrown when a Personne Deja Inscrite error condition occurs.
+        /// </exception>
+        /// <param name="photo">Photo à traiter.</param>
         public async void TraiterImage(string photo)
         {
             try
@@ -90,7 +76,7 @@ namespace projetOxf
                 string faceIdTempo = jObjectFaceId.GetValue("faceId").ToString();
 
                 // Comparaison du faceId à ceux existant dans la list en BDD microsoft
-                JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo); ;
+                JObject jObjectComparaison = await ReconnaissanceFaciale.FaceRecCompareFaceAsync(faceIdTempo);
 
                 // Si jObectComparaison est égal à null, alors personne dans la BDD ressemble au visage.
                 if (jObjectComparaison == null)
@@ -131,35 +117,12 @@ namespace projetOxf
             }
         }
 
-        /// <summary>
-        /// Méthode se déclanchant à la fermeture du formulaire.
-        /// Stop la capture vidéo (affichage en live à l'écran).
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PrisePhoto_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Stop la capture
-            webcam.StopCapture();
-        }
-
-        /// <summary>
-        /// Méthode qui permet de convertir un DateTime en unix timestamp.
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
-        public static double DateTimeToUnixTimestamp(DateTime dateTime)
-        {
-            return (TimeZoneInfo.ConvertTimeToUtc(dateTime) -
-                   new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
-        }
-
-        /// <summary>
-        /// Chaque 100ms et quand le timer est activé, on test si le traitement async est terminé.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void timerTraitement_Tick(object sender, EventArgs e)
+        /// <summary>Chaque 100ms et quand le timer est activé, on test si le traitement async est
+        /// terminé.</summary>
+        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
+        /// <param name="sender">Sender. </param>
+        /// <param name="e">EventArgs. </param>
+        private void TimerTraitement_Tick(object sender, EventArgs e)
         {
             if (this.traitementTermine)
             {
@@ -167,11 +130,54 @@ namespace projetOxf
 
                 // On confirme au form de saisie que la photo a été prise
                 Saisie.prisEnPhoto = true;
-                Saisie.photo = photo;
+                Saisie.photo = this.photo;
 
                 // Fermeture du formulaire
                 this.Close();
             }
+        }
+
+        /// <summary>Prise de photo lors du clic sur le bouton "Prendre la photo".</summary>
+        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
+        private void BtnPhoto_onclick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Si la webcam est bien active..
+                if (this.webcam.IsCapturing)
+                {
+                    // On détermine le chemin complet final pointant vers la photo
+                    this.photo = this.savePath + DateTimeToUnixTimestamp(DateTime.Now) + ".jpg";
+
+                    // On prend une photo qu'on enregistre au path donné
+                    this.webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
+
+                    // Traitement de l'image avec la bdd oxford
+                    this.timerTraitement.Enabled = true;
+                    this.webcam.Visible = false;
+                    this.metroProgressSpinner1.Visible = true;
+                    this.btnPrendrePhoto.Enabled = false;
+
+                    this.TraiterImage(this.photo);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>Méthode se déclanchant à la fermeture du formulaire. Stop la capture vidéo (affichage
+        /// en live à l'écran).</summary>
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
+        private void PrisePhoto_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Stop la capture
+            this.webcam.StopCapture();
         }
     }
 }

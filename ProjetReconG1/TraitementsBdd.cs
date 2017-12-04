@@ -1,7 +1,8 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="RecupIdentifiants.cs" company="SIO">
+// <copyright file="TraitementBdd.cs" company="SIO">
 //     Copyright (c) SIO. All rights reserved.
 // </copyright>
+// <author>aze</author>
 //-----------------------------------------------------------------------
 
 using System;
@@ -11,28 +12,24 @@ using MySql.Data.MySqlClient;  // Librairie de connexion à MySQL ajoutée en r�
 
 namespace projetOxford
 {
-    /// <summary>
-    /// Classe qui va permettre la récupération des identifiants liés à la photo prise.
-    /// </summary>
+    /// <summary> Classe qui va permettre la récupération des identifiants liés à la photo prise. </summary>
+    ///
+    /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+
     public class TraitementsBdd
     {
-        /// <summary>
-        /// Membre privé contenant les informations de connexion à la base de données.
-        /// </summary>
-        // BDD DE TEST:
-        //private const string CNX = @"Server=mysql-simubac.alwaysdata.net; Port=3306; Database=simubac_oxford; Uid=simubac; Pwd=aDemantA;"; 
-        // BDD DE PROD:
+        /// <summary> Membre privé contenant les informations de connexion à la base de données. </summary>
         private const string CNX = @"Server=mysql-oxfordbonaparte.alwaysdata.net; Port=3306; Database=oxfordbonaparte_db; Uid=148178; Pwd=ToRYolOU;";
 
-        /// <summary>
-        /// Déclaration d'un objet de la classe MysqlConnection.
-        /// Va être utilisé pour gérer la connexion à la base de données MySQL.
-        /// </summary>
+        /// <summary> Déclaration d'un objet de la classe MysqlConnection. Va être utilisé pour gérer la
+        /// connexion à la base de données MySQL. </summary>
         private static MySqlConnection _connexion;
 
-        /// <summary>
-        /// Méthode de connexion à la base de données.
-        /// </summary>
+        /// <summary> Méthode de connexion à la base de données. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
         public static void OuvrirConnexion()
         {
             try
@@ -49,10 +46,10 @@ namespace projetOxford
             }
         }
 
-        /// <summary>
-        /// Méthode publique de fermeture de la connexion à la base de données MySQL.
-        /// Va permettre de libérer les ressources de la base de données après une requête.
-        /// </summary>
+        /// <summary> Méthode publique de fermeture de la connexion à la base de données MySQL. Va
+        /// permettre de libérer les ressources de la base de données après une requête. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         public static void FermerConnexion()
         {
             if (_connexion.State != ConnectionState.Closed)
@@ -62,10 +59,14 @@ namespace projetOxford
             }
         }
 
-        /// <summary>
-        /// Enregistrement de la photo dans la bdd.
-        /// </summary>
-        /// <param name="adresse">Adresse pointant sur la photo.</param>
+        /// <summary> Enregistrement de la photo dans la BDD. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
+        ///
+        /// <param name="adresse"> Adresse pointant sur la photo. </param>
+        /// <param name="faceId">  Identifier for the face. </param>
         public static void InsertPhoto(string adresse, string faceId)
         {
             string requete = @"INSERT INTO photos(`date`,`value`, `faceid`) VALUES(@date, @adresse, @faceid)";
@@ -96,10 +97,17 @@ namespace projetOxford
             }
         }
 
-
+        /// <summary> Enregistrement de l'utilisateur dans la BDD. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
+        ///
+        /// <param name="userAPersister"> . </param>
+        /// <param name="idPhoto">        . </param>
         public static void InsertUser(User userAPersister, int idPhoto)
         {
-            string requete = @"INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@nom, @prenom, @dateDeNaiss, @sexe, @email, @idPhoto, @code, @type, 0)";
+            string requete = @"INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@nom, @prenom, @dateDeNaiss, @sexe, @email, @idPhoto, @code, @type, 1)";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -132,9 +140,13 @@ namespace projetOxford
             }
         }
 
-        /// <summary>
-        /// Méthode qui retourne le nombre d'utilisateurs dans la bdd.
-        /// </summary>
+        /// <summary> Méthode qui retourne le nombre d'utilisateurs dans la bdd. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
+        ///
+        /// <returns> The maximum photos. </returns>
         public static int GetMaxPhotos()
         {
             string requete = @"SELECT max(id) FROM photos";
@@ -172,9 +184,16 @@ namespace projetOxford
             }
         }
 
+        /// <summary> Gets types users. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
+        ///
+        /// <returns> The types users. </returns>
         public static List<string> GetTypesUsers()
         {
-            string requete = @"SELECT value FROM types";
+            string requete = @"SELECT value FROM types WHERE filter <> 'rssi'";
             try
             {
                 // Ouverture de la connexion à la BDD
@@ -208,15 +227,18 @@ namespace projetOxford
             }
         }
 
-        /// <summary>
-        /// Méthode qui permet de convertir un DateTime en unix timestamp (format de dates dans la BDD)
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        /// <summary> Méthode qui permet de convertir un DateTime en unix timestamp (format de dates dans
+        /// la BDD) </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <param name="dateTime"> . </param>
+        ///
+        /// <returns> A double. </returns>
         public static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
             return (TimeZoneInfo.ConvertTimeToUtc(dateTime) -
                    new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
-        }       
+        }
     }
 }

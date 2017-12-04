@@ -6,7 +6,7 @@ using MetroFramework.Forms;
 using Newtonsoft.Json.Linq;
 using System.Net.Mail;
 
-namespace projetOxf
+namespace ProjetOxf
 {
 
     /// <summary>
@@ -55,7 +55,7 @@ namespace projetOxf
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void valide_Click(object sender, EventArgs e)
+        private void Valide_Click(object sender, EventArgs e)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace projetOxf
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void prisePhoto_Click(object sender, EventArgs e)
+        private void PrisePhoto_Click(object sender, EventArgs e)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace projetOxf
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Erreur (probablement webCam non détécté)", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -242,7 +242,7 @@ namespace projetOxf
                 // ... alors on affiche un icone indiquant le succès de la prise de photo
                 imgValide.Visible = true;
 
-                // Et on affiche désactive la prise d'une nouvelle photo, et on affiche la photo prise
+                // Et on désactive la prise d'une nouvelle photo, et on affiche la photo prise
                 this.prisePhoto.Enabled = false;
                 this.maPhoto.Image = Image.FromFile(photo);
             }
@@ -253,7 +253,7 @@ namespace projetOxf
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             // L'ajout du faceid persistant dans la BDD est terminé
             if (this.traitementTermine)
