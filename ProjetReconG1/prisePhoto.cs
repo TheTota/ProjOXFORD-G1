@@ -2,22 +2,19 @@
 // <copyright file="PrisePhoto.cs" company="SIO">
 //     Copyright (c) SIO. All rights reserved.
 // </copyright>
-// <author>Thomas Cianfarani</author>
-// <author>Mehdi Ben Bahri</author>
-// <author>Léo Espeu</author>
 //-----------------------------------------------------------------------
-
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Windows.Forms;
-using projetOxford;
-using WebEye.Controls.WinForms.WebCameraControl;
 
 namespace ProjetOxf
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing.Imaging;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Newtonsoft.Json.Linq;
+    using ProjetOxford;
+    using WebEye.Controls.WinForms.WebCameraControl;
+
     /// <summary>Formulaire de test. Le vrai formulaire permettra de prendre une photo à partir d'une
     /// caméra connectée à l'ordinateur.</summary>
     /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
@@ -41,10 +38,10 @@ namespace ProjetOxf
         {
             this.InitializeComponent();
 
-            // Récupération des caméras 
+            // Récupération des caméras
             this.listCams = this.webcam.GetVideoCaptureDevices().ToList();
 
-            // Démarre la capture 
+            // Démarre la capture
             this.webcam.StartCapture(this.listCams[0]);
 
             this.traitementTermine = false;
@@ -81,7 +78,7 @@ namespace ProjetOxf
                 // Si jObectComparaison est égal à null, alors personne dans la BDD ressemble au visage.
                 if (jObjectComparaison == null)
                 {
-                    Saisie.faceIdTemp = faceIdTempo;
+                    Saisie.FaceIdTemp = faceIdTempo;
                 }
                 else
                 {
@@ -92,7 +89,7 @@ namespace ProjetOxf
                     // pour dire que la personne a été reconnue, on l'inscrit.
                     if (confidence < 0.7)
                     {
-                        Saisie.faceIdTemp = faceIdTempo;
+                        Saisie.FaceIdTemp = faceIdTempo;
                     }
                     else
                     {
@@ -129,8 +126,8 @@ namespace ProjetOxf
                 this.metroProgressSpinner1.Visible = false;
 
                 // On confirme au form de saisie que la photo a été prise
-                Saisie.prisEnPhoto = true;
-                Saisie.photo = this.photo;
+                Saisie.PrisEnPhoto = true;
+                Saisie.Photo = this.photo;
 
                 // Fermeture du formulaire
                 this.Close();

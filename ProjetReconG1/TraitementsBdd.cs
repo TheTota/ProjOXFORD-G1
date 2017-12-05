@@ -1,21 +1,16 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="TraitementBdd.cs" company="SIO">
-//     Copyright (c) SIO. All rights reserved.
+﻿// <copyright file="TraitementsBdd.cs" company="SIO">
+// Copyright (c) SIO. All rights reserved.
 // </copyright>
-// <author>aze</author>
-//-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using MySql.Data.MySqlClient;  // Librairie de connexion à MySQL ajoutée en référence.
-
-namespace projetOxford
+namespace ProjetOxford
 {
-    /// <summary> Classe qui va permettre la récupération des identifiants liés à la photo prise. </summary>
-    ///
-    /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using MySql.Data.MySqlClient;  // Librairie de connexion à MySQL ajoutée en référence.
 
+    /// <summary> Classe qui va permettre la récupération des identifiants liés à la photo prise. </summary>
+    /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
     public class TraitementsBdd
     {
         /// <summary> Membre privé contenant les informations de connexion à la base de données. </summary>
@@ -23,21 +18,19 @@ namespace projetOxford
 
         /// <summary> Déclaration d'un objet de la classe MysqlConnection. Va être utilisé pour gérer la
         /// connexion à la base de données MySQL. </summary>
-        private static MySqlConnection _connexion;
+        private static MySqlConnection connexion;
 
         /// <summary> Méthode de connexion à la base de données. </summary>
-        ///
         /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
-        ///
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
         public static void OuvrirConnexion()
         {
             try
             {
-                _connexion = new MySqlConnection(CNX);
-                if (_connexion.State == ConnectionState.Closed)
+                connexion = new MySqlConnection(CNX);
+                if (connexion.State == ConnectionState.Closed)
                 {
-                    _connexion.Open();
+                    connexion.Open();
                 }
             }
             catch (Exception ex)
@@ -52,10 +45,10 @@ namespace projetOxford
         /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         public static void FermerConnexion()
         {
-            if (_connexion.State != ConnectionState.Closed)
+            if (connexion.State != ConnectionState.Closed)
             {
-                _connexion.Dispose();
-                _connexion.Close();
+                connexion.Dispose();
+                connexion.Close();
             }
         }
 
@@ -76,7 +69,7 @@ namespace projetOxford
                 OuvrirConnexion();
 
                 // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                MySqlCommand cmd = new MySqlCommand(requete, connexion)
                 {
                     CommandType = CommandType.Text
                 };
@@ -103,8 +96,8 @@ namespace projetOxford
         ///
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
         ///
-        /// <param name="userAPersister"> . </param>
-        /// <param name="idPhoto">        . </param>
+        /// <param name="userAPersister">Utilisateur à persister.</param>
+        /// <param name="idPhoto">ID de la photo qui a été enregistrée.</param>
         public static void InsertUser(User userAPersister, int idPhoto)
         {
             string requete = @"INSERT INTO users(nom, prenom, birth, sexe, email, photo, code, type, status) VALUES (@nom, @prenom, @dateDeNaiss, @sexe, @email, @idPhoto, @code, @type, 1)";
@@ -114,7 +107,7 @@ namespace projetOxford
                 OuvrirConnexion();
 
                 // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                MySqlCommand cmd = new MySqlCommand(requete, connexion)
                 {
                     CommandType = CommandType.Text
                 };
@@ -141,18 +134,15 @@ namespace projetOxford
         }
 
         /// <summary> Méthode qui retourne le nombre d'utilisateurs dans la bdd. </summary>
-        ///
         /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
-        ///
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
-        ///
         /// <returns> The maximum photos. </returns>
         public static int GetMaxPhotos()
         {
             string requete = @"SELECT max(id) FROM photos";
             try
             {
-                ConnectionState initialCoState = _connexion.State;
+                ConnectionState initialCoState = connexion.State;
 
                 // Ouverture de la connexion à la BDD
                 if (initialCoState == ConnectionState.Closed)
@@ -161,7 +151,7 @@ namespace projetOxford
                 }
 
                 // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                MySqlCommand cmd = new MySqlCommand(requete, connexion)
                 {
                     CommandType = CommandType.Text
                 };
@@ -185,12 +175,9 @@ namespace projetOxford
         }
 
         /// <summary> Gets types users. </summary>
-        ///
         /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
-        ///
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
-        ///
-        /// <returns> The types users. </returns>
+        /// <returns> Les types d'utilisateurs. </returns>
         public static List<string> GetTypesUsers()
         {
             string requete = @"SELECT value FROM types WHERE filter <> 'rssi'";
@@ -200,7 +187,7 @@ namespace projetOxford
                 OuvrirConnexion();
 
                 // Définition de la requête SQL
-                MySqlCommand cmd = new MySqlCommand(requete, _connexion)
+                MySqlCommand cmd = new MySqlCommand(requete, connexion)
                 {
                     CommandType = CommandType.Text
                 };
@@ -229,12 +216,9 @@ namespace projetOxford
 
         /// <summary> Méthode qui permet de convertir un DateTime en unix timestamp (format de dates dans
         /// la BDD) </summary>
-        ///
         /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
-        ///
-        /// <param name="dateTime"> . </param>
-        ///
-        /// <returns> A double. </returns>
+        /// <param name="dateTime">Date à convertir en UnixTimestamp </param>
+        /// <returns> La date convertie en UnixTimestamp. </returns>
         public static double DateTimeToUnixTimestamp(DateTime dateTime)
         {
             return (TimeZoneInfo.ConvertTimeToUtc(dateTime) -
