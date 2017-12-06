@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
+using System.IO;
+using System.Net;
 using projetOxford;
 using WebEye.Controls.WinForms.WebCameraControl;
 using Newtonsoft.Json.Linq;
@@ -20,7 +22,7 @@ namespace projetOxf
         List<WebCameraId> listCams;
 
         // Lieu où sera sauvegardée la photo
-        string savePath = @"C:\Users\thoma\Desktop\oxfoto";
+        string savePath = @"oxfoto";
 
         string photo;
         bool traitementTermine;
@@ -59,6 +61,9 @@ namespace projetOxf
 
                     // On prend une photo qu'on enregistre au path donné
                     webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
+
+                    //On l'enregistre dans le fichier du serveur alwaysdata
+                    this.UpLoadImage(this.photo);
 
                     // Traitement de l'image avec la bdd oxford
                     this.timerTraitement.Enabled = true;
@@ -174,6 +179,23 @@ namespace projetOxf
                 // Fermeture du formulaire
                 this.Close();
             }
+        }
+
+        /// <summary>
+        /// Méthode permettant d'enregistrer la photo prise vers le serveur alwaysdata
+        /// </summary>
+        /// <param name="target"></param>
+        private void UpLoadImage(string target)
+        {
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create("ftp://ftp-oxfordbonaparte.alwaysdata.net/www/public/photos/" + target);
+            req.UseBinary = true;
+            req.Method = WebRequestMethods.Ftp.UploadFile;
+            req.Credentials = new NetworkCredential("oxfordbonaparte", "ToRYolOU");
+            byte[] fileData = File.ReadAllBytes(this.photo);
+            req.ContentLength = fileData.Length;
+            Stream reqStream = req.GetRequestStream();
+            reqStream.Write(fileData, 0, fileData.Length);
+            reqStream.Close();
         }
     }
 }
