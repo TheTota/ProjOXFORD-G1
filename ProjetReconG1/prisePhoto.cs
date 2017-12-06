@@ -11,9 +11,12 @@ namespace ProjetOxf
     using System.Drawing.Imaging;
     using System.Linq;
     using System.Windows.Forms;
+    using MetroFramework;
     using Newtonsoft.Json.Linq;
     using ProjetOxford;
     using WebEye.Controls.WinForms.WebCameraControl;
+    using System.Net;
+    using System.IO;
 
     /// <summary>Formulaire de test. Le vrai formulaire permettra de prendre une photo à partir d'une
     /// caméra connectée à l'ordinateur.</summary>
@@ -23,7 +26,7 @@ namespace ProjetOxf
         private List<WebCameraId> listCams;
 
         /// <summary>Lieu où sera sauvegardée la photo.</summary>
-        private string savePath = @"C:\Users\thoma\Desktop\oxfoto";
+        private string savePath = "oxfoto";
 
         /// <summary>Chemin pointant sur la photo prise.</summary>
         private string photo;
@@ -98,13 +101,13 @@ namespace ProjetOxf
             }
             catch (PersonneDejaInscriteException pex)
             {
-                MetroMessageBox.Show(this,pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MetroMessageBox.Show(this, pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MetroMessageBox.Show(this,ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.metroProgressSpinner1.Visible = false;
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.traitementOxfordProgressSpinner.Visible = false;
                 this.webcam.Visible = true;
                 this.btnPrendrePhoto.Enabled = true;
             }
@@ -118,7 +121,7 @@ namespace ProjetOxf
         {
             if (this.traitementTermine)
             {
-                this.metroProgressSpinner1.Visible = false;
+                this.traitementOxfordProgressSpinner.Visible = false;
 
                 // On confirme au form de saisie que la photo a été prise
                 Saisie.PrisEnPhoto = true;
@@ -148,8 +151,11 @@ namespace ProjetOxf
                     // Traitement de l'image avec la bdd oxford
                     this.timerTraitement.Enabled = true;
                     this.webcam.Visible = false;
-                    this.metroProgressSpinner1.Visible = true;
+                    this.traitementOxfordProgressSpinner.Visible = true;
                     this.btnPrendrePhoto.Enabled = false;
+
+                    // On l'enregistre dans le fichier du serveur alwaysdata
+                    this.UpLoadImage(this.photo);
 
                     this.TraiterImage(this.photo);
                 }
@@ -158,6 +164,23 @@ namespace ProjetOxf
             {
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Méthode permettant d'enregistrer la photo prise vers le serveur alwaysdata
+        /// </summary>
+        /// <param name="target"></param>
+        private void UpLoadImage(string target)
+        {
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create("ftp://ftp-oxfordbonaparte.alwaysdata.net/www/public/photos/" + target);
+            req.UseBinary = true;
+            req.Method = WebRequestMethods.Ftp.UploadFile;
+            req.Credentials = new NetworkCredential("oxfordbonaparte", "ToRYolOU");
+            byte[] fileData = File.ReadAllBytes(this.photo);
+            req.ContentLength = fileData.Length;
+            Stream reqStream = req.GetRequestStream();
+            reqStream.Write(fileData, 0, fileData.Length);
+            reqStream.Close();
         }
 
         /// <summary>Méthode se déclanchant à la fermeture du formulaire. Stop la capture vidéo (affichage

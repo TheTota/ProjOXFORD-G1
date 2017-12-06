@@ -48,7 +48,7 @@ namespace ProjetOxf
             this.webcam = new WebEye.Controls.WinForms.WebCameraControl.WebCameraControl();
             this.btnPrendrePhoto = new MetroFramework.Controls.MetroButton();
             this.timerTraitement = new System.Windows.Forms.Timer(this.components);
-            this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.traitementOxfordProgressSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -81,16 +81,16 @@ namespace ProjetOxf
             // 
             this.timerTraitement.Tick += new System.EventHandler(this.TimerTraitement_Tick);
             // 
-            // metroProgressSpinner1
+            // traitementOxfordProgressSpinner
             // 
-            this.metroProgressSpinner1.Location = new System.Drawing.Point(480, 339);
-            this.metroProgressSpinner1.Margin = new System.Windows.Forms.Padding(2);
-            this.metroProgressSpinner1.Maximum = 100;
-            this.metroProgressSpinner1.Name = "metroProgressSpinner1";
-            this.metroProgressSpinner1.Size = new System.Drawing.Size(160, 173);
-            this.metroProgressSpinner1.TabIndex = 10;
-            this.metroProgressSpinner1.UseSelectable = true;
-            this.metroProgressSpinner1.Visible = false;
+            this.traitementOxfordProgressSpinner.Location = new System.Drawing.Point(480, 339);
+            this.traitementOxfordProgressSpinner.Margin = new System.Windows.Forms.Padding(2);
+            this.traitementOxfordProgressSpinner.Maximum = 100;
+            this.traitementOxfordProgressSpinner.Name = "traitementOxfordProgressSpinner";
+            this.traitementOxfordProgressSpinner.Size = new System.Drawing.Size(160, 173);
+            this.traitementOxfordProgressSpinner.TabIndex = 10;
+            this.traitementOxfordProgressSpinner.UseSelectable = true;
+            this.traitementOxfordProgressSpinner.Visible = false;
             // 
             // label1
             // 
@@ -108,7 +108,7 @@ namespace ProjetOxf
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1120, 850);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.metroProgressSpinner1);
+            this.Controls.Add(this.traitementOxfordProgressSpinner);
             this.Controls.Add(this.btnPrendrePhoto);
             this.Controls.Add(this.webcam);
             this.MaximizeBox = false;
@@ -131,7 +131,7 @@ namespace ProjetOxf
         /// <summary> The timer traitement. </summary>
         private System.Windows.Forms.Timer timerTraitement;
         /// <summary> The first metro progress spinner. </summary>
-        private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
+        private MetroFramework.Controls.MetroProgressSpinner traitementOxfordProgressSpinner;
         private System.Windows.Forms.Label label1;
     }
 }

@@ -8,6 +8,7 @@ namespace ProjetOxf
     using System.Drawing;
     using System.Net.Mail;
     using System.Windows.Forms;
+    using MetroFramework;
     using MetroFramework.Forms;
     using Newtonsoft.Json.Linq;
     using ProjetOxford;
@@ -289,8 +290,8 @@ namespace ProjetOxf
                 TraitementsBdd.InsertPhoto(photo, faceIdPersistent);
                 TraitementsBdd.InsertUser(this.monUser, TraitementsBdd.GetMaxPhotos());
 
-                // Affichage du code généré 
-                MetroMessageBox.Show(this, "Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Affichage du code généré
+                MetroMessageBox.Show(this, "Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + this.monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -344,9 +345,8 @@ namespace ProjetOxf
             }
             catch (Exception ex)
             {
-                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

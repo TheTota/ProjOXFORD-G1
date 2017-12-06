@@ -196,7 +196,7 @@ namespace ProjetOxford
             catch (Exception ex)
             {
                 FermerConnexion();
-                ;  throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
+                throw new Exception("La requête n'a pu aboutir.\n" + ex.Message);
             }
         }
 
