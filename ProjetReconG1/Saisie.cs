@@ -13,6 +13,7 @@ using MetroFramework.Forms;
 using WebEye.Controls.WinForms.WebCameraControl;
 using Newtonsoft.Json.Linq;
 using System.Net.Mail;
+using MetroFramework;
 
 namespace projetOxf
 {
@@ -136,7 +137,7 @@ namespace projetOxf
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -157,7 +158,7 @@ namespace projetOxf
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -250,7 +251,7 @@ namespace projetOxf
                 TraitementsBdd.InsertUser(monUser, TraitementsBdd.GetMaxPhotos());
 
                 // Affichage du code généré 
-                MessageBox.Show("Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MetroMessageBox.Show(this, "Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -297,9 +298,10 @@ namespace projetOxf
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             
         }
+
     }
 }

@@ -46,17 +46,20 @@ namespace projetOxf
             this.webcam.Location = new System.Drawing.Point(24, 84);
             this.webcam.Margin = new System.Windows.Forms.Padding(2);
             this.webcam.Name = "webcam";
-            this.webcam.Size = new System.Drawing.Size(1072, 684);
+            this.webcam.Size = new System.Drawing.Size(1072, 678);
             this.webcam.TabIndex = 0;
             // 
             // btnPrendrePhoto
             // 
             this.btnPrendrePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPrendrePhoto.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnPrendrePhoto.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnPrendrePhoto.Location = new System.Drawing.Point(408, 796);
             this.btnPrendrePhoto.Name = "btnPrendrePhoto";
-            this.btnPrendrePhoto.Size = new System.Drawing.Size(304, 31);
+            this.btnPrendrePhoto.Size = new System.Drawing.Size(304, 40);
             this.btnPrendrePhoto.TabIndex = 9;
             this.btnPrendrePhoto.Text = "Prendre la photo";
+            this.btnPrendrePhoto.UseCustomForeColor = true;
             this.btnPrendrePhoto.UseSelectable = true;
             this.btnPrendrePhoto.Click += new System.EventHandler(this.btnPhoto_onclick);
             // 
