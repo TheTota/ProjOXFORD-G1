@@ -1,33 +1,47 @@
-﻿using WebEye.Controls.WinForms.WebCameraControl;
+﻿//-----------------------------------------------------------------------
+// <copyright file="PrisePhoto.Designer.cs" company="SIO">
+//     Copyright (c) SIO. All rights reserved.
+// </copyright>
+// <author>Thomas Cianfarani</author>
+// <author>Mehdi Ben Bahri</author>
+// <author>Léo Espeu</author>
+//-----------------------------------------------------------------------
 
-namespace projetOxf
+using WebEye.Controls.WinForms.WebCameraControl;
+
+namespace ProjetOxf
 {
-    partial class PrisePhoto
+    /// <content> Formulaire de prise de photo. </content>
+    public partial class PrisePhoto
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+        /// <summary> Required designer variable. </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <summary> Clean up any resources being used. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+        ///
+        /// <param name="disposing">
+        ///     true if managed resources should be disposed; otherwise, false.
+        /// </param>
+
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
+        /// <summary> Required method for Designer support - do not modify the contents of this method with
+        /// the code editor. </summary>
+        ///
+        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
+
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -39,8 +53,8 @@ namespace projetOxf
             // 
             // webcam
             // 
-            this.webcam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.webcam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.webcam.Location = new System.Drawing.Point(30, 77);
             this.webcam.Name = "webcam";
@@ -57,11 +71,11 @@ namespace projetOxf
             this.btnPrendrePhoto.TabIndex = 9;
             this.btnPrendrePhoto.Text = "Prendre la photo";
             this.btnPrendrePhoto.UseSelectable = true;
-            this.btnPrendrePhoto.Click += new System.EventHandler(this.btnPhoto_onclick);
+            this.btnPrendrePhoto.Click += new System.EventHandler(this.BtnPhoto_onclick);
             // 
             // timerTraitement
             // 
-            this.timerTraitement.Tick += new System.EventHandler(this.timerTraitement_Tick);
+            this.timerTraitement.Tick += new System.EventHandler(this.TimerTraitement_Tick);
             // 
             // metroProgressSpinner1
             // 
@@ -87,7 +101,7 @@ namespace projetOxf
             this.Name = "PrisePhoto";
             this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
-            this.Text = "prisePhoto";
+            this.Text = "Prise de photo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrisePhoto_FormClosing);
             this.ResumeLayout(false);
 
@@ -95,9 +109,13 @@ namespace projetOxf
 
         #endregion
 
+        /// <summary> The webcam. </summary>
         private WebCameraControl webcam;
+        /// <summary> The button prendre photo. </summary>
         private MetroFramework.Controls.MetroButton btnPrendrePhoto;
+        /// <summary> The timer traitement. </summary>
         private System.Windows.Forms.Timer timerTraitement;
+        /// <summary> The first metro progress spinner. </summary>
         private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
     }
 }

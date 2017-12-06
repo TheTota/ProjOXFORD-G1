@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿// <copyright file="Program.cs" company="SIO">
+// Copyright (c) SIO. All rights reserved.
+// </copyright>
 
-namespace projetOxf
+namespace ProjetOxf
 {
-    static class Program
+    using System;
+    using System.Windows.Forms;
+
+    /// <summary>
+    /// Point d'entrée de l'application.
+    /// </summary>
+    internal static class Program
     {
         /// <summary>
         /// Point d'entrée principal de l'application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using projetOxford;
-using MetroFramework.Forms;
-using WebEye.Controls.WinForms.WebCameraControl;
-using Newtonsoft.Json.Linq;
-using System.Net.Mail;
+﻿// <copyright file="Saisie.cs" company="SIO">
+// Copyright (c) SIO. All rights reserved.
+// </copyright>
 
-namespace projetOxf
+namespace ProjetOxf
 {
+    using System;
+    using System.Drawing;
+    using System.Net.Mail;
+    using System.Windows.Forms;
+    using MetroFramework.Forms;
+    using Newtonsoft.Json.Linq;
+    using ProjetOxford;
 
     /// <summary>
     /// Formulaire permettant l'inscription basique d'un nouvel utilisateur dans la base.
@@ -23,115 +18,85 @@ namespace projetOxf
     /// </summary>
     public partial class Saisie : MetroForm
     {
-        private User monUser;
-        public static bool prisEnPhoto = false;
-        public static string photo = "";
-        public static string faceIdPersistent;
-        public static string faceIdTemp;
-        private bool vraiMail;
-        private bool traitementTermine;
-        private Dictionary<int, String> dicoTypes;
+        // Variables statiques qui permettront la communication avec le formulaire de prise de photo
+        private static bool prisEnPhoto = false;
+        private static string photo = string.Empty;
+        private static string faceIdPersistent;
+        private static string faceIdTemp;
 
         /// <summary>
-        /// Constructeur de la classe Saisie
+        /// Utilisateur qui sera créé à partir des champs remplis du formulaire.
+        /// </summary>
+        private User monUser;
+
+        /// <summary>
+        /// Booléen indiquant si le traitement oxford est terminé ou non.
+        /// </summary>
+        private bool traitementTermine;
+
+        /// <summary>
+        /// Initialise une nouvelle instande de la classe <see cref="Saisie"/>.
         /// </summary>
         public Saisie()
         {
-            InitializeComponent();
-            this.Show();
+            this.InitializeComponent();
 
             // Récupération des types en BDD
-            this.dicoTypes = TraitementsBdd.GetTypesUsers();
-            // Création d'une liste de chaines à partir du dico de types récupéré
-            foreach (var type in this.dicoTypes)
+            BindingSource bindingSource1 = new BindingSource
             {
-                // Attribution du contenu de la liste des noms des types à la comboBox
-                cboStatut.Items.Add(type.Value);
-            }
-            cboStatut.SelectedItem = cboStatut.Items[0];
-        }
-        //Fonction pour vérifier si une email est valide
-        //Retourne: true si elle est valide
-        //Retourne: false si elle n'est pas valide
-        bool EmailEstBonne(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                DataSource = TraitementsBdd.GetTypesUsers()
+            };
+
+            // Population de la combobox des types d'utilisateurs
+            this.cboStatut.DataSource = bindingSource1.DataSource;
         }
 
         /// <summary>
+        /// Obtient ou modifie l'attribut photo.
+        /// </summary>
+        public static string Photo { get => photo; set => photo = value; }
+
+        /// <summary>
+        /// Obtient ou modifie l'attribut prisEnPhoto.
+        /// </summary>
+        public static bool PrisEnPhoto { get => prisEnPhoto; set => prisEnPhoto = value; }
+
+        /// <summary>
+        /// Obtient ou modifie l'attribut faceIdPersistent.
+        /// </summary>
+        public static string FaceIdPersistent { get => faceIdPersistent; set => faceIdPersistent = value; }
+
+        /// <summary>
+        /// Obtient ou modifie l'attribut faceIdTemp.
+        /// </summary>
+        public static string FaceIdTemp { get => faceIdTemp; set => faceIdTemp = value; }
+
+        /// <summary>
         /// Correspond au clic sur le bouton "Valider".
-        /// Procède à l'inscription d'un utilisateur en créant un enregistrement dans 
+        /// Procède à l'inscription d'un utilisateur en créant un enregistrement dans
         /// la base de données à partir des valeurs saisies dans le formulaire.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void valide_Click(object sender, EventArgs e)
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
+        private void Valide_Click(object sender, EventArgs e)
         {
             try
             {
-                if (prisEnPhoto)
+                // Si le formulaire est bien rempli, on procède à l'inscription de l'utilisateur
+                if (this.FormulaireEstBienRempli())
                 {
-                    // Controles sur les champs du formulaire
-                    if (!EmailEstBonne(email.Text))
-                    {
-                        vraiMail = false;
-                        throw new Exception("Veuillez saisir une addresse email valide.");
-                    }
-                    else
-                    {
-                        vraiMail = true;
-                    }
+                    // On bloque une éventuelle "revalidation" de l'inscription pdt le traitement
+                    this.valide.Enabled = false;
+                    this.traitementOxfordProgressSpinner.Visible = true;
 
-                    if (string.IsNullOrWhiteSpace(nom.Text) || string.IsNullOrWhiteSpace(prenom.Text) || string.IsNullOrWhiteSpace(email.Text))
-                    {
-                        erreur.Visible = true;
-                    }
-                    else
-                    {
-                        erreur.Visible = false;
-                        if (!sexeFemme.Checked && !sexeHomme.Checked)
-                        {
-                            erreur.Visible = true;
-                        }
-                        else
-                        {
-                            erreur.Visible = false;
+                    // Création d'un objet utilisateur qui sera persisté plus tard dans la base
+                    this.monUser = new User(this.prenom.Text, this.nom.Text, DateTime.Parse(this.dateDeNaiss.Text), this.email.Text, this.GetSexe(), this.cboStatut.SelectedIndex + 1, this.GenCode());
 
-                            // Si on a pas d'erreur, on détermine le sexe de la personne
-                            string sexe;
-                            if (sexeFemme.Checked)
-                                sexe = "F";
-                            else
-                                sexe = "H";
+                    // Envoi du mail de confirmation de l'inscription
+                    this.SendMail(this.email.Text, this.prenom.Text, this.nom.Text, photo);
 
-                            // On détermine le type d'utilisateur
-                            int typeKey = cboStatut.SelectedIndex + 1;
-
-                            // Création d'un objet utilisateur qui sera persisté plus tard dans la base
-                            monUser = new User(prenom.Text, nom.Text, DateTime.Parse(dateDeNaiss.Text), email.Text, sexe, typeKey, GenCode()); // TODO: déterminer le int du statud en fct° de l'input
-                            SendMail(email.Text, prenom.Text, nom.Text, photo);
-
-                            if (erreur.Visible == false && vraiMail == true)
-                            {
-                                this.valide.Enabled = false;
-                                this.metroProgressSpinner1.Visible = true;
-                                // Persistance (insertion) de l'utilisateur dans la base
-                                this.PersistUser(monUser);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception("Veuillez vous prendre en photo.");
+                    // Persistance de l'utilisateur dans notre BDD et dans la BDD MS
+                    this.PersistUser(this.monUser);
                 }
             }
             catch (Exception ex)
@@ -140,14 +105,81 @@ namespace projetOxf
             }
         }
 
+        /// <summary>
+        /// Fonction déterminant le sexe choisi par l'utilisateur.
+        /// </summary>
+        /// <returns>Retourne 'H' si c'est un homme, 'F' si c'est une femme.</returns>
+        private string GetSexe()
+        {
+            string sexe;
+            if (this.sexeFemme.Checked)
+            {
+                sexe = "F";
+            }
+            else
+            {
+                sexe = "H";
+            }
+
+            return sexe;
+        }
+
+        /// <summary>
+        /// Fonction permettant de tester si le formulaire a été rempli correctement.
+        /// </summary>
+        /// <returns>Retourne True si le formulaire a été bien rempli, et false si ce n'est pas le cas.</returns>
+        private bool FormulaireEstBienRempli()
+        {
+            // On test si une photo a été prise
+            if (prisEnPhoto)
+            {
+                // On test si tous les champs du formulaire ont été remplis
+                if (!string.IsNullOrWhiteSpace(this.nom.Text) && !string.IsNullOrWhiteSpace(this.prenom.Text) && !string.IsNullOrWhiteSpace(this.email.Text) && (this.sexeFemme.Checked || this.sexeHomme.Checked))
+                {
+                    // On test si l'email est valide
+                    if (System.Text.RegularExpressions.Regex.IsMatch(this.email.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                    {
+                        // On test si le prénom est valide
+                        if (System.Text.RegularExpressions.Regex.IsMatch(this.prenom.Text, "^[a-zA-Z]"))
+                        {
+                            // On test si le nom est valide
+                            if (System.Text.RegularExpressions.Regex.IsMatch(this.nom.Text, "^[a-zA-Z]"))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                throw new Exception("Veuillez saisir un nom ne comportant que des lettres.");
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Veuillez saisir un prénom ne comportant que des lettres.");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Veuillez saisir une adresse email valide.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Veuillez remplir tous les champs du formulaire.");
+                }
+            }
+            else
+            {
+                throw new Exception("Veuillez vous prendre en photo.");
+            }
+        }
 
         /// <summary>
         /// Correspond au clic sur le bouton "Prendre une photo".
         /// Ouvre le formulaire de prise de photo.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void prisePhoto_Click(object sender, EventArgs e)
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
+        private void PrisePhoto_Click(object sender, EventArgs e)
         {
             try
             {
@@ -157,38 +189,41 @@ namespace projetOxf
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Erreur (probablement webCam non détécté)", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Fonction permettant de persister un utilisateur passé en paramètres dans la base 
-        /// de données.
+        /// Fonction permettant de persister un utilisateur passé en paramètres dans les bases de données.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">Utilisateur à persister dans la BDD MS.</param>
         private void PersistUser(User user)
         {
             // Inscription de l'utilisateur dans la BDD MS
             this.traitementTermine = false;
             this.timer1.Enabled = true;
-            InscrireDansBddMS(faceIdTemp);
+            this.InscrireDansBddMS();
         }
 
         /// <summary>
         /// Méthode permettant d'inscrire un utilisateur dans la BDD de Microsoft à partir d'un faceId temporaire
         /// </summary>
-        /// <param name="faceIdTemp"></param>
-        private async void InscrireDansBddMS(string faceIdTemp)
+        private async void InscrireDansBddMS()
         {
+            // Inscription du visage dans la liste de faceid oxford sur le serveur MS
             JObject jObjectPersistentFaceId = await ReconnaissanceFaciale.FaceRecFaceAddListAsync(photo);
+
+            // Récupération du faceid persistant qui sera associé à l'utilisateur
             faceIdPersistent = jObjectPersistentFaceId.GetValue("persistedFaceId").ToString();
+
+            // On signale que le traitement est terminé
             this.traitementTermine = true;
         }
 
         /// <summary>
         /// Méthode générant un code à 4 chiffres.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Le code généré.</returns>
         private int GenCode()
         {
             // Génération aléatoire du code/mdp de l'utilisateur
@@ -202,31 +237,36 @@ namespace projetOxf
         private void ResetForm()
         {
             prisEnPhoto = false;
-            prenom.Text = "";
-            nom.Text = "";
-            dateDeNaiss.Text = "01/01/2000";
-            sexeFemme.Checked = false;
-            sexeHomme.Checked = false;
-            email.Text = "";
-            imgValide.Visible = false;
-            cboStatut.SelectedIndex = 0;
-            prisePhoto.Enabled = true;
-            valide.Enabled = true;
-            timer1.Enabled = false;
-            this.metroProgressSpinner1.Visible = false;
+            this.prenom.Text = string.Empty;
+            this.nom.Text = string.Empty;
+            this.dateDeNaiss.Text = "01/01/2000";
+            this.sexeFemme.Checked = false;
+            this.sexeHomme.Checked = false;
+            this.email.Text = string.Empty;
+            this.imgValide.Visible = false;
+            this.cboStatut.SelectedIndex = 0;
+            this.prisePhoto.Enabled = true;
+            this.valide.Enabled = true;
+            this.timer1.Enabled = false;
+            this.traitementOxfordProgressSpinner.Visible = false;
+            this.maPhoto.Image = null;
         }
 
         /// <summary>
         /// Evenement qui se déclenche lorsque le formulaire prend le focus.
         /// Servira à afficher la validation de la prise de photo.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
         private void Saisie_Activated(object sender, EventArgs e)
         {
+            // Si une photo valide a été prise...
             if (prisEnPhoto)
             {
-                imgValide.Visible = true;
+                // ... alors on affiche un icone indiquant le succès de la prise de photo
+                this.imgValide.Visible = true;
+
+                // Et on désactive la prise d'une nouvelle photo, et on affiche la photo prise
                 this.prisePhoto.Enabled = false;
                 this.maPhoto.Image = Image.FromFile(photo);
             }
@@ -235,27 +275,27 @@ namespace projetOxf
         /// <summary>
         /// Chaque 100ms et quand le timer est activé, on test si le traitement async est terminé.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void timer1_Tick(object sender, EventArgs e)
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             // L'ajout du faceid persistant dans la BDD est terminé
             if (this.traitementTermine)
             {
                 // Remise à 0 du formulaire
-                ResetForm();
+                this.ResetForm();
 
-                //Enregistrement de la photo dans la bdd
+                // Enregistrement de la photo dans la bdd
                 TraitementsBdd.InsertPhoto(photo, faceIdPersistent);
-                TraitementsBdd.InsertUser(monUser, TraitementsBdd.GetMaxPhotos());
+                TraitementsBdd.InsertUser(this.monUser, TraitementsBdd.GetMaxPhotos());
 
-                // Affichage du code généré 
-                MessageBox.Show("Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Affichage du code généré
+                MessageBox.Show("Vous avez été enregistré avec succès !\nVotre code d'accès secret est : " + this.monUser.Code, "Succès de l'inscription", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         /// <summary>
-        /// Envoi du mail
+        /// Envoi du mail.
         /// </summary>
         /// <param name="mail">Mail destinataire</param>
         /// <param name="prenom">Prénom du destinataire</param>
@@ -272,8 +312,8 @@ namespace projetOxf
                 message.To.Add(new MailAddress(mail));
                 message.CC.Add("bts-sio@lyc-bonaparte.fr");
                 message.Subject = "Inscription";
-                Attachment Photo = new Attachment(photopath);
-                message.Body = "Bonjour, " + nom + " " + prenom + "" +
+                Attachment photo = new Attachment(photopath);
+                message.Body = "Bonjour, " + nom + " " + prenom +
                     "\n" +
                     "Merci d'être passé au stand du BTS SIO." +
                     "\n" +
@@ -292,7 +332,7 @@ namespace projetOxf
                     "-------------------------------------------------------------------------------------------------\n" +
                     "Ceci est un message automatique.\n" +
                     "Merci de ne pas y répondre.\n";
-                message.Attachments.Add(Photo);
+                message.Attachments.Add(photo);
 
                 smtp.Port = 587;
                 smtp.Host = "SSL0.OVH.NET";
@@ -306,7 +346,6 @@ namespace projetOxf
             {
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
     }
 }

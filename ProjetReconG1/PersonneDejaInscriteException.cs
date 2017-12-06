@@ -1,18 +1,30 @@
-﻿using System;
+﻿// <copyright file="PersonneDejaInscriteException.cs" company="SIO">
+// Copyright (c) SIO. All rights reserved.
+// </copyright>
 
-public class PersonneDejaInscriteException : Exception
+namespace ProjetOxford
 {
-    public PersonneDejaInscriteException()
-    {
-    }
+    using System;
 
-    public PersonneDejaInscriteException(string message)
-        : base(message)
+    /// <summary>
+    /// Classe correspondant à une exception de type "Personne déjà inscrite".
+    /// </summary>
+    public class PersonneDejaInscriteException : Exception
     {
-    }
+        /// <summary>
+        /// Initialise un objet de la classe <see cref="PersonneDejaInscriteException"/>.
+        /// </summary>
+        public PersonneDejaInscriteException()
+        {
+        }
 
-    public PersonneDejaInscriteException(string message, Exception inner)
-        : base(message, inner)
-    {
+        /// <summary>
+        /// Initialise un objet de la classe <see cref="PersonneDejaInscriteException"/>.
+        /// </summary>
+        /// <param name="message">Message d'erreur à lier à l'exception levée.</param>
+        public PersonneDejaInscriteException(string message)
+            : base(message)
+        {
+        }
     }
 }

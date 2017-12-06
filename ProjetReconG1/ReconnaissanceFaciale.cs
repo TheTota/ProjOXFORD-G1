@@ -1,45 +1,47 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Mail;
-using projetOxf;
-using System.Text.RegularExpressions;
+﻿// <copyright file="ReconnaissanceFaciale.cs" company="SIO">
+// Copyright (c) SIO. All rights reserved.
+// </copyright>
 
-namespace projetOxford
+namespace ProjetOxford
 {
+    using System;
+    using System.IO;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using Newtonsoft.Json.Linq;
+
+    /// <summary>
+    /// Classe s'occupant de la reconnaissance faciale.
+    /// </summary>
     public class ReconnaissanceFaciale
     {
-        //Lien de la clef Oxford
-        const string clefOxford = "c68422f56ead4a0b998fd07811bf0b05";
+        // Lien de la clef Oxford
+        private const string ClefOxford = "c68422f56ead4a0b998fd07811bf0b05";
 
-        //Url de POST de demande 
-        const string uriBaseDetect = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
-        const string uriBaseVerify = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/verify";
-        const string uriFaceAdd = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/facelists/oxford/persistedFaces";
-        const string uriFaceCompare = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/findsimilars";
+        // Url de POST de demande
+        private const string UriBaseDetect = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
+        private const string UriFaceAdd = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/facelists/oxford/persistedFaces";
+        private const string UriFaceCompare = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/findsimilars";
 
         /// <summary>
         ///  Envoie une image sur les serveurs microsoft l'ajoute dans la facelist
         ///  Oxford et retourne un faceId persistant
         /// </summary>
         /// <param name="imageFilePath">Chemin de l'image à upload</param>
-        /// <returns>Peristant id de l'image</returns>
+        /// <returns>Persistant id de l'image</returns>
         public static async Task<JObject> FaceRecFaceAddListAsync(string imageFilePath)
         {
             HttpClient client = new HttpClient();
             JObject data;
 
             // Entête de la demande.
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", clefOxford);
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ClefOxford);
 
             // Assemblage de la requete URL.
-            string uri = uriFaceAdd;
+            string uri = UriFaceAdd;
 
             HttpResponseMessage response;
 
@@ -69,19 +71,20 @@ namespace projetOxford
         /// Créer un faceId temporaire avec le chemin d'une image
         /// </summary>
         /// <param name="imageFilePath">Chemin de l'image.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task<JObject> FaceRecCreateFaceIdTempAsync(string imageFilePath)
         {
             HttpClient client = new HttpClient();
             JObject data;
 
             // Entête de la demande.
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", clefOxford);
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ClefOxford);
 
             // Paramètre de la requete.
             string requestParameters = "returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise";
 
             // Assemblage de la requete URL.
-            string uri = uriBaseDetect + "?" + requestParameters;
+            string uri = UriBaseDetect + "?" + requestParameters;
 
             HttpResponseMessage response;
 
@@ -100,7 +103,7 @@ namespace projetOxford
                 string contentString = await response.Content.ReadAsStringAsync();
                 contentString = contentString.TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
 
-                //vérifie qu'il n'y à que 1 seul visage sur la photo sinon retourne une erreur
+                // Vérifie qu'il n'y à que 1 seul visage sur la photo sinon retourne une erreur
                 int count = Regex.Matches(contentString, "faceId").Count;
                 if (count > 1)
                 {
@@ -121,26 +124,22 @@ namespace projetOxford
         }
 
         /// <summary>
-        /// Compare un visage à la liste des faceId
+        /// Compare un visage à la liste des faceId en BDD MS.
         /// </summary>
-        /// <param name="imageFilePath">Chemin de l'image à comparer.</param>
+        /// <param name="faceId">FaceId à comparer avec les autres.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task<JObject> FaceRecCompareFaceAsync(string faceId)
         {
             HttpClient client = new HttpClient();
             JObject data;
 
-
             // Entête de la demande.
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", clefOxford);
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ClefOxford);
 
             // Assemblage de la requete URL.
-            string uri = uriFaceCompare;
+            string uri = UriFaceCompare;
 
             HttpResponseMessage response;
-
-            //Génère une image temporaire pour la reconnaissance ICI PROBLEME
-            //JObject tempFaceAdd = await FaceRecCreateFaceIdTempAsync(imageFilePath);
-            //string faceId = Convert.ToString(tempFaceAdd.GetValue("faceId"));
 
             // Body de la requete
             string contentBefore = "{\"faceId\":\"" + faceId + "\",\"faceListId\":\"" + "oxford" + "\", \"maxNumOfCandidatesReturned\":1, \"mode\": \"matchPerson\"}";
@@ -156,7 +155,7 @@ namespace projetOxford
             string contentString = await response.Content.ReadAsStringAsync();
 
             contentString = contentString.TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
-            if (contentString != "")
+            if (contentString != string.Empty)
             {
                 data = JObject.Parse(JsonPrettyPrint(contentString));
             }
@@ -172,14 +171,13 @@ namespace projetOxford
         /// Converti l'image en tableau binaire
         /// </summary>
         /// <param name="imageFilePath">Le fichier de l'image.</param>
-        /// <returns>Un tableau de bite en fonction de l'image.</returns>
+        /// <returns>Un tableau de d'octets en fonction de l'image.</returns>
         private static byte[] GetImageAsByteArray(string imageFilePath)
         {
             FileStream fileStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
             BinaryReader binaryReader = new BinaryReader(fileStream);
             return binaryReader.ReadBytes((int)fileStream.Length);
         }
-
 
         /// <summary>
         /// Formate le fichier JSON.
@@ -189,9 +187,11 @@ namespace projetOxford
         private static string JsonPrettyPrint(string json)
         {
             if (string.IsNullOrEmpty(json))
+            {
                 return string.Empty;
+            }
 
-            json = json.Replace(Environment.NewLine, "").Replace("\t", "");
+            json = json.Replace(Environment.NewLine, string.Empty).Replace("\t", string.Empty);
 
             StringBuilder sb = new StringBuilder();
             bool quote = false;
@@ -204,15 +204,25 @@ namespace projetOxford
                 switch (ch)
                 {
                     case '"':
-                        if (!ignore) quote = !quote;
+                        if (!ignore)
+                        {
+                            quote = !quote;
+                        }
+
                         break;
                     case '\'':
-                        if (quote) ignore = !ignore;
+                        if (quote)
+                        {
+                            ignore = !ignore;
+                        }
+
                         break;
                 }
 
                 if (quote)
+                {
                     sb.Append(ch);
+                }
                 else
                 {
                     switch (ch)
@@ -239,7 +249,11 @@ namespace projetOxford
                             sb.Append(' ');
                             break;
                         default:
-                            if (ch != ' ') sb.Append(ch);
+                            if (ch != ' ')
+                            {
+                                sb.Append(ch);
+                            }
+
                             break;
                     }
                 }
