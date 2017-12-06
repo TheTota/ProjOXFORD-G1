@@ -91,7 +91,7 @@ namespace ProjetOxf
                     this.traitementOxfordProgressSpinner.Visible = true;
 
                     // Création d'un objet utilisateur qui sera persisté plus tard dans la base
-                    this.monUser = new User(this.prenom.Text, this.nom.Text, DateTime.Parse(this.dateDeNaiss.Text), this.email.Text, this.GetSexe(), this.cboStatut.SelectedIndex + 1, this.GenCode());
+                    this.monUser = new User(this.prenom.Text, this.nom.Text, DateTime.Parse(this.dateDeNaiss.Text), this.email.Text, this.GetSexe(), this.cboStatut.SelectedIndex + 2, this.GenCode());
 
                     // Envoi du mail de confirmation de l'inscription
                     this.SendMail(this.email.Text, this.prenom.Text, this.nom.Text, photo);
