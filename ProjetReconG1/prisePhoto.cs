@@ -9,14 +9,14 @@ namespace ProjetOxf
     using System;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
+    using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Windows.Forms;
     using MetroFramework;
     using Newtonsoft.Json.Linq;
     using ProjetOxford;
     using WebEye.Controls.WinForms.WebCameraControl;
-    using System.Net;
-    using System.IO;
 
     /// <summary>Formulaire de test. Le vrai formulaire permettra de prendre une photo à partir d'une
     /// caméra connectée à l'ordinateur.</summary>
@@ -169,14 +169,14 @@ namespace ProjetOxf
         /// <summary>
         /// Méthode permettant d'enregistrer la photo prise vers le serveur alwaysdata
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="target">Image à uploader.</param>
         private void UpLoadImage(string target)
         {
             FtpWebRequest req = (FtpWebRequest)WebRequest.Create("ftp://ftp-oxfordbonaparte.alwaysdata.net/www/public/photos/" + target);
             req.UseBinary = true;
             req.Method = WebRequestMethods.Ftp.UploadFile;
             req.Credentials = new NetworkCredential("oxfordbonaparte", "ToRYolOU");
-            byte[] fileData = File.ReadAllBytes(this.photo);
+            byte[] fileData = File.ReadAllBytes(target);
             req.ContentLength = fileData.Length;
             Stream reqStream = req.GetRequestStream();
             reqStream.Write(fileData, 0, fileData.Length);
