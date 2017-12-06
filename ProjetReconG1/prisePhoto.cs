@@ -98,12 +98,12 @@ namespace ProjetOxf
             }
             catch (PersonneDejaInscriteException pex)
             {
-                MessageBox.Show(pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MetroMessageBox.Show(this,pex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this,ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.metroProgressSpinner1.Visible = false;
                 this.webcam.Visible = true;
                 this.btnPrendrePhoto.Enabled = true;

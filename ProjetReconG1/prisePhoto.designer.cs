@@ -49,6 +49,7 @@ namespace ProjetOxf
             this.btnPrendrePhoto = new MetroFramework.Controls.MetroButton();
             this.timerTraitement = new System.Windows.Forms.Timer(this.components);
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // webcam
@@ -56,20 +57,23 @@ namespace ProjetOxf
             this.webcam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.webcam.Location = new System.Drawing.Point(30, 77);
+            this.webcam.Location = new System.Drawing.Point(24, 84);
+            this.webcam.Margin = new System.Windows.Forms.Padding(2);
             this.webcam.Name = "webcam";
-            this.webcam.Size = new System.Drawing.Size(683, 373);
+            this.webcam.Size = new System.Drawing.Size(1072, 678);
             this.webcam.TabIndex = 0;
             // 
             // btnPrendrePhoto
             // 
             this.btnPrendrePhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrendrePhoto.Location = new System.Drawing.Point(166, 468);
-            this.btnPrendrePhoto.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPrendrePhoto.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnPrendrePhoto.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnPrendrePhoto.Location = new System.Drawing.Point(408, 796);
             this.btnPrendrePhoto.Name = "btnPrendrePhoto";
-            this.btnPrendrePhoto.Size = new System.Drawing.Size(405, 38);
+            this.btnPrendrePhoto.Size = new System.Drawing.Size(304, 40);
             this.btnPrendrePhoto.TabIndex = 9;
             this.btnPrendrePhoto.Text = "Prendre la photo";
+            this.btnPrendrePhoto.UseCustomForeColor = true;
             this.btnPrendrePhoto.UseSelectable = true;
             this.btnPrendrePhoto.Click += new System.EventHandler(this.BtnPhoto_onclick);
             // 
@@ -79,31 +83,42 @@ namespace ProjetOxf
             // 
             // metroProgressSpinner1
             // 
-            this.metroProgressSpinner1.Location = new System.Drawing.Point(244, 159);
+            this.metroProgressSpinner1.Location = new System.Drawing.Point(480, 339);
+            this.metroProgressSpinner1.Margin = new System.Windows.Forms.Padding(2);
             this.metroProgressSpinner1.Maximum = 100;
             this.metroProgressSpinner1.Name = "metroProgressSpinner1";
-            this.metroProgressSpinner1.Size = new System.Drawing.Size(213, 213);
+            this.metroProgressSpinner1.Size = new System.Drawing.Size(160, 173);
             this.metroProgressSpinner1.TabIndex = 10;
             this.metroProgressSpinner1.UseSelectable = true;
             this.metroProgressSpinner1.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Roboto Thin", 21F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(467, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(187, 34);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Prise de photo";
+            // 
             // PrisePhoto
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 523);
+            this.ClientSize = new System.Drawing.Size(1120, 850);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.metroProgressSpinner1);
             this.Controls.Add(this.btnPrendrePhoto);
             this.Controls.Add(this.webcam);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Movable = false;
             this.Name = "PrisePhoto";
-            this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Resizable = false;
             this.Text = "Prise de photo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrisePhoto_FormClosing);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -117,5 +132,6 @@ namespace ProjetOxf
         private System.Windows.Forms.Timer timerTraitement;
         /// <summary> The first metro progress spinner. </summary>
         private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
+        private System.Windows.Forms.Label label1;
     }
 }
