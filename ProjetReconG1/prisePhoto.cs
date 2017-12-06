@@ -142,21 +142,21 @@ namespace ProjetOxf
                 // Si la webcam est bien active..
                 if (this.webcam.IsCapturing)
                 {
+                    this.timerTraitement.Enabled = true;
+                    this.webcam.Visible = false;
+                    this.traitementOxfordProgressSpinner.Visible = true;
+                    this.btnPrendrePhoto.Enabled = false;
+
                     // On détermine le chemin complet final pointant vers la photo
                     this.photo = this.savePath + DateTimeToUnixTimestamp(DateTime.Now) + ".jpg";
 
                     // On prend une photo qu'on enregistre au path donné
                     this.webcam.GetCurrentImage().Save(this.photo, ImageFormat.Jpeg);
 
-                    // Traitement de l'image avec la bdd oxford
-                    this.timerTraitement.Enabled = true;
-                    this.webcam.Visible = false;
-                    this.traitementOxfordProgressSpinner.Visible = true;
-                    this.btnPrendrePhoto.Enabled = false;
-
                     // On l'enregistre dans le fichier du serveur alwaysdata
                     this.UpLoadImage(this.photo);
 
+                    // Traitement de l'image avec la bdd oxford
                     this.TraiterImage(this.photo);
                 }
             }

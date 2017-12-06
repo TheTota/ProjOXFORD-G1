@@ -102,7 +102,7 @@ namespace ProjetOxf
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -322,7 +322,7 @@ namespace ProjetOxf
                     "\n" + "présentée au forum du numérique le Jeudi 07 decembre 2017." +
                     "\n" +
                     "\n" + "Vous pourrez rencontrer les étudiants du BTS SIO aux dates suivantes :" +
-                    "\n" + "- Salon du lycéen et de l'étudiant (Zénith Omega) : Samedi 13 Janvier 2018" +
+                    "\n" + "- Salon du lycéen et de l'étudiant (Zénith Omega à Toulon) : Samedi 13 Janvier 2018" +
                     "\n" + "- Journée portes ouvertes (Lycée Bonaparte) : Mercredi 7 février 2018 13h-16h45" +
                     "\n" + "- Journée portes ouvertes (Lycée Bonaparte) : Samedi 24 Mars 2018 9h-13h" + "\n" +
                     "\n" + "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : http://bit.ly/jnum2btssio" +
