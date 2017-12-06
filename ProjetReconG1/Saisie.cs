@@ -313,18 +313,18 @@ namespace ProjetOxf
                 message.CC.Add("bts-sio@lyc-bonaparte.fr");
                 message.Subject = "Inscription";
                 Attachment photo = new Attachment(photopath);
-                message.Body = "Bonjour, " + nom + " " + prenom +
+                message.Body = "Bonjour " + prenom + " " + nom + "," +
                     "\n" +
                     "Merci d'être passé au stand du BTS SIO." +
                     "\n" +
                     "\n" + "Ce message fait suite à la réussite de votre inscription à travers notre application" +
                     "\n" + "présentée au forum du numérique le Jeudi 07 decembre 2017." +
                     "\n" +
-                    "\n" + "Vous pourrez rencontrer les étudiants du BTS SIO au dates suivantes :" +
-                    "\n" + "- Salon du lycéen et de l'étudiant : Samedi 13 Janvier 2018" +
+                    "\n" + "Vous pourrez rencontrer les étudiants du BTS SIO aux dates suivantes :" +
+                    "\n" + "- Salon du lycéen et de l'étudiant (Zénith Omega) : Samedi 13 Janvier 2018" +
                     "\n" + "- Journée portes ouvertes (Lycée Bonaparte) : Mercredi 7 février 2018 13h-16h45" +
                     "\n" + "- Journée portes ouvertes (Lycée Bonaparte) : Samedi 24 Mars 2018 9h-13h" + "\n" +
-                    "\n" + "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : https://bts-sio.lyc-bonaparte.fr" +
+                    "\n" + "Pour plus d'informations sur le BTS vous pouvez vous rendre sur notre site web à l'adresse suivante : http://bit.ly/jnum2btssio" +
                     "\n" +
                     "\n" +
                     "Bien à vous, les étudiants et professeurs du BTS SIO SLAM.\n" +

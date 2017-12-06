@@ -17,7 +17,6 @@ namespace ProjetOxf
 
     /// <summary>Formulaire de test. Le vrai formulaire permettra de prendre une photo à partir d'une
     /// caméra connectée à l'ordinateur.</summary>
-    /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
     public partial class PrisePhoto : MetroFramework.Forms.MetroForm
     {
         /// <summary>Liste des caméras liées à l'ordinateur.</summary>
@@ -33,7 +32,6 @@ namespace ProjetOxf
         private bool traitementTermine;
 
         /// <summary>Initialise une nouvelle instance de la classe <see cref="PrisePhoto"/>.</summary>
-        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
         public PrisePhoto()
         {
             this.InitializeComponent();
@@ -48,7 +46,6 @@ namespace ProjetOxf
         }
 
         /// <summary>Méthode qui permet de convertir un DateTime en unix timestamp.</summary>
-        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
         /// <param name="dateTime"> Date à convertir. </param>
         /// <returns> La date au format Unix Timestamp. </returns>
         public static double DateTimeToUnixTimestamp(DateTime dateTime)
@@ -59,7 +56,6 @@ namespace ProjetOxf
 
         /// <summary>Fonction principale permettant d'inscrire un visage dans la BDD de microsoft après
         /// avoir vérifié qu'il n'était pas déjà inscrit.</summary>
-        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
         /// <exception cref="PersonneDejaInscriteException">
         ///     Thrown when a Personne Deja Inscrite error condition occurs.
         /// </exception>
@@ -116,7 +112,6 @@ namespace ProjetOxf
 
         /// <summary>Chaque 100ms et quand le timer est activé, on test si le traitement async est
         /// terminé.</summary>
-        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
         /// <param name="sender">Sender. </param>
         /// <param name="e">EventArgs. </param>
         private void TimerTraitement_Tick(object sender, EventArgs e)
@@ -135,7 +130,6 @@ namespace ProjetOxf
         }
 
         /// <summary>Prise de photo lors du clic sur le bouton "Prendre la photo".</summary>
-        /// <remarks>Thomas CIANFARANI, 04/12/2017.</remarks>
         /// <param name="sender">Sender.</param>
         /// <param name="e">EventArgs.</param>
         private void BtnPhoto_onclick(object sender, EventArgs e)
@@ -168,7 +162,6 @@ namespace ProjetOxf
 
         /// <summary>Méthode se déclanchant à la fermeture du formulaire. Stop la capture vidéo (affichage
         /// en live à l'écran).</summary>
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         /// <param name="sender">Sender.</param>
         /// <param name="e">EventArgs.</param>
         private void PrisePhoto_FormClosing(object sender, FormClosingEventArgs e)

@@ -10,7 +10,6 @@ namespace ProjetOxford
     using MySql.Data.MySqlClient;  // Librairie de connexion à MySQL ajoutée en référence.
 
     /// <summary> Classe qui va permettre la récupération des identifiants liés à la photo prise. </summary>
-    /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
     public class TraitementsBdd
     {
         /// <summary> Membre privé contenant les informations de connexion à la base de données. </summary>
@@ -21,7 +20,6 @@ namespace ProjetOxford
         private static MySqlConnection connexion;
 
         /// <summary> Méthode de connexion à la base de données. </summary>
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
         public static void OuvrirConnexion()
         {
@@ -41,8 +39,6 @@ namespace ProjetOxford
 
         /// <summary> Méthode publique de fermeture de la connexion à la base de données MySQL. Va
         /// permettre de libérer les ressources de la base de données après une requête. </summary>
-        ///
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         public static void FermerConnexion()
         {
             if (connexion.State != ConnectionState.Closed)
@@ -53,11 +49,7 @@ namespace ProjetOxford
         }
 
         /// <summary> Enregistrement de la photo dans la BDD. </summary>
-        ///
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
-        ///
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
-        ///
         /// <param name="adresse"> Adresse pointant sur la photo. </param>
         /// <param name="faceId">  Identifier for the face. </param>
         public static void InsertPhoto(string adresse, string faceId)
@@ -91,11 +83,7 @@ namespace ProjetOxford
         }
 
         /// <summary> Enregistrement de l'utilisateur dans la BDD. </summary>
-        ///
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
-        ///
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
-        ///
         /// <param name="userAPersister">Utilisateur à persister.</param>
         /// <param name="idPhoto">ID de la photo qui a été enregistrée.</param>
         public static void InsertUser(User userAPersister, int idPhoto)
@@ -134,7 +122,6 @@ namespace ProjetOxford
         }
 
         /// <summary> Méthode qui retourne le nombre d'utilisateurs dans la bdd. </summary>
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
         /// <returns> The maximum photos. </returns>
         public static int GetMaxPhotos()
@@ -175,7 +162,6 @@ namespace ProjetOxford
         }
 
         /// <summary> Gets types users. </summary>
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         /// <exception cref="Exception"> Thrown when an exception error condition occurs. </exception>
         /// <returns> Les types d'utilisateurs. </returns>
         public static List<string> GetTypesUsers()
@@ -216,7 +202,6 @@ namespace ProjetOxford
 
         /// <summary> Méthode qui permet de convertir un DateTime en unix timestamp (format de dates dans
         /// la BDD) </summary>
-        /// <remarks> Thomas CIANFARANI, 04/12/2017. </remarks>
         /// <param name="dateTime">Date à convertir en UnixTimestamp </param>
         /// <returns> La date convertie en UnixTimestamp. </returns>
         public static double DateTimeToUnixTimestamp(DateTime dateTime)
