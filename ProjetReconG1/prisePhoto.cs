@@ -142,10 +142,10 @@ namespace ProjetOxf
                 // Si la webcam est bien active..
                 if (this.webcam.IsCapturing)
                 {
-                    this.timerTraitement.Enabled = true;
                     this.webcam.Visible = false;
                     this.traitementOxfordProgressSpinner.Visible = true;
                     this.btnPrendrePhoto.Enabled = false;
+                    this.timerTraitement.Enabled = true;
 
                     // On détermine le chemin complet final pointant vers la photo
                     this.photo = this.savePath + DateTimeToUnixTimestamp(DateTime.Now) + ".jpg";
@@ -162,7 +162,7 @@ namespace ProjetOxf
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
